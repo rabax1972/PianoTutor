@@ -63,7 +63,7 @@ docs/             questa documentazione + docs/schema/*.json
 - **Spartito.** VexFlow e non OSMD o Verovio: ogni nota è un elemento SVG che si può indirizzare per colorarla. Il brano è disegnato su un rigo continuo e fatto scorrere a 60 fps senza re-render.
 - **Pitch detection.** pitchy (McLeod) e non YIN fatto a mano, CREPE o Basic Pitch: è leggero, preciso sulle fondamentali del pianoforte e ha poca latenza. Per gli accordi si verifica l'energia spettrale delle note *attese*, non si trascrive.
 - **Audio.** Un sampler proprio e non Tone.js: meno peso e controllo diretto dell'orologio.
-- **Router.** HashRouter: l'app è pubblicata in sottocartella (`/pianotutotor/`) su un hosting di cui non controlliamo le regole di rewrite.
+- **Router.** HashRouter: l'app è pubblicata in sottocartella (`/pianotutor/`) su un hosting di cui non controlliamo le regole di rewrite.
 
 ## Limiti di piattaforma noti
 

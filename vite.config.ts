@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 import pkg from './package.json' with { type: 'json' };
 
 // Percorso di pubblicazione in produzione. Sovrascrivibile con BASE_PATH=/altro/ npm run build
-const BASE_PATH = process.env.BASE_PATH ?? '/pianotutotor/';
+const BASE_PATH = process.env.BASE_PATH ?? '/pianotutor/';
 
 export default defineConfig(({ command, isPreview }) => ({
   define: { __APP_VERSION__: JSON.stringify(pkg.version) },

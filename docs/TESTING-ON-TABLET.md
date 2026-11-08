@@ -4,14 +4,14 @@
 
 ```bash
 npm ci
-npm run build           # crea dist/ con base /pianotutotor/
+npm run build           # crea dist/ con base /pianotutor/
 ```
 
-Carica **il contenuto** di `dist/` nella cartella `/pianotutotor/` del sito, via FTP o SFTP. L'app sarà su:
+Carica **il contenuto** di `dist/` nella cartella `/pianotutor/` del sito, via FTP o SFTP. L'app sarà su:
 
-> https://www.giacomorabaglia.com/pianotutotor/
+> https://www.giacomorabaglia.com/pianotutor/
 
-Per un percorso diverso: `BASE_PATH=/pianotutor/ npm run build` (in PowerShell: `$env:BASE_PATH='/pianotutor/'; npm run build`).
+Per un percorso diverso: `BASE_PATH=/altro-percorso/ npm run build` (in PowerShell: `$env:BASE_PATH='/altro-percorso/'; npm run build`).
 
 ### Requisiti del server
 
@@ -26,7 +26,7 @@ Per un percorso diverso: `BASE_PATH=/pianotutor/ npm run build` (in PowerShell: 
   AddType application/manifest+json .webmanifest
   ```
 
-- Non servono regole di rewrite: l'app usa URL con `#` (es. `…/pianotutotor/#/suona`).
+- Non servono regole di rewrite: l'app usa URL con `#` (es. `…/pianotutor/#/suona`).
 
 ## 2. Prova rapida in rete locale (senza pubblicare)
 

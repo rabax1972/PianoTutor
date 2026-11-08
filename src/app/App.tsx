@@ -11,7 +11,7 @@ import { useSettings } from './settingsStore';
 
 /**
  * HashRouter: funziona su qualunque hosting statico in sottocartella
- * (es. giacomorabaglia.com/pianotutotor/) senza regole di rewrite lato server, e offline.
+ * (es. giacomorabaglia.com/pianotutor/) senza regole di rewrite lato server, e offline.
  */
 const router = createHashRouter([
   { path: '/', element: <HomeGate /> },

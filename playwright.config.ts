@@ -1,7 +1,7 @@
 import { defineConfig } from '@playwright/test';
 
 const PORT = 4173;
-const BASE = process.env.BASE_PATH ?? '/pianotutotor/';
+const BASE = process.env.BASE_PATH ?? '/pianotutor/';
 
 export default defineConfig({
   testDir: './e2e',
