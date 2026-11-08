@@ -7,6 +7,7 @@ import { scheduleReminder } from '../features/progress/reminders';
 import { loadSummary } from '../features/progress/summary';
 import { Toaster } from '../features/progress/toasts';
 import { useSettings } from './settingsStore';
+import { preloadNotation } from '../notation/preload';
 
 /**
  * Ogni schermata (tranne home e benvenuto) è un chunk separato, caricato al primo accesso.
@@ -21,10 +22,11 @@ const pages = {
   course: lazyPage(() => import('../features/course/CoursePage'), 'CoursePage'),
   calibration: lazyPage(() => import('../features/mic/CalibrationPage'), 'CalibrationPage'),
   midi: lazyPage(() => import('../features/midi/MidiSetupPage'), 'MidiSetupPage'),
-  lesson: lazyPage(() => import('../features/lesson/LessonPage'), 'LessonPage'),
+  // con lo spartito: VexFlow e font partono subito, in parallelo al chunk della pagina
+  lesson: lazyPage(() => (preloadNotation(), import('../features/lesson/LessonPage')), 'LessonPage'),
   progress: lazyPage(() => import('../features/progress/ProgressPage'), 'ProgressPage'),
   songs: lazyPage(() => import('../features/songs/SongsPage'), 'SongsPage'),
-  scorePlayer: lazyPage(() => import('../features/songs/ScorePlayerPage'), 'ScorePlayerPage'),
+  scorePlayer: lazyPage(() => (preloadNotation(), import('../features/songs/ScorePlayerPage')), 'ScorePlayerPage'),
   settings: lazyPage(() => import('../features/settings/SettingsPage'), 'SettingsPage'),
   diagnostics: lazyPage(() => import('../features/diagnostics/DiagnosticsPage'), 'DiagnosticsPage'),
   about: lazyPage(() => import('../features/about/AboutPage'), 'AboutPage'),

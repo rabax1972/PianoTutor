@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
+import { readdirSync, readFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
 
 async function start(page: Page) {
@@ -88,6 +89,25 @@ test.describe('M7 – qualità: accessibilità, sezioni, tastiera del computer, 
     await expect(page.getByTestId('current-note')).toContainText('Sol');
     await page.keyboard.press('KeyW');
     await expect(page.getByTestId('current-note')).toContainText('Do♯');
+  });
+
+  test('ogni simbolo musicale disegnato è nel sottoinsieme del font Bravura', async ({ page }) => {
+    const cfg = JSON.parse(readFileSync('tools/bravura-subset.json', 'utf8')) as { ranges: [string, string, string][] };
+    const inSubset = (cp: number) => cfg.ranges.some(([a, b]) => cp >= parseInt(a, 16) && cp <= parseInt(b, 16));
+    const ids = readdirSync('content/pieces').map((f) => f.replace(/.json$/, ''));
+    await start(page);
+    const missing = new Set<string>();
+    for (const id of ids) {
+      await page.goto(`./#/brano/${id}`);
+      await expect(page.locator('.score__track svg')).toBeVisible({ timeout: 15_000 });
+      const cps = await page.evaluate(() =>
+        [...document.querySelectorAll('.score svg text')]
+          .filter((t) => (t.getAttribute('font-family') ?? '').includes('Bravura'))
+          .flatMap((t) => [...(t.textContent ?? '')].map((c) => c.codePointAt(0)!)),
+      );
+      cps.filter((c) => !inSubset(c)).forEach((c) => missing.add(`U+${c.toString(16).toUpperCase()} (${id})`));
+    }
+    expect([...missing], 'aggiungere il blocco in tools/bravura-subset.json e rieseguire tools/subset-bravura.py').toEqual([]);
   });
 
   test('una lezione funziona completamente offline (spartito e font dalla cache)', async ({ page, context }) => {

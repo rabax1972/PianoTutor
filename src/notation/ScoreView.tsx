@@ -37,6 +37,8 @@ export function ScoreView({ piece, options, getBeat, marks, autoHighlight = true
   const [headerW, setHeaderW] = useState(0);
   const [ready, setReady] = useState(false);
   const [startOffset, setStartOffset] = useState(0);
+  /** incrementato quando il disegno progressivo termina: riapplica le evidenziazioni */
+  const [drawn, setDrawn] = useState(0);
   const getBeatRef = useRef(getBeat);
   getBeatRef.current = getBeat;
   const onChangeRef = useRef(onCurrentChange);
@@ -61,18 +63,24 @@ export function ScoreView({ piece, options, getBeat, marks, autoHighlight = true
     let cancelled = false;
     void ensureNotationFonts().then(() => {
       if (cancelled || !trackRef.current || !headerRef.current) return;
+      performance.mark('pt:score-start');
       const hw = renderHeader(headerRef.current, piece, scale);
       // attacco stimato prima del disegno (un solo rendering): se la linea di esecuzione è più a
       // destra dell'inizio del rigo, si allunga la prima battuta così il rigo resta continuo
       const gap = size.w * PLAYHEAD_RATIO - (hw + ESTIMATED_START_OFFSET * scale);
-      const r = renderScore(trackRef.current, piece, { ...options, scale, leadIn: gap > 1 ? gap / scale : 0 });
+      rendered.current?.cancel();
+      // disegno progressivo: subito ciò che è visibile (più un margine), il resto nei momenti liberi
+      const r = renderScore(trackRef.current, piece, { ...options, scale, leadIn: gap > 1 ? gap / scale : 0, eagerWidth: (size.w * 1.3) / scale });
       rendered.current = r;
+      performance.measure('pt:score-render', 'pt:score-start');
       setStartOffset(r.startOffset);
       setHeaderW(hw);
       setReady(true);
+      void r.complete.then(() => !cancelled && setDrawn((n) => n + 1));
     });
     return () => {
       cancelled = true;
+      rendered.current?.cancel();
     };
     // la larghezza conta solo per l attacco iniziale: arrotondata per non ridisegnare a ogni pixel
   }, [piece, optsKey, scale, Math.round(size.w / 40)]);
@@ -95,7 +103,7 @@ export function ScoreView({ piece, options, getBeat, marks, autoHighlight = true
         if (m && m !== 'current' && m !== 'next') el.classList.add(`is-${m}`);
       });
     });
-  }, [marks, ready]);
+  }, [marks, ready, drawn]);
 
   // ciclo di animazione: scroll + nota corrente
   useEffect(() => {

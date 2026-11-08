@@ -1,0 +1,18 @@
+{
+  "comment": "Blocchi SMuFL inclusi nel sottoinsieme di Bravura (public/fonts/Bravura.woff2). Se VexFlow deve disegnare simboli nuovi, aggiungere qui il blocco e rieseguire: python tools/subset-bravura.py",
+  "ranges": [
+    ["E000", "E04F", "graffe, stanghette, ritornelli, tagli addizionali"],
+    ["E050", "E07F", "chiavi"],
+    ["E080", "E09F", "indicazioni di tempo"],
+    ["E0A0", "E0FF", "teste di nota"],
+    ["E1D0", "E1FF", "note singole, punto di valore"],
+    ["E210", "E21F", "gambi"],
+    ["E240", "E25F", "code"],
+    ["E260", "E26F", "alterazioni"],
+    ["E4A0", "E4BF", "articolazioni"],
+    ["E4C0", "E4DF", "corone e pause"],
+    ["E4E0", "E4FF", "pause"],
+    ["E520", "E54F", "dinamiche"],
+    ["E880", "E88F", "numeri dei gruppi irregolari"]
+  ]
+}

@@ -65,7 +65,19 @@ Nota: su iPad il microfono funziona solo in HTTPS e dopo un tocco sullo schermo.
 
 La schermata **Diagnostica** mostra lo stato dell'audio, la latenza di elaborazione e di uscita, il ritardo del tocco misurato, il supporto a MIDI e microfono e lo stato offline.
 
-## 7. Test automatici
+## 7. Prestazioni (Lighthouse)
+
+`npm run audit` (build + Lighthouse su 7 pagine, mediana di 3 misure). Con `npm run lighthouse -- --desktop` usa il profilo desktop. Risultati al momento della milestone M7:
+
+| Pagina | Desktop | Mobile emulato (CPU 4×, 4G lento) |
+|---|---|---|
+| Avvio, Percorso, Progressi, Impostazioni, Brani | 100 | 87-99 (varia con il carico della macchina) |
+| Lezione | 99 | 85 |
+| Brano | 94-98 | 68 |
+
+Accessibilità e Best Practices: 100 su tutte le pagine, in entrambi i profili. Sul profilo mobile emulato la pagina Brano resta limitata dal primo avvio "a freddo" di VexFlow. L'unico rimedio radicale è disegnare gli spartiti durante la build (SVG precalcolati).
+
+## 8. Test automatici
 
 ```bash
 npm test                # unit (Vitest)

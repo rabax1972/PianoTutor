@@ -39,6 +39,11 @@ export interface RenderOptions {
   leadIn?: number;
   /** anteprime didattiche: niente indicazione di tempo né pause di riempimento */
   bare?: boolean;
+  /**
+   * Disegno progressivo: le battute che iniziano entro questa larghezza (px non scalati) si
+   * disegnano subito, le altre a blocchi quando il browser è libero. Assente = tutto subito.
+   */
+  eagerWidth?: number;
 }
 
 
@@ -55,6 +60,10 @@ export interface RenderedScore {
   xAtBeat: (beat: number) => number;
   /** distanza (px) dall inizio del rigo alla prima nota */
   startOffset: number;
+  /** risolta quando tutte le battute sono disegnate */
+  complete: Promise<void>;
+  /** interrompe il disegno progressivo (es. ridisegno prima della fine) */
+  cancel: () => void;
 }
 
 const PX_PER_BEAT = 64;
@@ -187,8 +196,7 @@ export function renderScore(container: HTMLElement, piece: Piece, opts: RenderOp
   const ctx = renderer.getContext() as RenderContext;
 
   const allNotes: { note: StaveNote; item: Item; staff: Staff }[] = [];
-  const beams: Beam[] = [];
-  const drawQueue: (() => void)[] = [];
+  const measures: { x: number; draw: () => void; notes: { note: StaveNote; item: Item }[] }[] = [];
   let x = 0;
   const lastMeasure = tl.measureStarts.length - 1;
 
@@ -207,18 +215,21 @@ export function renderScore(container: HTMLElement, piece: Piece, opts: RenderOp
     });
     const noteStart = Math.max(...vstaves.map((s) => s.getNoteStartX())) + (isFirst ? (opts.leadIn ?? 0) : 0);
 
+    const mNotes: { note: StaveNote; item: Item }[] = [];
+    const mBeams: Beam[] = [];
     const voices = staves.map((s, si) => {
       const items = measureItems(tl, s, start, end).filter((it) => !opts.bare || it.event);
       const notes = items.map((item) => {
         const n = makeNote(item, s, opts);
         n.setStave(vstaves[si]!);
         allNotes.push({ note: n, item, staff: s });
+        mNotes.push({ note: n, item });
         return n;
       });
       const voice = new Voice({ numBeats: piece.timeSignature[0], beatValue: piece.timeSignature[1] }).setMode(Voice.Mode.SOFT);
       voice.addTickables(notes);
       Accidental.applyAccidentals([voice], keySpec(piece));
-      beams.push(...Beam.generateBeams(notes));
+      mBeams.push(...Beam.generateBeams(notes));
       return voice;
     });
 
@@ -233,7 +244,8 @@ export function renderScore(container: HTMLElement, piece: Piece, opts: RenderOp
     });
     formatter.format(voices, contentW);
 
-    drawQueue.push(() => {
+    const mx = x;
+    const draw = () => {
       vstaves.forEach((s) => s.setContext(ctx).draw());
       if (vstaves.length === 2) {
         const [t, b] = vstaves as [Stave, Stave];
@@ -244,7 +256,9 @@ export function renderScore(container: HTMLElement, piece: Piece, opts: RenderOp
         new StaveConnector(t, b).setType(isLast ? 'boldDoubleRight' : 'singleRight').setContext(ctx).draw();
       }
       voices.forEach((v, i) => v.draw(ctx, vstaves[i]));
-    });
+      mBeams.forEach((b) => b.setContext(ctx).draw());
+    };
+    measures.push({ x: mx, draw, notes: mNotes });
     x += width;
   });
 
@@ -252,49 +266,82 @@ export function renderScore(container: HTMLElement, piece: Piece, opts: RenderOp
   const height = scoreHeight(staves);
   renderer.resize(totalW * opts.scale, height * opts.scale);
   ctx.scale(opts.scale, opts.scale);
-  drawQueue.forEach((f) => f());
-  beams.forEach((b) => b.setContext(ctx).draw());
-
-  // legature: parti di note spezzate + "tie" esplicite fra eventi consecutivi dello stesso rigo
-  for (const s of staves) {
-    const list = allNotes.filter((n) => n.staff === s && n.item.event && !n.item.event.isRest);
-    for (let i = 1; i < list.length; i++) {
-      const prev = list[i - 1]!;
-      const cur = list[i]!;
-      const contiguous = Math.abs(prev.item.t + prev.item.d - cur.item.t) < EPS;
-      const explicit = !cur.item.tiedFromPrev && prev.item.event!.tie && contiguous;
-      if (cur.item.tiedFromPrev || explicit) {
-        const idx = prev.item.event!.midis.map((_, k) => k).filter((k) => cur.item.event!.midis.includes(prev.item.event!.midis[k]!));
-        if (idx.length === 0) continue;
-        new StaveTie({
-          firstNote: prev.note,
-          lastNote: cur.note,
-          firstIndexes: idx,
-          lastIndexes: idx.map((k) => cur.item.event!.midis.indexOf(prev.item.event!.midis[k]!)),
-        })
-          .setContext(ctx)
-          .draw();
-      }
-    }
-  }
-
-  // mappa beat → x ed elementi SVG
   const svg = container.querySelector('svg')!;
+
+  // mappa beat → x: disponibile subito (la formattazione è già fatta), anche prima del disegno
   const byT = new Map<number, number>();
-  const noteEls = new Map<number, Element[]>();
   for (const { note, item } of allNotes) {
     const nx = (note.getAbsoluteX() + 7) * opts.scale;
     const k = Math.round(item.t * 1e4) / 1e4;
     byT.set(k, Math.min(byT.get(k) ?? Infinity, nx));
-    if (item.event && !item.event.isRest) {
+  }
+
+  // elementi SVG per evento, raccolti man mano che le battute vengono disegnate
+  const noteEls = new Map<number, Element[]>();
+  const collect = (notes: { note: StaveNote; item: Item }[]) => {
+    for (const { note, item } of notes) {
+      if (!item.event || item.event.isRest) continue;
       const el = svg.querySelector(`#vf-${note.getAttribute('id')}`);
-      if (el) {
-        const arr = noteEls.get(item.event.index) ?? [];
-        arr.push(el);
-        noteEls.set(item.event.index, arr);
+      if (el) noteEls.set(item.event.index, [...(noteEls.get(item.event.index) ?? []), el]);
+    }
+  };
+  const drawMeasure = (m: (typeof measures)[number]) => {
+    m.draw();
+    collect(m.notes);
+  };
+
+  // legature: parti di note spezzate + "tie" esplicite fra eventi consecutivi dello stesso rigo
+  const drawTies = () => {
+    for (const s of staves) {
+      const list = allNotes.filter((n) => n.staff === s && n.item.event && !n.item.event.isRest);
+      for (let i = 1; i < list.length; i++) {
+        const prev = list[i - 1]!;
+        const cur = list[i]!;
+        const contiguous = Math.abs(prev.item.t + prev.item.d - cur.item.t) < EPS;
+        const explicit = !cur.item.tiedFromPrev && prev.item.event!.tie && contiguous;
+        if (cur.item.tiedFromPrev || explicit) {
+          const idx = prev.item.event!.midis.map((_, k) => k).filter((k) => cur.item.event!.midis.includes(prev.item.event!.midis[k]!));
+          if (idx.length === 0) continue;
+          new StaveTie({
+            firstNote: prev.note,
+            lastNote: cur.note,
+            firstIndexes: idx,
+            lastIndexes: idx.map((k) => cur.item.event!.midis.indexOf(prev.item.event!.midis[k]!)),
+          })
+            .setContext(ctx)
+            .draw();
+        }
       }
     }
+  };
+
+  // disegno: battute visibili subito, le altre a blocchi nei momenti liberi
+  const eager = opts.eagerWidth;
+  const now = eager === undefined ? measures : measures.filter((m) => m.x < eager);
+  const later = eager === undefined ? [] : measures.filter((m) => m.x >= eager);
+  now.forEach(drawMeasure);
+  let cancelled = false;
+  let complete: Promise<void>;
+  if (later.length === 0) {
+    drawTies();
+    complete = Promise.resolve();
+  } else {
+    complete = new Promise<void>((resolve) => {
+      const step = (deadline?: { timeRemaining: () => number }) => {
+        if (cancelled) return resolve();
+        const until = performance.now() + Math.max(4, Math.min(12, deadline?.timeRemaining() ?? 8));
+        do drawMeasure(later.shift()!);
+        while (later.length && performance.now() < until);
+        if (later.length) scheduleIdle(step);
+        else {
+          drawTies();
+          resolve();
+        }
+      };
+      scheduleIdle(step);
+    });
   }
+
   const points: BeatPoint[] = [...byT.entries()].map(([t, px]) => ({ t, x: px })).sort((a, b) => a.t - b.t);
   points.push({ t: tl.totalBeats, x: (x - MEASURE_PAD / 2) * opts.scale });
 
@@ -308,7 +355,18 @@ export function renderScore(container: HTMLElement, piece: Piece, opts: RenderOp
     noteEls,
     xAtBeat,
     startOffset: points[0]?.x ?? 0,
+    complete,
+    cancel: () => {
+      cancelled = true;
+    },
   };
+}
+
+type IdleDeadline = { timeRemaining: () => number };
+function scheduleIdle(cb: (d?: IdleDeadline) => void) {
+  const ric = (globalThis as { requestIdleCallback?: (cb: (d: IdleDeadline) => void, o?: { timeout: number }) => number }).requestIdleCallback;
+  if (ric) ric(cb, { timeout: 250 });
+  else setTimeout(() => cb(), 16);
 }
 
 /** Intestazione fissa (chiave + armatura) mostrata a sinistra mentre lo spartito scorre. */

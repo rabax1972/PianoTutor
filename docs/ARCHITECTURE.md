@@ -159,7 +159,10 @@ getUserMedia (senza echoCancellation/noiseSuppression/AGC)
 
 ### Prestazioni
 - **Ogni schermata è un chunk lazy**: in avvio si caricano solo home e benvenuto (~150 KB compressi). VexFlow (131 KB compressi) si carica solo con lo spartito, ed è precaricato in parallelo ai font mentre si leggono le slide (`notation/preload.ts`).
-- **Font musicali in woff2 separati** (`public/fonts`, estratti con `tools/extract-vexflow-fonts.ts`). Prima erano in base64 dentro il JS: 850 KB da analizzare, ora 460 KB di JS più 286 KB di font scaricati in parallelo.
+- **Font musicali in woff2 separati** (`public/fonts`, estratti con `tools/extract-vexflow-fonts.ts`). Prima erano in base64 dentro il JS: 850 KB da analizzare.
+- **Bravura ridotto a un sottoinsieme** (`tools/subset-bravura.py`, blocchi SMuFL in `tools/bravura-subset.json`): da 241 a 35 KB. La decodifica del font completo occupava il thread principale per centinaia di millisecondi al primo caricamento. Un test e2e verifica che ogni simbolo disegnato sia nel sottoinsieme.
+- **Disegno progressivo dello spartito:** la formattazione (mappa beat → x) è sincrona. Le battute visibili si disegnano subito, le altre a blocchi in `requestIdleCallback`, con le legature alla fine; il disegno si interrompe se lo spartito viene ridisegnato.
+- **Precaricamento dal router:** aprendo una lezione o un brano, VexFlow e i font partono in parallelo al chunk della pagina, senza attendere la catena di import.
 - **Lavoro per frame minimo:** lo spartito aggiorna il `transform` solo quando la posizione cambia. Le animazioni dei suggerimenti usano solo l'opacità (gestita dalla GPU). La larghezza della tastiera viene misurata prima del primo disegno (nessuno spostamento di layout).
 - `npm run audit` esegue build e Lighthouse su 7 pagine (mediana di 3 misure). Con `--desktop` usa il profilo desktop.
 
