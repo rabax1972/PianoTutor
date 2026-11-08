@@ -9,6 +9,8 @@ export default defineConfig({
   testDir: './e2e',
   timeout: 30_000,
   fullyParallel: true,
+  // audio + rendering dello spartito sono pesanti: troppi browser in parallelo falsano i tempi
+  workers: process.env.CI ? 2 : 4,
   // i test di timing (audio, microfono) possono risentire del carico della macchina di CI
   retries: process.env.CI ? 2 : 0,
   reporter: [['list']],

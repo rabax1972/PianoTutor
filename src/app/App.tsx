@@ -10,6 +10,7 @@ import { SettingsPage } from '../features/settings/SettingsPage';
 import { SongsPage } from '../features/songs/SongsPage';
 import { CoursePage } from '../features/course/CoursePage';
 import { CalibrationPage } from '../features/mic/CalibrationPage';
+import { MidiSetupPage } from '../features/midi/MidiSetupPage';
 import { useSettings } from './settingsStore';
 
 // Lo spartito (VexFlow + font musicali) è caricato solo quando serve.
@@ -30,6 +31,7 @@ const router = createHashRouter([
   { path: '/suona', element: <FreePlayPage /> },
   { path: '/percorso', element: <CoursePage /> },
   { path: '/microfono', element: <CalibrationPage /> },
+  { path: '/midi', element: <MidiSetupPage /> },
   {
     path: '/lezione/:id',
     element: (

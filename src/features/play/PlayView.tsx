@@ -3,7 +3,8 @@ import { useElementWidth } from '../../app/hooks';
 import { useSettings } from '../../app/settingsStore';
 import { ensureAudio } from '../../audio/ensureAudio';
 import { pitchRange, type TimelineEvent } from '../../core/timing/timeline';
-import { useActiveInput } from '../../input/activeInput';
+import { useActiveInput, useExternalHeld } from '../../input/activeInput';
+import { MidiStatus } from '../midi/MidiStatus';
 import { inputHub } from '../../input/inputHub';
 import { MicMeter } from '../mic/MicMeter';
 import { MicWarning } from '../mic/MicWarning';
@@ -40,6 +41,7 @@ export function PlayView({
 }) {
   const { settings } = useSettings();
   const input = useActiveInput();
+  const externalHeld = useExternalHeld();
   const [kbRef, kbWidth] = useElementWidth<HTMLDivElement>();
   const { piece, mode } = session.config;
   const running = ['playing', 'countin', 'waiting'].includes(snapshot.status);
@@ -92,6 +94,7 @@ export function PlayView({
   return (
     <div className="playview">
       {input.mode === 'mic' && <MicWarning />}
+      {input.mode === 'midi' && <MidiStatus variant="banner" />}
       <section className="playview__score">
         <ScoreView piece={piece} options={scoreOptions} getBeat={session.getBeat} marks={snapshot.marks} onCurrentChange={setCurrent} />
         <div className="playview__hud" aria-live="polite">
@@ -144,6 +147,7 @@ export function PlayView({
         )}
         {extraControls}
         {input.mode === 'mic' && input.mic.state === 'on' && <MicMeter compact />}
+        {input.mode === 'midi' && <MidiStatus variant="chip" />}
         <span className="muted playview__meta">{mode === 'wait' ? 'Ti aspetto su ogni nota' : mode === 'realtime' ? 'A tempo' : 'Ascolta'}</span>
       </div>
 
@@ -154,6 +158,7 @@ export function PlayView({
           onNoteOn={(m, ts, v) => inputHub.virtual.press(m, ts, v)}
           onNoteOff={(m, ts) => inputHub.virtual.release(m, ts)}
           marks={keyMarks}
+          externalPressed={externalHeld}
           fingers={fingers}
           showLabels={settings.showNoteNames}
           naming={settings.noteNaming}

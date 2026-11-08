@@ -5,7 +5,7 @@ import { audioEngine } from '../../audio/AudioEngine';
 import { ensureAudio } from '../../audio/ensureAudio';
 import { sampler } from '../../audio/Sampler';
 import { pitchClass } from '../../core/music/pitch';
-import { applyMicSettings, useMicState } from '../../input/activeInput';
+import { applyInputSettings, useMicState } from '../../input/activeInput';
 import { micInput } from '../../input/mic/MicInput';
 import { TopBar } from '../../ui/components';
 import { a4FromCents, micLatencyFrom, noiseFloorFrom, noiseVerdict } from './calibration';
@@ -31,7 +31,7 @@ export function CalibrationPage() {
   useEffect(
     () => () => {
       if (acquired.current) micInput.release();
-      applyMicSettings(useSettings.getState().settings);
+      applyInputSettings(useSettings.getState().settings);
     },
     [],
   );

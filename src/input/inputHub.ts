@@ -13,6 +13,9 @@ class InputHubImpl {
   /** note attualmente premute (da qualsiasi sorgente) */
   readonly held = new Set<number>();
   monitorSound = true;
+  /** le tastiere MIDI con altoparlanti suonano da sole: il tablet suona solo se richiesto */
+  midiSound = false;
+  private heldListeners = new Set<() => void>();
 
   constructor() {
     this.attach(this.virtual);
@@ -42,11 +45,18 @@ class InputHubImpl {
     if (e.type === 'on') this.held.add(e.midi);
     else this.held.delete(e.midi);
 
-    if (this.monitorSound && e.source !== 'mic') {
+    if (this.monitorSound && e.source !== 'mic' && (e.source !== 'midi' || this.midiSound)) {
       if (e.type === 'on') sampler.noteOn(e.midi, e.velocity);
       else sampler.noteOff(e.midi);
     }
     this.listeners.forEach((l) => l(e));
+    if (e.source !== 'virtual') this.heldListeners.forEach((l) => l());
+  }
+
+  /** notifica quando cambiano le note tenute da sorgenti esterne (MIDI/microfono) */
+  subscribeHeld(l: () => void): () => void {
+    this.heldListeners.add(l);
+    return () => this.heldListeners.delete(l);
   }
 }
 

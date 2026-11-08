@@ -9,7 +9,8 @@ import { isMicSupported, isWebMidiSupported } from '../../input/availability';
 import { TopBar } from '../../ui/components';
 import { touchDelayStats } from './metrics';
 import { useSettings } from '../../app/settingsStore';
-import { useActiveInput } from '../../input/activeInput';
+import { useActiveInput, useMidiState } from '../../input/activeInput';
+import { midiInput } from '../../input/midi/midiInstance';
 import { micInput } from '../../input/mic/MicInput';
 import { MicMeter } from '../mic/MicMeter';
 import { Link } from 'react-router-dom';
@@ -21,6 +22,7 @@ export function DiagnosticsPage() {
   const [, setTick] = useState(0);
   const { settings, update } = useSettings();
   const input = useActiveInput();
+  const midi = useMidiState();
   useSamplerState();
 
   // aggiorna periodicamente i valori misurati
@@ -89,6 +91,31 @@ export function DiagnosticsPage() {
           </dl>
           <Link className="btn" to="/microfono">
             Calibra il microfono
+          </Link>
+        </section>
+      )}
+
+      {input.mode === 'midi' && (
+        <section className="page-section">
+          <h2>Tastiera MIDI</h2>
+          <dl className="kv" data-testid="midi-diagnostics">
+            <dt>Accesso Web MIDI</dt>
+            <dd>{midi.state === 'on' ? '✅ attivo' : midi.message || midi.state}</dd>
+            <dt>Dispositivi</dt>
+            <dd>
+              {midiInput.devices.length
+                ? midiInput.devices.map((d) => `${d.connected ? '🟢' : '⚪'} ${d.name}`).join(' · ')
+                : 'nessuno'}
+            </dd>
+            <dt>Ultimo messaggio</dt>
+            <dd data-testid="midi-last-message">{midiInput.lastActivity ? `${midiInput.lastActivity.hex} (${midiInput.lastActivity.device})` : 'premi un tasto'}</dd>
+            <dt>Ritardo di gestione</dt>
+            <dd>{midiInput.lastActivity ? `${midiInput.lastActivity.handlingDelayMs.toFixed(1)} ms` : '—'}</dd>
+            <dt>Suono dal tablet</dt>
+            <dd>{settings.midi.playSound ? 'sì' : 'no (suona la tastiera)'}</dd>
+          </dl>
+          <Link className="btn" to="/midi">
+            Configura la tastiera
           </Link>
         </section>
       )}

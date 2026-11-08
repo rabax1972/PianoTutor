@@ -53,13 +53,21 @@ Dopo il primo caricamento l'app funziona anche **offline**. Per verificarlo: mod
 
 Nota: su iPad il microfono funziona solo in HTTPS e dopo un tocco sullo schermo. Gli accordi vengono verificati meglio in una stanza silenziosa.
 
-## 5. Diagnostica
+## 5. Tastiera MIDI
+
+- **Android (Chrome/Edge)**: collega la tastiera via USB (adattatore USB-C/OTG) oppure associala via Bluetooth dalle impostazioni di sistema. Poi Impostazioni → Modalità di gioco → **Tastiera MIDI**.
+- **iPad/iPhone**: Safari non supporta la Web MIDI. Usa il microfono oppure la tastiera a schermo.
+- **Computer**: Chrome, Edge o Firefox (dalla versione 108) con tastiera USB.
+- Nella pagina **Tastiera MIDI** premi un tasto per verificare che arrivi. Se la tastiera non ha altoparlanti, attiva **Suona dal tablet**.
+- Puoi scollegare e ricollegare la tastiera anche durante un esercizio: si riattiva da sola.
+
+## 6. Diagnostica
 
 La schermata **Diagnostica** mostra lo stato dell'audio, la latenza di elaborazione e di uscita, il ritardo del tocco misurato, il supporto a MIDI e microfono e lo stato offline.
 
-## 6. Test automatici
+## 7. Test automatici
 
 ```bash
 npm test                # unit (Vitest)
-npm run test:e2e        # e2e (Playwright: iPad landscape/portrait + microfono finto)
+npm run test:e2e        # e2e (Playwright: iPad landscape/portrait, microfono finto, MIDI simulato)
 ```

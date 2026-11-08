@@ -5,7 +5,8 @@ import { ensureAudio } from '../../audio/ensureAudio';
 import { sampler } from '../../audio/Sampler';
 import { noteColor, noteLabel } from '../../core/music/pitch';
 import { t } from '../../i18n/it';
-import { useActiveInput } from '../../input/activeInput';
+import { useActiveInput, useExternalHeld } from '../../input/activeInput';
+import { MidiStatus } from '../midi/MidiStatus';
 import { inputHub } from '../../input/inputHub';
 import { MicMeter } from '../mic/MicMeter';
 import { MicWarning } from '../mic/MicWarning';
@@ -17,6 +18,7 @@ import './FreePlayPage.css';
 export function FreePlayPage() {
   const { settings, update } = useSettings();
   const input = useActiveInput();
+  const externalHeld = useExternalHeld();
   const [kbRef, kbWidth] = useElementWidth<HTMLDivElement>();
   const [shift, setShift] = useState(0);
   const [sustain, setSustain] = useState(false);
@@ -57,6 +59,7 @@ export function FreePlayPage() {
         actions={
           <>
             {input.mode === 'mic' && input.mic.state === 'on' && <MicMeter compact />}
+            {input.mode === 'midi' && <MidiStatus variant="chip" />}
             <button
               className="btn btn--icon"
               aria-label={t.play.octaveDown}
@@ -88,6 +91,7 @@ export function FreePlayPage() {
       />
 
       {input.mode === 'mic' && <MicWarning />}
+      {input.mode === 'midi' && <MidiStatus variant="banner" />}
       <section className="freeplay__display" aria-live="polite">
         {sampler.state === 'error' ? (
           <div className="banner banner--warn">
@@ -130,6 +134,7 @@ export function FreePlayPage() {
           to={range.to}
           onNoteOn={(m, ts, v) => inputHub.virtual.press(m, ts, v)}
           onNoteOff={(m, ts) => inputHub.virtual.release(m, ts)}
+          externalPressed={externalHeld}
           showLabels={settings.showNoteNames}
           naming={settings.noteNaming}
           colorNotes={settings.colorNotes}

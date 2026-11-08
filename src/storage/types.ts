@@ -25,6 +25,13 @@ export interface MicSettings {
   calibratedAt: number | null;
 }
 
+export interface MidiSettings {
+  /** null = tutti i dispositivi collegati */
+  deviceId: string | null;
+  /** suona anche dal tablet (per tastiere senza altoparlanti) */
+  playSound: boolean;
+}
+
 export interface Settings {
   /** null = non ancora scelto (mostra la schermata di scelta all'avvio) */
   inputMode: InputKind | null;
@@ -38,6 +45,7 @@ export interface Settings {
   latency: LatencyOffsets;
   a4Hz: number;
   mic: MicSettings;
+  midi: MidiSettings;
   dailyGoalMin: number;
   updatedAt: number;
 }
@@ -53,6 +61,7 @@ export const DEFAULT_SETTINGS: Settings = {
   latency: { mic: 0, midi: 0, virtual: 0, output: 0 },
   a4Hz: 440,
   mic: { noiseFloorDb: null, gateMarginDb: 12, calibratedAt: null },
+  midi: { deviceId: null, playSound: false },
   dailyGoalMin: 10,
   updatedAt: 0,
 };

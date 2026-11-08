@@ -47,7 +47,7 @@ public/samples/   campioni di pianoforte
 src/app/          App, router, store, hook
 src/audio/        AudioEngine, Sampler, mappa campioni
 src/core/         music/ (altezze, durate), content/ (schemi, loader), timing/ (timeline, transport), evaluation/ (valutatori wait/realtime, punteggio)
-src/input/        interfacce, virtual/, mic/ (tracker, verifica accordi, MicInput), midi/ (M5)
+src/input/        interfacce, virtual/, mic/ (tracker, verifica accordi, MicInput), midi/ (parser, MidiInput)
 src/notation/     renderer VexFlow, ScoreView (scroll + evidenziazioni)
 src/storage/      interfacce + provider Dexie
 src/features/     pagine: onboarding, home, practice, settings, diagnostics, about, …
@@ -120,6 +120,19 @@ getUserMedia (senza echoCancellation/noiseSuppression/AGC)
   Ogni passo si può saltare. In Diagnostica si può regolare la latenza a mano per ogni modalità.
 - **Test e2e:** Chromium con microfono finto (`--use-file-for-fake-audio-capture`) che riproduce `e2e/fixtures/do-re-mi.wav`, generato con `npx tsx tools/gen-mic-fixture.ts`.
 
+## Tastiera MIDI (M5)
+
+- **`parseMidi`** (puro): note on/off su qualsiasi canale (note on con velocity 0 vale note off), CC64 pedale, CC120/123 tutte le note spente. Clock, active sensing e pitch bend vengono ignorati.
+- **`MidiInput`**: `requestMIDIAccess({ sysex: false })`.
+  - Ascolta tutti i dispositivi collegati, o solo quello scelto.
+  - Su `statechange` ricollega gli input: collegamento e scollegamento a caldo senza ricaricare la pagina. Se l'ultima tastiera viene scollegata, le note tenute vengono rilasciate.
+  - Timestamp: `event.timeStamp` (clock performance), convertito nel tempo audio con `getOutputTimestamp()`, meno la latenza MIDI calibrata.
+  - Le dipendenze (accesso, orologio, pedale) sono iniettate, quindi la classe si testa con una Web MIDI finta.
+- **Suono:** di default l'app **non** suona le note MIDI, perché le tastiere con altoparlanti suonano da sole e il doppio suono sarebbe sfasato. Se la tastiera non ha altoparlanti, si attiva "Suona dal tablet"; con quell'opzione attiva l'app gestisce anche il pedale.
+- Le note tenute sulla tastiera fisica (e quelle sentite dal microfono) appaiono premute anche sulla tastiera a schermo.
+- Se il browser non ha la Web MIDI (Safari su iPad e iPhone), l'opzione è disattivata con una spiegazione e un'alternativa.
+- **Test e2e:** `navigator.requestMIDIAccess` viene sostituito da un dispositivo finto pilotabile (`window.__midi`). Coperti: suonare, scollegare e ricollegare, browser non supportato.
+
 ## Scelte con alternative
 
 - **Spartito.** VexFlow e non OSMD o Verovio: ogni nota è un elemento SVG che si può indirizzare per colorarla. Il brano è disegnato su un rigo continuo e fatto scorrere a 60 fps senza re-render.
@@ -142,7 +155,7 @@ getUserMedia (senza echoCancellation/noiseSuppression/AGC)
 | M2 | Spartito VexFlow, scroll ed evidenziazione | ✅ |
 | M3 | Motore di valutazione, prima lezione completa | ✅ |
 | M4 | Microfono, pitch detection, calibrazione | ✅ |
-| M5 | Web MIDI | |
+| M5 | Web MIDI | ✅ |
 | M6 | Unità 1-3, progressi, streak, statistiche | |
 | M7 | Rifiniture, accessibilità, offline, convertitori, test, Lighthouse | |
 | M8 | Unità 4-6: due mani, accordi, alterazioni e scale | |

@@ -52,6 +52,22 @@ export function SettingsPage() {
             </Row>
           </>
         )}
+        {settings.inputMode === 'midi' && (
+          <>
+            <Row label="Tastiera MIDI" desc="Dispositivo, prova dei tasti">
+              <button className="btn" onClick={() => navigate('/midi')}>
+                Configura
+              </button>
+            </Row>
+            <Row label="Suona dal tablet" desc="Attivalo se la tua tastiera non ha altoparlanti.">
+              <Switch
+                label="Suona dal tablet"
+                checked={settings.midi.playSound}
+                onChange={(v) => update({ midi: { ...settings.midi, playSound: v } })}
+              />
+            </Row>
+          </>
+        )}
         <Row label={t.settings.naming}>
           <Segmented
             label={t.settings.naming}
