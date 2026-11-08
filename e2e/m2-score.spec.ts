@@ -46,8 +46,8 @@ test.describe('M2 – spartito ed evidenziazione', () => {
 
   test('brano a due mani: grand staff con pause automatiche', async ({ page }) => {
     await openSong(page, 'passeggiata');
-    const staves = await page.locator('.score__track .vf-stave').count();
-    expect(staves).toBe(12); // 6 battute × 2 righi
+    // disegno progressivo: le battute fuori schermo arrivano subito dopo
+    await expect(page.locator('.score__track .vf-stave')).toHaveCount(12); // 6 battute × 2 righi
     await expect(page.locator('.score__track .vf-stavenote')).toHaveCount(25); // 17 note + 1 pausa (R) + 7 note (L)
   });
 

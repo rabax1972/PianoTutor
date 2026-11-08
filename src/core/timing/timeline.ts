@@ -19,6 +19,8 @@ export interface TimelineEvent {
   fingers?: number[];
   tie: boolean;
   label?: string;
+  /** sigla dell'accordo (es. "Do", "La m") */
+  chord?: string;
   isRest: boolean;
 }
 
@@ -64,6 +66,7 @@ export function buildTimeline(piece: Piece): Timeline {
     fingers: e.fingers,
     tie: e.tie ?? false,
     label: e.label,
+    chord: e.chord,
     isRest: e.p.length === 0,
   }));
   events.sort((a, b) => a.t - b.t || a.index - b.index);
@@ -79,6 +82,11 @@ export function buildTimeline(piece: Piece): Timeline {
   }
   const totalBeats = m;
 
+  return { events, onsets: computeOnsets(events), measureBeats: mb, pickupBeats: pickup, measureStarts, totalBeats };
+}
+
+/** Raggruppa gli eventi per istante d'inizio (le note legate dalla precedente non vanno ripremute). */
+export function computeOnsets(events: TimelineEvent[]): Onset[] {
   const onsetMap = new Map<number, Onset>();
   for (const e of events) {
     const key = Math.round(e.t * 1e4) / 1e4;
@@ -88,12 +96,18 @@ export function buildTimeline(piece: Piece): Timeline {
       onsetMap.set(key, o);
     }
     o.events.push(e.index);
-    // una nota legata dalla precedente non va ripremuta
     if (!e.isRest && !isTiedFromPrevious(events, e)) o.midis.push(...e.midis);
   }
-  const onsets = [...onsetMap.values()].sort((a, b) => a.t - b.t);
+  return [...onsetMap.values()].sort((a, b) => a.t - b.t);
+}
 
-  return { events, onsets, measureBeats: mb, pickupBeats: pickup, measureStarts, totalBeats };
+/**
+ * Timeline con le sole note di una mano (per esercitare una mano alla volta):
+ * posizioni e battute restano quelle del brano completo.
+ */
+export function filterTimelineHand(tl: Timeline, hand: 'R' | 'L'): Timeline {
+  const events = tl.events.filter((e) => e.hand === hand);
+  return { ...tl, events, onsets: computeOnsets(events) };
 }
 
 function isTiedFromPrevious(events: TimelineEvent[], e: TimelineEvent): boolean {

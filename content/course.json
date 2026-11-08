@@ -45,6 +45,48 @@
       "unlock": {
         "requiresLessons": []
       }
+    },
+    {
+      "id": "u4",
+      "title": "Due mani insieme",
+      "description": "Melodia e basso, mani in parallelo, due mani a tempo",
+      "icon": "🤝",
+      "lessons": [
+        "u4-l01-mani-insieme",
+        "u4-l02-mani-parallele",
+        "u4-l03-due-mani-a-tempo"
+      ],
+      "unlock": {
+        "requiresLessons": []
+      }
+    },
+    {
+      "id": "u5",
+      "title": "Accordi e accompagnamento",
+      "description": "Triadi maggiori e minori, sigle, accompagnamento della sinistra",
+      "icon": "🎶",
+      "lessons": [
+        "u5-l01-accordo-do",
+        "u5-l02-maggiore-minore",
+        "u5-l03-accompagnamento"
+      ],
+      "unlock": {
+        "requiresLessons": []
+      }
+    },
+    {
+      "id": "u6",
+      "title": "Alterazioni e prime scale",
+      "description": "Diesis e bemolle, scala di Do, Sol e Fa maggiore",
+      "icon": "🪜",
+      "lessons": [
+        "u6-l01-diesis-bemolle",
+        "u6-l02-scala-do",
+        "u6-l03-sol-fa-maggiore"
+      ],
+      "unlock": {
+        "requiresLessons": []
+      }
     }
   ]
 }

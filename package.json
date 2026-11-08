@@ -1,6 +1,6 @@
 {
   "name": "pianotutor",
-  "version": "0.7.0",
+  "version": "1.0.0",
   "description": "Piano Tutor - impara il pianoforte da zero (PWA)",
   "scripts": {
     "dev": "vite --host",

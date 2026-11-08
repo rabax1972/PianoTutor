@@ -119,3 +119,12 @@
   height: 22px;
   font-size: 0.8rem;
 }
+
+.pk-label--black {
+  color: #e9e6de;
+  font-size: clamp(0.55rem, 1.1vw, 0.75rem);
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}

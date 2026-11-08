@@ -13,8 +13,8 @@ import { DEFAULT_SCORING, type Piece, type ScoringConfig } from '../../core/cont
 import { RealtimeEvaluator } from '../../core/evaluation/realtimeEvaluator';
 import type { Grade, NoteFeedback, OnsetJudgement, SessionResult } from '../../core/evaluation/types';
 import { WaitEvaluator } from '../../core/evaluation/waitEvaluator';
-import { noteLabel, type NoteNaming } from '../../core/music/pitch';
-import { buildTimeline, measureRange, sliceTimeline, type Timeline } from '../../core/timing/timeline';
+import { noteLabel, pitchLabel, type NoteNaming } from '../../core/music/pitch';
+import { buildTimeline, filterTimelineHand, measureRange, sliceTimeline, type Timeline } from '../../core/timing/timeline';
 import { Transport } from '../../core/timing/transport';
 import { inputHub } from '../../input/inputHub';
 import type { NoteInputEvent } from '../../input/types';
@@ -73,6 +73,8 @@ const PRAISE = ['Perfetto!', 'Bravo!', 'Ottimo!', 'Continua così!', 'Grande!'];
 
 export class PlaySession {
   readonly timeline: Timeline;
+  /** note da valutare: tutte, o solo quelle della mano scelta (l'app suona l'altra) */
+  readonly evalTimeline: Timeline;
   private readonly fullTimeline: Timeline;
   private readonly transport: Transport;
   private scheduler: PlaybackScheduler | null = null;
@@ -118,6 +120,7 @@ export class PlaySession {
       this.startBeat = 0;
       this.endBeat = this.fullTimeline.totalBeats;
     }
+    this.evalTimeline = config.hands === 'both' ? this.timeline : filterTimelineHand(this.timeline, config.hands);
     this.scoring = {
       ...DEFAULT_SCORING,
       ...config.scoring,
@@ -167,6 +170,10 @@ export class PlaySession {
     this.updateExpected();
     this.timer ??= setInterval(this.tick, 30);
     this.activeSince = performance.now();
+    if (!resume && this.config.mode === 'wait') {
+      const first = this.evalTimeline.onsets.find((o) => o.midis.length);
+      this.accompany(this.startBeat, first?.t ?? this.startBeat);
+    }
     this.patch({ status: from < this.startBeat && this.config.mode !== 'wait' ? 'countin' : 'playing' });
   }
 
@@ -213,7 +220,7 @@ export class PlaySession {
 
   private initialBeat(): number {
     if (this.config.mode === 'wait') {
-      const first = this.timeline.onsets.find((o) => o.midis.length);
+      const first = this.evalTimeline.onsets.find((o) => o.midis.length);
       return Math.max(this.startBeat - 1, (first?.t ?? this.startBeat) - 1);
     }
     return this.startBeat;
@@ -222,9 +229,9 @@ export class PlaySession {
   private setup() {
     this.wait = null;
     this.realtime = null;
-    if (this.config.mode === 'wait') this.wait = new WaitEvaluator(this.timeline, this.scoring);
+    if (this.config.mode === 'wait') this.wait = new WaitEvaluator(this.evalTimeline, this.scoring);
     if (this.config.mode === 'realtime')
-      this.realtime = new RealtimeEvaluator(this.timeline, this.scoring, () => this.transport.secondsPerBeat * 1000);
+      this.realtime = new RealtimeEvaluator(this.evalTimeline, this.scoring, () => this.transport.secondsPerBeat * 1000);
     const total = this.wait?.progress.total ?? this.realtime?.totalOnsets ?? 0;
     this.snap = { ...this.snap, marks: new Map(), ...this.keyState(), progress: { done: 0, total }, result: null, streak: 0, message: null };
   }
@@ -315,6 +322,7 @@ export class PlaySession {
         const j = this.wait.judgementsSoFar().at(-1)!;
         this.applyJudgements([j], false);
         if (this.wait.done) {
+          this.accompany(j.t, this.endBeat, true);
           setTimeout(() => this.finish(), 600);
           return;
         }
@@ -324,6 +332,7 @@ export class PlaySession {
           this.transport.play(this.transport.beatAt(), 0);
           this.patch({ status: 'playing' });
         }
+        this.accompany(j.t, this.wait.currentOnset?.t ?? this.endBeat);
       }
       this.refreshKeys();
       return;
@@ -344,7 +353,7 @@ export class PlaySession {
     if (fb.kind === 'ignored') return;
     if (fb.kind === 'wrong') {
       this.flash(fb.midi, 'wrong');
-      const name = fb.expected.map((m) => noteLabel(m, this.config.naming)).join(' + ');
+      const name = fb.expected.map((m) => this.spell(m)).join(' + ');
       const text = this.config.guided && name ? `Quasi! Cerca il ${name}` : 'Riprova, ce la fai!';
       this.patch({ streak: 0, message: this.msg(text, 'bad') });
       return;
@@ -384,12 +393,43 @@ export class PlaySession {
     this.onFinish?.(result);
   }
 
+  /**
+   * "Ti aspetto" con una mano sola: dopo ogni nota dell'utente l'app suona le note dell'altra mano
+   * fino al punto in cui aspetterà di nuovo. (A tempo lo fa il PlaybackScheduler.)
+   */
+  private accompany(from: number, to: number, immediate = false) {
+    const { hands, inputKind, mode } = this.config;
+    if (mode !== 'wait' || hands === 'both' || inputKind === 'mic') return;
+    const other = hands === 'R' ? 'L' : 'R';
+    const now = audioEngine.now();
+    for (const e of this.timeline.events) {
+      if (e.hand !== other || e.isRest || e.t < from - 1e-6 || e.t >= to - 1e-6) continue;
+      const when = immediate ? now + (e.t - from) * this.transport.secondsPerBeat : Math.max(now, this.transport.timeAt(e.t));
+      const dur = e.d * this.transport.secondsPerBeat;
+      e.midis.forEach((m) => {
+        sampler.noteOn(m, 0.6, when);
+        sampler.noteOff(m, when + dur * 0.95);
+      });
+    }
+  }
+
+  /** nome della nota attesa con la grafia scritta nel brano (Si♭, non La♯) */
+  private spell(midi: number): string {
+    const o = this.wait?.currentOnset;
+    for (const idx of o?.events ?? []) {
+      const ev = this.timeline.events.find((e) => e.index === idx);
+      const i = ev?.midis.indexOf(midi) ?? -1;
+      if (ev && i >= 0) return pitchLabel(ev.pitches[i]!, this.config.naming);
+    }
+    return noteLabel(midi, this.config.naming, { preferFlats: this.config.piece.key.fifths < 0 });
+  }
+
   /** onset da suggerire (solo modalità guidata) */
   private hintOnset(beat?: number) {
     if (!this.config.guided || this.config.mode === 'listen') return undefined;
     if (this.wait) return this.wait.currentOnset;
     if (this.realtime && beat !== undefined) {
-      const next = this.timeline.onsets.find((o) => o.midis.length && o.t >= beat - 0.15);
+      const next = this.evalTimeline.onsets.find((o) => o.midis.length && o.t >= beat - 0.15);
       if (next && next.t - beat <= 1) return next;
     }
     return undefined;
@@ -429,7 +469,7 @@ export class PlaySession {
     else if (this.realtime) {
       const b = beat ?? this.getBeat();
       const win = this.scoring.timing.goodMs / (this.transport.secondsPerBeat * 1000);
-      const o = this.timeline.onsets.find((x) => x.midis.length && Math.abs(x.t - b) <= win);
+      const o = this.evalTimeline.onsets.find((x) => x.midis.length && Math.abs(x.t - b) <= win);
       midis = o ? o.midis : [];
     }
     const key = midis.join(',');

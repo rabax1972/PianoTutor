@@ -178,6 +178,22 @@ getUserMedia (senza echoCancellation/noiseSuppression/AGC)
 - **Modalità insegnante**: sblocca tutto il percorso. Le lezioni bloccate aperte dall'indirizzo mostrano come sbloccarle.
 - **Convertitori** `npm run convert -- file.mid|file.musicxml --id …` (`tools/convert`). Coperti dai test: quantizzazione, mani (per traccia, rigo o punto di divisione), accordi, sovrapposizioni, legature alle stanghette, alterazioni secondo l'armatura, backup/forward e legature del MusicXML.
 
+## Unità 4-6 (M8)
+
+- **Contenuti:** 9 lezioni:
+  - **unità 4**: due mani insieme, mani in parallelo, due mani a tempo;
+  - **unità 5**: accordo di Do, maggiore e minore con sigle, accompagnamento con basso albertino;
+  - **unità 6**: diesis e bemolle, scala di Do con passaggio del pollice, Sol e Fa maggiore con armatura.
+
+  Brani nuovi: Brilla brilla stellina, Ode alla gioia (due mani e con accordi), Jingle Bells con accompagnamento, Greensleeves, Per Elisa (tema, 3/8 con anacrusi), *Campanelle* e *Scala in festa* (originali).
+- **Una mano alla volta:** `PlaySession.evalTimeline` (`filterTimelineHand`) valuta solo la mano scelta.
+  - L'altra mano la suona l'app: a tempo con il `PlaybackScheduler`; in "ti aspetto" con `accompany()`, che dopo ogni nota dell'utente suona le note dell'altra mano fino al punto in cui il brano aspetterà di nuovo.
+  - Col microfono l'accompagnamento resta spento (eco).
+  - Selettore **Mani** (due mani / destra / sinistra) nei brani e negli esercizi a due mani.
+- **Grafia delle alterazioni:** `pitchLabel` usa la grafia scritta nel brano (Si♭, non La♯) per i nomi sullo spartito e nei messaggi. La tastiera mostra i nomi anche sui tasti neri nei brani con alterazioni o armatura, con i bemolle nelle tonalità con bemolle.
+- **Sigle degli accordi:** campo `chord` degli eventi, disegnato sopra il rigo.
+- **Anteprime nelle slide:** accordi (`"C4+E4+G4"`) e armatura (`params.fifths`).
+
 ## Scelte con alternative
 
 - **Spartito.** VexFlow e non OSMD o Verovio: ogni nota è un elemento SVG che si può indirizzare per colorarla. Il brano è disegnato su un rigo continuo e fatto scorrere a 60 fps senza re-render.
@@ -203,4 +219,4 @@ getUserMedia (senza echoCancellation/noiseSuppression/AGC)
 | M5 | Web MIDI | ✅ |
 | M6 | Unità 1-3, progressi, streak, statistiche | ✅ |
 | M7 | Rifiniture, accessibilità, offline, convertitori, test, Lighthouse | ✅ |
-| M8 | Unità 4-6: due mani, accordi, alterazioni e scale | |
+| M8 | Unità 4-6: due mani, accordi, alterazioni e scale | ✅ |

@@ -52,3 +52,13 @@ describe('pitch', () => {
     expect(frequencyToMidi(261.63)).toBeCloseTo(60, 2);
   });
 });
+
+describe('pitchLabel', () => {
+  it('rispetta la grafia scritta di diesis e bemolle', async () => {
+    const { pitchLabel } = await import('./pitch');
+    expect(pitchLabel('Bb4', 'italian')).toBe('Si♭');
+    expect(pitchLabel('F#4', 'italian', { octave: true })).toBe('Fa♯4');
+    expect(pitchLabel('Eb3', 'english')).toBe('E♭');
+    expect(pitchLabel('C##4', 'italian')).toBe('Do♯♯');
+  });
+});

@@ -56,6 +56,7 @@ Tabella delle altezze utili: `C4` Do · `D4` Re · `E4` Mi · `F4` Fa · `G4` So
 | `fingers` | (1-5)[] | | diteggiatura, stessa lunghezza di `p` |
 | `tie` | boolean | | legatura di valore con la nota successiva |
 | `label` | string | | sillaba o testo sotto la nota |
+| `chord` | string | | sigla dell'accordo sopra il rigo (es. `"Do"`, `"La m"`, `"Sol7"`) |
 
 Gli eventi delle due mani stanno nello stesso array: l'ordine non conta, fa fede `t`.
 
@@ -128,7 +129,7 @@ Gli eventi delle due mani stanno nello stesso array: l'ordine non conta, fa fede
 |---|---|---|
 | `keyboard-highlight` | `group`: `black-twos`, `black-threes`, `all-c`, `all-white` (facoltativo) | tastiera interattiva con tasti lampeggianti (`group` + `highlightKeys`) |
 | `hand-position` | `fingers`: `{ "C4": 1, "D4": 2, … }` | tastiera con il numero del dito su ogni tasto |
-| `staff-note` | `notes`: `["C4","D4"]` (+ `showStaff` per la chiave) | piccolo spartito con i nomi e il pulsante "Ascolta" |
+| `staff-note` | `notes`: `["C4","D4","C4+E4+G4"]` (`+` = accordo), `fifths` (armatura, facoltativa) + `showStaff` per la chiave | piccolo spartito con i nomi e il pulsante "Ascolta" |
 | `rhythm-pulse` | `pattern`: durate in beat (es. `[1,1,2]`), `bpm` | figure ritmiche che si illuminano a tempo con il click |
 
 ### PlaySettings
@@ -140,7 +141,7 @@ Gli eventi delle due mani stanno nello stesso array: l'ordine non conta, fa fede
 | `metronome` | false | metronomo attivo |
 | `countIn` | 1 | battute di attacco prima di iniziare |
 | `tempoScale` | 1 | moltiplicatore del tempo (0.25-1.5) |
-| `hands` | `both` | mano o mani da suonare; l'altra può essere suonata dall'app |
+| `hands` | `both` | mano da valutare (`R`, `L`, `both`). Con una sola mano l'app suona l'altra, sia a tempo sia in "ti aspetto". L'utente può cambiarla con il selettore **Mani** |
 | `loop` | — | `{ fromMeasure, toMeasure }`: ripete una sezione |
 | `showNoteNames` | da impostazioni | nomi sulle note e sui tasti |
 | `colorNotes` | da impostazioni | note colorate |

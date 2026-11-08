@@ -1,0 +1,477 @@
+{
+  "$schema": "../../docs/schema/lesson.schema.json",
+  "schemaVersion": 1,
+  "id": "u5-l03-accompagnamento",
+  "unitId": "u5",
+  "title": "Accompagnamento",
+  "summary": "La sinistra accompagna con gli accordi spezzati.",
+  "estimatedMinutes": 6,
+  "concepts": [
+    "broken-chords",
+    "accompaniment"
+  ],
+  "steps": [
+    {
+      "type": "explain",
+      "id": "spiegazione",
+      "slides": [
+        {
+          "text": "Un accordo si può anche **spezzare**: basso, quinta, terza, quinta. È il **basso albertino**, usato anche da Mozart!",
+          "showStaff": "bass",
+          "animation": {
+            "kind": "staff-note",
+            "params": {
+              "notes": [
+                "C3",
+                "G3",
+                "E3",
+                "G3"
+              ]
+            }
+          }
+        },
+        {
+          "text": "La sinistra accompagna, la destra canta la melodia. Ascolta prima, poi prova le mani separate.",
+          "animation": {
+            "kind": "rhythm-pulse",
+            "params": {
+              "pattern": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "bpm": 72
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "exercise",
+      "id": "guidato",
+      "mode": "guided",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u5-l03-guidato",
+        "title": "Basso albertino",
+        "license": "original",
+        "tempo": {
+          "bpm": 60
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "bass"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "E3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 4,
+            "d": 1,
+            "p": [
+              "B2"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 5,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 6,
+            "d": 1,
+            "p": [
+              "D3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 7,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "E3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "wait",
+        "showNoteNames": true,
+        "hands": "L"
+      }
+    },
+    {
+      "type": "exercise",
+      "id": "libero",
+      "mode": "free",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u5-l03-libero",
+        "title": "Melodia e accompagnamento",
+        "license": "original",
+        "tempo": {
+          "bpm": 60
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble",
+          "bass"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 4,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 4,
+            "d": 4,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 8,
+            "d": 4,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "E3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 4,
+            "d": 1,
+            "p": [
+              "B2"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 5,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 6,
+            "d": 1,
+            "p": [
+              "D3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 7,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "E3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "realtime",
+        "metronome": true,
+        "scoring": {
+          "timing": {
+            "perfectMs": 110,
+            "goodMs": 250
+          },
+          "weights": {
+            "pitch": 0.6,
+            "timing": 0.4
+          }
+        },
+        "showNoteNames": false
+      }
+    },
+    {
+      "type": "song",
+      "id": "brano",
+      "piece": "jingle-bells-accompagnato",
+      "settings": {
+        "flow": "realtime",
+        "listenFirst": true,
+        "metronome": true,
+        "scoring": {
+          "timing": {
+            "perfectMs": 110,
+            "goodMs": 250
+          },
+          "weights": {
+            "pitch": 0.6,
+            "timing": 0.4
+          }
+        },
+        "tempoScale": 0.7
+      }
+    }
+  ]
+}

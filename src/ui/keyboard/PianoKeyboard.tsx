@@ -20,6 +20,10 @@ export interface PianoKeyboardProps {
   colorNotes?: boolean;
   /** diteggiatura da mostrare sui tasti */
   fingers?: ReadonlyMap<number, number>;
+  /** nomi dei tasti neri con il bemolle (tonalità con bemolle) */
+  preferFlats?: boolean;
+  /** mostra i nomi anche sui tasti neri (brani con alterazioni) */
+  blackLabels?: boolean;
 }
 
 /**
@@ -37,6 +41,8 @@ function PianoKeyboardImpl({
   naming = 'italian',
   colorNotes = false,
   fingers,
+  preferFlats = false,
+  blackLabels = false,
 }: PianoKeyboardProps) {
   const keys = useMemo(() => layoutKeys(from, to), [from, to]);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -120,7 +126,7 @@ function PianoKeyboardImpl({
         const isDown = pressed.has(k.midi) || externalPressed?.has(k.midi);
         const mark = marks?.get(k.midi);
         const finger = fingers?.get(k.midi);
-        const label = noteLabel(k.midi, naming);
+        const label = noteLabel(k.midi, naming, { preferFlats });
         return (
           <div
             key={k.midi}
@@ -149,8 +155,8 @@ function PianoKeyboardImpl({
             )}
             {k.midi === MIDDLE_C && <span className="pk-middle-c" title="Do centrale" />}
             {/* nome accessibile dal contenuto: nota visibile + ottava solo per i lettori di schermo */}
-            {showLabels && !k.black ? (
-              <span className="pk-label">
+            {showLabels && (!k.black || blackLabels) ? (
+              <span className={k.black ? 'pk-label pk-label--black' : 'pk-label'}>
                 {label}
                 <span className="sr-only"> {Math.floor(k.midi / 12) - 1}</span>
               </span>

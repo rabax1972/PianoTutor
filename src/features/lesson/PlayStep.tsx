@@ -40,6 +40,7 @@ export function PlayStep({
   const [attempt, setAttempt] = useState(0);
   const [result, setResult] = useState<SessionResult | null>(null);
   const [loop, setLoop] = useState<LoopRange | null>(s.loop ?? null);
+  const [hands, setHands] = useState<'R' | 'L' | 'both'>(s.hands ?? 'both');
   const startedAt = useRef(Date.now());
   /** avvia la prossima sessione appena creata (cambio modalità ascolta → suona) */
   const pendingStart = useRef(false);
@@ -56,13 +57,13 @@ export function PlayStep({
       tempoScale: s.tempoScale ?? 1,
       metronome: s.metronome ?? false,
       guided: hints,
-      hands: s.hands ?? 'both',
+      hands,
       naming: settings.noteNaming,
       scoring: s.scoring,
       loop: loop ?? undefined,
       inputKind: settings.inputMode ?? 'virtual',
     },
-    `${step.id}-${mode}-${attempt}-${loop ? `${loop.fromMeasure}-${loop.toMeasure}` : 'tutto'}`,
+    `${step.id}-${mode}-${attempt}-${hands}-${loop ? `${loop.fromMeasure}-${loop.toMeasure}` : 'tutto'}`,
     (r, sess) => {
       if (listening) {
         setPhase('ready');
@@ -135,6 +136,11 @@ export function PlayStep({
       showNoteNames={showNames}
       overlay={overlay}
       loop={loop}
+      onHandsChange={(h) => {
+        setResult(null);
+        setHands(h);
+        setPhase('ready');
+      }}
       onLoopChange={(l) => {
         setResult(null);
         setLoop(l);

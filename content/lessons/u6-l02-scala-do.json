@@ -1,0 +1,482 @@
+{
+  "$schema": "../../docs/schema/lesson.schema.json",
+  "schemaVersion": 1,
+  "id": "u6-l02-scala-do",
+  "unitId": "u6",
+  "title": "La scala di Do maggiore",
+  "summary": "Otto note in fila: il passaggio del pollice.",
+  "estimatedMinutes": 6,
+  "concepts": [
+    "c-major-scale",
+    "thumb-under"
+  ],
+  "steps": [
+    {
+      "type": "explain",
+      "id": "spiegazione",
+      "slides": [
+        {
+          "text": "Una **scala** sono otto note in fila. Per suonarla con una mano, il **pollice passa sotto**: Do-Re-Mi con 1-2-3, poi il pollice va sul **Fa**.",
+          "animation": {
+            "kind": "hand-position",
+            "params": {
+              "fingers": {
+                "C4": 1,
+                "D4": 2,
+                "E4": 3,
+                "F4": 1,
+                "G4": 2,
+                "A4": 3,
+                "B4": 4,
+                "C5": 5
+              }
+            }
+          }
+        },
+        {
+          "text": "Scendendo è il contrario: dopo il Fa (pollice) il **medio scavalca** e va sul Mi.",
+          "showStaff": "treble",
+          "animation": {
+            "kind": "staff-note",
+            "params": {
+              "notes": [
+                "C4",
+                "D4",
+                "E4",
+                "F4",
+                "G4",
+                "A4",
+                "B4",
+                "C5"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "exercise",
+      "id": "guidato",
+      "mode": "guided",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u6-l02-guidato",
+        "title": "Scala con la destra",
+        "license": "original",
+        "tempo": {
+          "bpm": 66
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 4,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 5,
+            "d": 1,
+            "p": [
+              "A4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 6,
+            "d": 1,
+            "p": [
+              "B4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 7,
+            "d": 1,
+            "p": [
+              "C5"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "C5"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "B4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "A4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 12,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 13,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 14,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 15,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "wait",
+        "showNoteNames": true
+      }
+    },
+    {
+      "type": "exercise",
+      "id": "libero",
+      "mode": "free",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u6-l02-libero",
+        "title": "Scala con la sinistra",
+        "license": "original",
+        "tempo": {
+          "bpm": 66
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "bass"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "D3"
+            ],
+            "hand": "L",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "E3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "F3"
+            ],
+            "hand": "L",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 4,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 5,
+            "d": 1,
+            "p": [
+              "A3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 6,
+            "d": 1,
+            "p": [
+              "B3"
+            ],
+            "hand": "L",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 7,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "B3"
+            ],
+            "hand": "L",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "A3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 12,
+            "d": 1,
+            "p": [
+              "F3"
+            ],
+            "hand": "L",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 13,
+            "d": 1,
+            "p": [
+              "E3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 14,
+            "d": 1,
+            "p": [
+              "D3"
+            ],
+            "hand": "L",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 15,
+            "d": 1,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "wait",
+        "showNoteNames": false,
+        "hands": "L"
+      }
+    },
+    {
+      "type": "song",
+      "id": "brano",
+      "piece": "scala-in-festa",
+      "settings": {
+        "flow": "wait",
+        "listenFirst": true
+      }
+    }
+  ]
+}

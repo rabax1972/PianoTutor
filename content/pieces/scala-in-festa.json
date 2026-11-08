@@ -1,0 +1,281 @@
+{
+  "$schema": "../../docs/schema/piece.schema.json",
+  "schemaVersion": 1,
+  "id": "scala-in-festa",
+  "title": "Scala in festa",
+  "composer": "Piano Tutor",
+  "license": "original",
+  "tempo": {
+    "bpm": 80
+  },
+  "timeSignature": [
+    4,
+    4
+  ],
+  "key": {
+    "fifths": 0,
+    "mode": "major"
+  },
+  "staves": [
+    "treble",
+    "bass"
+  ],
+  "events": [
+    {
+      "t": 0,
+      "d": 1,
+      "p": [
+        "C4"
+      ],
+      "hand": "R",
+      "fingers": [
+        1
+      ]
+    },
+    {
+      "t": 1,
+      "d": 1,
+      "p": [
+        "D4"
+      ],
+      "hand": "R",
+      "fingers": [
+        2
+      ]
+    },
+    {
+      "t": 2,
+      "d": 1,
+      "p": [
+        "E4"
+      ],
+      "hand": "R",
+      "fingers": [
+        3
+      ]
+    },
+    {
+      "t": 3,
+      "d": 1,
+      "p": [
+        "F4"
+      ],
+      "hand": "R",
+      "fingers": [
+        1
+      ]
+    },
+    {
+      "t": 4,
+      "d": 1,
+      "p": [
+        "G4"
+      ],
+      "hand": "R",
+      "fingers": [
+        2
+      ]
+    },
+    {
+      "t": 5,
+      "d": 1,
+      "p": [
+        "A4"
+      ],
+      "hand": "R",
+      "fingers": [
+        3
+      ]
+    },
+    {
+      "t": 6,
+      "d": 1,
+      "p": [
+        "B4"
+      ],
+      "hand": "R",
+      "fingers": [
+        4
+      ]
+    },
+    {
+      "t": 7,
+      "d": 1,
+      "p": [
+        "C5"
+      ],
+      "hand": "R",
+      "fingers": [
+        5
+      ]
+    },
+    {
+      "t": 8,
+      "d": 1,
+      "p": [
+        "C5"
+      ],
+      "hand": "R",
+      "fingers": [
+        5
+      ]
+    },
+    {
+      "t": 9,
+      "d": 1,
+      "p": [
+        "B4"
+      ],
+      "hand": "R",
+      "fingers": [
+        4
+      ]
+    },
+    {
+      "t": 10,
+      "d": 1,
+      "p": [
+        "A4"
+      ],
+      "hand": "R",
+      "fingers": [
+        3
+      ]
+    },
+    {
+      "t": 11,
+      "d": 1,
+      "p": [
+        "G4"
+      ],
+      "hand": "R",
+      "fingers": [
+        2
+      ]
+    },
+    {
+      "t": 12,
+      "d": 1,
+      "p": [
+        "F4"
+      ],
+      "hand": "R",
+      "fingers": [
+        1
+      ]
+    },
+    {
+      "t": 13,
+      "d": 1,
+      "p": [
+        "E4"
+      ],
+      "hand": "R",
+      "fingers": [
+        3
+      ]
+    },
+    {
+      "t": 14,
+      "d": 1,
+      "p": [
+        "D4"
+      ],
+      "hand": "R",
+      "fingers": [
+        2
+      ]
+    },
+    {
+      "t": 15,
+      "d": 1,
+      "p": [
+        "C4"
+      ],
+      "hand": "R",
+      "fingers": [
+        1
+      ]
+    },
+    {
+      "t": 0,
+      "d": 4,
+      "p": [
+        "C3",
+        "E3",
+        "G3"
+      ],
+      "hand": "L",
+      "fingers": [
+        5,
+        3,
+        1
+      ],
+      "chord": "Do"
+    },
+    {
+      "t": 4,
+      "d": 4,
+      "p": [
+        "B2",
+        "D3",
+        "G3"
+      ],
+      "hand": "L",
+      "fingers": [
+        5,
+        3,
+        1
+      ],
+      "chord": "Sol"
+    },
+    {
+      "t": 8,
+      "d": 4,
+      "p": [
+        "C3",
+        "E3",
+        "G3"
+      ],
+      "hand": "L",
+      "fingers": [
+        5,
+        3,
+        1
+      ],
+      "chord": "Do"
+    },
+    {
+      "t": 12,
+      "d": 2,
+      "p": [
+        "B2",
+        "D3",
+        "G3"
+      ],
+      "hand": "L",
+      "fingers": [
+        5,
+        3,
+        1
+      ],
+      "chord": "Sol"
+    },
+    {
+      "t": 14,
+      "d": 2,
+      "p": [
+        "C3",
+        "E3",
+        "G3"
+      ],
+      "hand": "L",
+      "fingers": [
+        5,
+        3,
+        1
+      ],
+      "chord": "Do"
+    }
+  ]
+}

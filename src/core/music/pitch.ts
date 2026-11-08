@@ -46,10 +46,17 @@ export function pitchClass(midi: number): number {
 
 /** Nome visualizzabile, es. midi 61 → "Do#" (italiano) o "C#" (inglese). */
 export function noteLabel(midi: number, naming: NoteNaming, opts: { octave?: boolean; preferFlats?: boolean } = {}): string {
-  const p = midiToPitch(midi, opts.preferFlats);
-  const m = PITCH_RE.exec(p)!;
-  const letter = m[1]!;
-  const acc = (m[2] ?? '').replace('#', '♯').replace('b', '♭');
+  return pitchLabel(midiToPitch(midi, opts.preferFlats), naming, opts);
+}
+
+/**
+ * Nome visualizzabile rispettando la grafia scritta: "Bb4" → "Si♭" (non "La♯"), "F#4" → "Fa♯".
+ */
+export function pitchLabel(pitch: Pitch, naming: NoteNaming, opts: { octave?: boolean } = {}): string {
+  const m = PITCH_RE.exec(pitch.trim());
+  if (!m) return pitch;
+  const letter = m[1]!.toUpperCase();
+  const acc = (m[2] ?? '').replace(/#/g, '♯').replace(/b/g, '♭');
   const base = naming === 'italian' ? ITALIAN[letter]! : letter;
   return `${base}${acc}${opts.octave ? m[3] : ''}`;
 }

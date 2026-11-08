@@ -35,6 +35,7 @@ export function PlayView({
   extraControls,
   loop,
   onLoopChange,
+  onHandsChange,
 }: {
   session: PlaySession;
   snapshot: SessionSnapshot;
@@ -45,6 +46,8 @@ export function PlayView({
   /** sezione da ripetere (se onLoopChange è presente compare il controllo) */
   loop?: LoopRange | null;
   onLoopChange?: (l: LoopRange | null) => void;
+  /** cambio della mano da esercitare (compare il selettore nei brani a due mani) */
+  onHandsChange?: (h: 'R' | 'L' | 'both') => void;
 }) {
   const { settings } = useSettings();
   const input = useActiveInput();
@@ -53,6 +56,10 @@ export function PlayView({
   const [kbRef, kbWidth] = useElementWidth<HTMLDivElement>();
   const { piece, mode } = session.config;
   const running = ['playing', 'countin', 'waiting'].includes(snapshot.status);
+  const twoHands = piece.events.some((e) => e.hand === 'L') && piece.events.some((e) => e.hand === 'R');
+  // tasti neri con il nome se il brano ha alterazioni o un'armatura; bemolle nelle tonalità con bemolle
+  const preferFlats = piece.key.fifths < 0 || (piece.key.fifths === 0 && piece.events.some((e) => e.p.some((p) => /^[A-G]b/.test(p))));
+  const blackLabels = piece.key.fifths !== 0 || piece.events.some((e) => e.p.some((p) => /^[A-G](#|b)/.test(p)));
   const [current, setCurrent] = useState<TimelineEvent[]>([]);
 
   // in ascolto la tastiera mostra le note che suonano; altrimenti i segni della sessione
@@ -152,6 +159,18 @@ export function PlayView({
             Metronomo
           </button>
         )}
+        {onHandsChange && twoHands && (
+          <Segmented
+            label="Mani"
+            value={session.config.hands}
+            onChange={onHandsChange}
+            options={[
+              { value: 'both', label: '🙌 Due mani' },
+              { value: 'R', label: 'Destra' },
+              { value: 'L', label: 'Sinistra' },
+            ]}
+          />
+        )}
         {onLoopChange && (
           <LoopControl measureCount={session.timeline.measureStarts.length} value={loop ?? null} onChange={onLoopChange} />
         )}
@@ -169,6 +188,8 @@ export function PlayView({
           onNoteOff={(m, ts) => inputHub.virtual.release(m, ts)}
           marks={keyMarks}
           externalPressed={externalHeld}
+          preferFlats={preferFlats}
+          blackLabels={blackLabels}
           fingers={fingers}
           showLabels={settings.showNoteNames}
           naming={settings.noteNaming}

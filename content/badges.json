@@ -92,6 +92,36 @@
       }
     },
     {
+      "id": "unita-4",
+      "title": "Due mani insieme",
+      "description": "Hai completato l’unità «Due mani insieme».",
+      "icon": "🤝",
+      "criterion": {
+        "type": "unit",
+        "unitId": "u4"
+      }
+    },
+    {
+      "id": "unita-5",
+      "title": "Accordi!",
+      "description": "Hai completato l’unità «Accordi e accompagnamento».",
+      "icon": "🎶",
+      "criterion": {
+        "type": "unit",
+        "unitId": "u5"
+      }
+    },
+    {
+      "id": "unita-6",
+      "title": "Prime scale",
+      "description": "Hai completato l’unità «Alterazioni e prime scale».",
+      "icon": "🪜",
+      "criterion": {
+        "type": "unit",
+        "unitId": "u6"
+      }
+    },
+    {
       "id": "streak-3",
       "title": "Tre giorni di fila",
       "description": "Hai suonato per 3 giorni consecutivi.",

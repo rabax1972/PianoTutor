@@ -150,3 +150,16 @@ describe('sezioni', () => {
     expect(s.totalBeats).toBe(8);
   });
 });
+
+describe('una mano alla volta', () => {
+  it('filtra la timeline per mano mantenendo le posizioni', async () => {
+    const { filterTimelineHand } = await import('./timeline');
+    const tl = buildTimeline(piece);
+    const right = filterTimelineHand(tl, 'R');
+    expect(right.events.every((e) => e.hand === 'R')).toBe(true);
+    expect(right.onsets[0]!.midis).toEqual([60]); // senza il Do3 della sinistra
+    expect(right.measureStarts).toEqual(tl.measureStarts);
+    const left = filterTimelineHand(tl, 'L');
+    expect(left.onsets.map((o) => o.t)).toEqual([0, 4]);
+  });
+});

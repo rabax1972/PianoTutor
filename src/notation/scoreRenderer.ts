@@ -22,7 +22,7 @@ import VexFlow, {
 } from 'vexflow/core';
 import type { Piece } from '../core/content/schema';
 import { decomposeDuration } from '../core/music/durations';
-import { noteColor, noteLabel, type NoteNaming } from '../core/music/pitch';
+import { noteColor, pitchLabel, pitchToMidi, type NoteNaming } from '../core/music/pitch';
 import { interpolate, type BeatPoint } from './interpolate';
 import { buildTimeline, measureEnd, type Staff, type Timeline, type TimelineEvent } from '../core/timing/timeline';
 
@@ -144,13 +144,19 @@ function makeNote(item: Item, staff: Staff, opts: RenderOptions): StaveNote {
   }
   if (!item.tiedFromPrev) {
     const below = staff === 'treble' ? Annotation.VerticalJustify.BOTTOM : Annotation.VerticalJustify.BOTTOM;
+    if (ev.chord) {
+      const a = new Annotation(ev.chord).setVerticalJustification(Annotation.VerticalJustify.TOP);
+      a.setFont('Academico', 15, 'bold');
+      note.addModifier(a, 0);
+    }
     if (opts.showFingers && ev.fingers?.length) {
       const a = new Annotation(ev.fingers.join(' ')).setVerticalJustification(Annotation.VerticalJustify.TOP);
       a.setFont('Academico', 13, 'bold');
       note.addModifier(a, 0);
     }
     if (opts.showNoteNames) {
-      const label = [...ev.midis].sort((a, b) => a - b).map((m) => noteLabel(m, opts.naming)).join('·');
+      // nomi dalla grafia scritta (Si♭, non La♯), dal grave all'acuto
+      const label = [...ev.pitches].sort((a, b) => pitchToMidi(a) - pitchToMidi(b)).map((p) => pitchLabel(p, opts.naming)).join('·');
       const a = new Annotation(label).setVerticalJustification(below);
       a.setFont('Academico', 13, 'bold');
       note.addModifier(a, 0);

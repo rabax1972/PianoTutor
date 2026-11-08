@@ -305,6 +305,10 @@
                             "label": {
                               "description": "testo/sillaba mostrata sotto la nota",
                               "type": "string"
+                            },
+                            "chord": {
+                              "description": "sigla dell’accordo mostrata sopra il rigo (es. \"Do\", \"La m\", \"Sol7\")",
+                              "type": "string"
                             }
                           },
                           "required": [
@@ -652,6 +656,10 @@
                             },
                             "label": {
                               "description": "testo/sillaba mostrata sotto la nota",
+                              "type": "string"
+                            },
+                            "chord": {
+                              "description": "sigla dell’accordo mostrata sopra il rigo (es. \"Do\", \"La m\", \"Sol7\")",
                               "type": "string"
                             }
                           },

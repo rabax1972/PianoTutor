@@ -48,7 +48,7 @@ function SlideKeyboard({ highlight, fingers }: { highlight: (midi: number) => bo
   );
 }
 
-function StaffPreview({ notes, clef }: { notes: string[]; clef: 'treble' | 'bass' }) {
+function StaffPreview({ notes, clef, fifths = 0 }: { notes: string[]; clef: 'treble' | 'bass'; fifths?: number }) {
   const headRef = useRef<HTMLDivElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const { settings } = useSettings();
@@ -60,11 +60,12 @@ function StaffPreview({ notes, clef }: { notes: string[]; clef: 'treble' | 'bass
       license: 'original',
       tempo: { bpm: 80 },
       timeSignature: [4, 4],
-      key: { fifths: 0, mode: 'major' },
+      key: { fifths, mode: 'major' },
       staves: [clef],
-      events: notes.map((p, i) => ({ t: i, d: 1, p: [p], hand: clef === 'treble' ? 'R' : 'L' })),
+      // "C4+E4+G4" = accordo (note impilate)
+      events: notes.map((p, i) => ({ t: i, d: 1, p: p.split('+'), hand: clef === 'treble' ? 'R' : 'L' })),
     }),
-    [notes, clef],
+    [notes, clef, fifths],
   );
   useEffect(() => {
     let off = false;
@@ -91,11 +92,13 @@ function StaffPreview({ notes, clef }: { notes: string[]; clef: 'treble' | 'bass
   const play = async () => {
     await ensureAudio();
     const t0 = audioEngine.now() + 0.05;
-    notes.forEach((p, i) => {
-      const m = pitchToMidi(p);
-      sampler.noteOn(m, 0.8, t0 + i * 0.6);
-      sampler.noteOff(m, t0 + i * 0.6 + 0.55);
-    });
+    notes.forEach((p, i) =>
+      p.split('+').forEach((q) => {
+        const m = pitchToMidi(q);
+        sampler.noteOn(m, 0.8, t0 + i * 0.6);
+        sampler.noteOff(m, t0 + i * 0.6 + 0.55);
+      }),
+    );
   };
 
   return (
@@ -167,7 +170,7 @@ export function SlideAnimation({ slide }: { slide: Slide }) {
   if (kind === 'hand-position') return <SlideKeyboard highlight={(m) => fingers.has(m)} fingers={fingers} />;
   if (kind === 'staff-note') {
     const notes = (params.notes as string[]) ?? slide.highlightKeys ?? ['C4'];
-    return <StaffPreview notes={notes} clef={slide.showStaff === 'bass' ? 'bass' : 'treble'} />;
+    return <StaffPreview notes={notes} clef={slide.showStaff === 'bass' ? 'bass' : 'treble'} fifths={Number(params.fifths ?? 0)} />;
   }
   if (kind === 'rhythm-pulse') {
     return <RhythmPulse pattern={(params.pattern as number[]) ?? [1, 1, 1, 1]} bpm={(params.bpm as number) ?? 80} />;

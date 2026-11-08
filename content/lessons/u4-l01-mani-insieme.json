@@ -1,0 +1,459 @@
+{
+  "$schema": "../../docs/schema/lesson.schema.json",
+  "schemaVersion": 1,
+  "id": "u4-l01-mani-insieme",
+  "unitId": "u4",
+  "title": "Mani insieme",
+  "summary": "La sinistra tiene note lunghe mentre la destra suona la melodia.",
+  "estimatedMinutes": 5,
+  "concepts": [
+    "hands-together",
+    "long-notes"
+  ],
+  "steps": [
+    {
+      "type": "explain",
+      "id": "spiegazione",
+      "slides": [
+        {
+          "text": "Ora le due mani suonano **insieme**: la sinistra tiene una nota lunga mentre la destra suona la melodia.",
+          "animation": {
+            "kind": "hand-position",
+            "params": {
+              "fingers": {
+                "C3": 5,
+                "D3": 4,
+                "E3": 3,
+                "F3": 2,
+                "G3": 1,
+                "C4": 1,
+                "D4": 2,
+                "E4": 3,
+                "F4": 4,
+                "G4": 5
+              }
+            }
+          }
+        },
+        {
+          "text": "Quando due note sono **allineate in verticale** sul pentagramma doppio, si suonano nello **stesso momento**.",
+          "highlightKeys": [
+            "C3",
+            "C4"
+          ],
+          "animation": {
+            "kind": "keyboard-highlight",
+            "params": {}
+          }
+        },
+        {
+          "text": "Un trucco dei pianisti: prova prima **ogni mano da sola** con il pulsante **Mani**, poi mettile insieme.",
+          "highlightKeys": [
+            "C3",
+            "E3",
+            "G3",
+            "C4",
+            "E4",
+            "G4"
+          ],
+          "animation": {
+            "kind": "keyboard-highlight",
+            "params": {}
+          }
+        }
+      ]
+    },
+    {
+      "type": "exercise",
+      "id": "guidato",
+      "mode": "guided",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u4-l01-guidato",
+        "title": "Melodia e note lunghe",
+        "license": "original",
+        "tempo": {
+          "bpm": 66
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble",
+          "bass"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 4,
+            "d": 4,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 0,
+            "d": 4,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 4,
+            "d": 4,
+            "p": [
+              "E3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 8,
+            "d": 4,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "wait",
+        "showNoteNames": true
+      }
+    },
+    {
+      "type": "exercise",
+      "id": "libero",
+      "mode": "free",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u4-l01-libero",
+        "title": "Insieme da solo",
+        "license": "original",
+        "tempo": {
+          "bpm": 66
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble",
+          "bass"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 2,
+            "d": 2,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 4,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 5,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 6,
+            "d": 2,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 0,
+            "d": 4,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 4,
+            "d": 4,
+            "p": [
+              "E3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 8,
+            "d": 4,
+            "p": [
+              "F3"
+            ],
+            "hand": "L",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "wait",
+        "showNoteNames": false
+      }
+    },
+    {
+      "type": "song",
+      "id": "brano",
+      "piece": "passeggiata",
+      "settings": {
+        "flow": "wait",
+        "listenFirst": true
+      }
+    }
+  ]
+}

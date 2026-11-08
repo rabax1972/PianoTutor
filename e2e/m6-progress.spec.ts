@@ -11,6 +11,15 @@ const LESSONS = [
   'u3-l01-semiminime-minime',
   'u3-l02-semibrevi-pause',
   'u3-l03-crome',
+  'u4-l01-mani-insieme',
+  'u4-l02-mani-parallele',
+  'u4-l03-due-mani-a-tempo',
+  'u5-l01-accordo-do',
+  'u5-l02-maggiore-minore',
+  'u5-l03-accompagnamento',
+  'u6-l01-diesis-bemolle',
+  'u6-l02-scala-do',
+  'u6-l03-sol-fa-maggiore',
 ];
 
 async function tapNotes(page: Page, midis: number[]) {
@@ -76,7 +85,7 @@ test.describe('M6 – percorso, progressi e motivazione', () => {
 
     // progressi
     await page.getByTestId('tile-progress').tap();
-    await expect(page.getByTestId('lessons-passed')).toHaveText('1/9');
+    await expect(page.getByTestId('lessons-passed')).toHaveText('1/18');
     await expect(page.getByTestId('badge-prima-nota')).toHaveClass(/is-earned/);
     await expect(page.getByTestId('badge-prima-lezione')).toHaveClass(/is-earned/);
     await expect(page.getByTestId('badge-perfetto')).toHaveClass(/is-earned/);

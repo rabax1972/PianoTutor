@@ -1,0 +1,394 @@
+{
+  "$schema": "../../docs/schema/lesson.schema.json",
+  "schemaVersion": 1,
+  "id": "u6-l01-diesis-bemolle",
+  "unitId": "u6",
+  "title": "Diesis e bemolle",
+  "summary": "I tasti neri hanno un nome: Fa♯, Si♭ e i loro amici.",
+  "estimatedMinutes": 5,
+  "concepts": [
+    "sharp",
+    "flat",
+    "accidentals"
+  ],
+  "steps": [
+    {
+      "type": "explain",
+      "id": "spiegazione",
+      "slides": [
+        {
+          "text": "Il **diesis** (♯) alza la nota di **mezzo tono**: si suona il tasto **subito a destra**. **Fa♯** è il tasto nero tra Fa e Sol.",
+          "highlightKeys": [
+            "F#4"
+          ],
+          "animation": {
+            "kind": "keyboard-highlight",
+            "params": {}
+          }
+        },
+        {
+          "text": "Il **bemolle** (♭) la abbassa di mezzo tono: il tasto **subito a sinistra**. **Si♭** è il tasto nero tra La e Si.",
+          "highlightKeys": [
+            "Bb4"
+          ],
+          "animation": {
+            "kind": "keyboard-highlight",
+            "params": {}
+          }
+        },
+        {
+          "text": "Sullo spartito l’alterazione sta **prima** della nota e vale fino alla fine della battuta.",
+          "showStaff": "treble",
+          "animation": {
+            "kind": "staff-note",
+            "params": {
+              "notes": [
+                "F4",
+                "F#4",
+                "G4",
+                "A4",
+                "Bb4",
+                "B4"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "exercise",
+      "id": "guidato",
+      "mode": "guided",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u6-l01-guidato",
+        "title": "Con il Fa diesis",
+        "license": "original",
+        "tempo": {
+          "bpm": 66
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "F#4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 4,
+            "d": 1,
+            "p": [
+              "A4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 5,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 6,
+            "d": 2,
+            "p": [
+              "F#4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "F#4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "wait",
+        "showNoteNames": true
+      }
+    },
+    {
+      "type": "exercise",
+      "id": "libero",
+      "mode": "free",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u6-l01-libero",
+        "title": "Con il Si bemolle",
+        "license": "original",
+        "tempo": {
+          "bpm": 66
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "A4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "Bb4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 4,
+            "d": 2,
+            "p": [
+              "C5"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 6,
+            "d": 1,
+            "p": [
+              "Bb4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 7,
+            "d": 1,
+            "p": [
+              "A4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "A4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "Bb4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "wait",
+        "showNoteNames": false
+      }
+    },
+    {
+      "type": "song",
+      "id": "brano",
+      "piece": "greensleeves",
+      "settings": {
+        "flow": "wait",
+        "listenFirst": true
+      }
+    }
+  ]
+}

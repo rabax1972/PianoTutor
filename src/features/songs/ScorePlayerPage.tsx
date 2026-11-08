@@ -30,6 +30,7 @@ function ScorePlayer({ piece }: { piece: Piece }) {
   const [attempt, setAttempt] = useState(0);
   const [result, setResult] = useState<SessionResult | null>(null);
   const [loop, setLoop] = useState<LoopRange | null>(null);
+  const [hands, setHands] = useState<'R' | 'L' | 'both'>('both');
   const startedAt = useRef(Date.now());
 
   const { session, snapshot } = usePlaySession(
@@ -39,12 +40,12 @@ function ScorePlayer({ piece }: { piece: Piece }) {
       tempoScale: 1,
       metronome: false,
       guided: true,
-      hands: 'both',
+      hands,
       naming: settings.noteNaming,
       inputKind: settings.inputMode ?? 'virtual',
       loop: loop ?? undefined,
     },
-    `${mode}-${attempt}-${loop ? `${loop.fromMeasure}-${loop.toMeasure}` : 'tutto'}`,
+    `${mode}-${attempt}-${hands}-${loop ? `${loop.fromMeasure}-${loop.toMeasure}` : 'tutto'}`,
     (r, sess) => {
       void addPracticeTime(sess.practiceMs);
       if (!r) return;
@@ -99,6 +100,10 @@ function ScorePlayer({ piece }: { piece: Piece }) {
           snapshot={snapshot}
           showNoteNames={settings.showNoteNames}
           loop={loop}
+          onHandsChange={(h) => {
+            setResult(null);
+            setHands(h);
+          }}
           onLoopChange={(l) => {
             setResult(null);
             setLoop(l);

@@ -31,6 +31,7 @@ export const NoteEventSchema = z
     fingers: z.array(FingerSchema).optional().describe('diteggiatura, allineata a p'),
     tie: z.boolean().optional().describe('legatura di valore con la nota successiva'),
     label: z.string().optional().describe('testo/sillaba mostrata sotto la nota'),
+    chord: z.string().optional().describe('sigla dell’accordo mostrata sopra il rigo (es. "Do", "La m", "Sol7")'),
   })
   .refine((e) => !e.fingers || e.fingers.length === e.p.length, {
     message: 'fingers deve avere la stessa lunghezza di p',
