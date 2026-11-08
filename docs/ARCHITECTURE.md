@@ -14,7 +14,7 @@ PWA per imparare il pianoforte da zero, pensata per tablet (10", orizzontale). N
 | Contenuti | JSON validati con Zod | gli schemi Zod sono la fonte unica di verità |
 | Spartito | VexFlow 5 (M2) | rigo unico orizzontale, scroll con `translateX` |
 | Audio | sampler proprio su Web Audio | Salamander Grand Piano (CC-BY 3.0), 22 campioni |
-| Pitch | pitchy (MPM) in AudioWorklet (M4) | accordi: verifica spettrale delle note attese |
+| Pitch | pitchy (MPM): AudioWorklet per la cattura, analisi nel thread principale | accordi: verifica spettrale delle note attese |
 | Test | Vitest (unit), Playwright (e2e, viewport tablet) | |
 
 ## Flusso dei dati
