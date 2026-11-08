@@ -14,7 +14,8 @@ npm install
 npm run dev         # sviluppo (http://localhost:5173, visibile anche in LAN)
 npm test            # test unitari
 npm run test:e2e    # test end-to-end (Playwright)
-npm run build       # build di produzione in dist/ (base /pianotutor/)
+npm run validate    # controlla i contenuti in content/
+npm run build       # valida i contenuti + build di produzione in dist/ (base /pianotutor/)
 ```
 
 ## Documentazione

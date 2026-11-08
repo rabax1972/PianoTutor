@@ -42,13 +42,13 @@ inputHub ──► sampler (suono, tranne per il mic)
 ## Cartelle
 
 ```
-content/          corso, lezioni, brani (JSON)          ← da M3
+content/          corso, lezioni, brani (JSON)
 public/samples/   campioni di pianoforte
 src/app/          App, router, store, hook
 src/audio/        AudioEngine, Sampler, mappa campioni
-src/core/         music/ (altezze), content/ (schemi), evaluation/ e timing/ (M3)
+src/core/         music/ (altezze, durate), content/ (schemi, loader), timing/ (timeline, transport), evaluation/ (M3)
 src/input/        interfacce, virtual/, midi/ (M5), mic/ (M4)
-src/notation/     renderer VexFlow e scroller             ← M2
+src/notation/     renderer VexFlow, ScoreView (scroll + evidenziazioni)
 src/storage/      interfacce + provider Dexie
 src/features/     pagine: onboarding, home, practice, settings, diagnostics, about, …
 src/ui/           componenti touch, tastiera a schermo
@@ -57,6 +57,21 @@ tools/            script Node (JSON Schema, convertitori MIDI e MusicXML)
 e2e/              test Playwright
 docs/             questa documentazione + docs/schema/*.json
 ```
+
+## Spartito (M2)
+
+- `buildTimeline(piece)` normalizza gli eventi (rigo, MIDI, legature), calcola battute e onset.
+- `renderScore` disegna ogni battuta in un unico SVG orizzontale:
+  - inserisce in automatico le pause nei vuoti e spezza in note legate le durate non rappresentabili con una sola figura;
+  - applica le alterazioni secondo l'armatura e genera le travature delle crome.
+  Restituisce:
+  - `points`: mappa beat → x;
+  - `noteEls`: elementi SVG di ogni evento.
+- `ScoreView` disegna una sola volta. A ogni frame legge `getBeat()` e sposta il rigo con `translate3d`, in modo che il beat corrente stia sulla linea di esecuzione (a circa il 30% della larghezza).
+  - Le note correnti ricevono la classe `is-current`. Il feedback (`is-correct`, `is-early`, `is-wrong`) arriva da `marks`.
+  - Chiave e armatura restano in un'intestazione fissa a sinistra.
+- La posizione visiva sottrae la latenza di uscita audio, così si vede la nota nel momento in cui la si sente.
+- `PlaybackScheduler` programma note e metronomo con 120 ms di anticipo sull'orologio audio (tick ogni 25 ms).
 
 ## Scelte con alternative
 
@@ -77,7 +92,7 @@ docs/             questa documentazione + docs/schema/*.json
 | | Contenuto | Stato |
 |---|---|---|
 | M1 | Scheletro PWA, tastiera a schermo, audio | ✅ |
-| M2 | Spartito VexFlow, scroll ed evidenziazione | |
+| M2 | Spartito VexFlow, scroll ed evidenziazione | ✅ |
 | M3 | Motore di valutazione, prima lezione completa | |
 | M4 | Microfono, pitch detection, calibrazione | |
 | M5 | Web MIDI | |

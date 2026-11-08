@@ -51,3 +51,19 @@ export function visibleRange(octaves: number, shift = 0): { from: number; to: nu
   const from = (startOctave + 1) * 12;
   return { from, to: from + octaves * 12 };
 }
+
+/**
+ * Range della tastiera per un brano: copre tutte le note (da Do a Do) e, se lo spazio
+ * lo consente, si allarga fino a `targetOctaves` alternando sotto/sopra.
+ */
+export function rangeForNotes(min: number, max: number, targetOctaves: number): { from: number; to: number } {
+  let from = Math.floor(min / 12) * 12;
+  let to = Math.max(from + 12, Math.ceil((max + 1) / 12) * 12);
+  let below = false;
+  while ((to - from) / 12 < targetOctaves) {
+    if (below) from -= 12;
+    else to += 12;
+    below = !below;
+  }
+  return { from, to };
+}

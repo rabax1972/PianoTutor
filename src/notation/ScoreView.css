@@ -1,0 +1,88 @@
+.score {
+  --paper: #fbf8f0;
+  --ink: #1d1d1f;
+  --score-current: #2563eb;
+  --score-next: #7c9cf0;
+  --score-ok: #15935b;
+  --score-warn: #c98a00;
+  --score-bad: #d13b3b;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
+  overflow: hidden;
+  background: var(--paper);
+  border-radius: var(--radius);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+:root[data-contrast='high'] .score {
+  --paper: #ffffff;
+  --ink: #000;
+  --score-current: #0033cc;
+  --score-ok: #006b38;
+  --score-warn: #8a5a00;
+  --score-bad: #b00000;
+}
+
+.score svg {
+  display: block;
+}
+
+.score__track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+
+.score__header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: var(--paper);
+  z-index: 2;
+  box-shadow: 8px 0 12px -6px rgba(0, 0, 0, 0.18);
+}
+
+.score__playhead {
+  position: absolute;
+  top: 6%;
+  bottom: 6%;
+  width: 4px;
+  margin-left: -2px;
+  border-radius: 2px;
+  background: var(--score-current);
+  opacity: 0.35;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Evidenziazioni: CSS prevale sugli attributi fill/stroke disegnati da VexFlow */
+.score .vf-stavenote.is-next :is(text, path) {
+  fill: var(--score-next);
+  stroke: var(--score-next);
+}
+.score .vf-stavenote.is-current :is(text, path) {
+  fill: var(--score-current);
+  stroke: var(--score-current);
+}
+.score .vf-stavenote.is-correct :is(text, path) {
+  fill: var(--score-ok);
+  stroke: var(--score-ok);
+}
+.score .vf-stavenote.is-early :is(text, path) {
+  fill: var(--score-warn);
+  stroke: var(--score-warn);
+}
+.score .vf-stavenote.is-wrong :is(text, path) {
+  fill: var(--score-bad);
+  stroke: var(--score-bad);
+}
+/* i gambi (path) non vanno riempiti */
+.score .vf-stavenote :is(.vf-stem) path {
+  fill: none;
+}

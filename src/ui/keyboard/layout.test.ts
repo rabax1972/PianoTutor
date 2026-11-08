@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { layoutKeys, octavesForWidth, visibleRange } from './layout';
+import { layoutKeys, octavesForWidth, rangeForNotes, visibleRange } from './layout';
 
 describe('keyboard layout', () => {
   it('una ottava + Do finale: 8 bianchi e 5 neri', () => {
@@ -40,5 +40,17 @@ describe('keyboard layout', () => {
     expect(visibleRange(1)).toEqual({ from: 60, to: 72 });
     expect(visibleRange(2)).toEqual({ from: 48, to: 72 });
     expect(visibleRange(1, 1)).toEqual({ from: 72, to: 84 });
+  });
+});
+
+describe('rangeForNotes', () => {
+  it('copre le note del brano da Do a Do', () => {
+    expect(rangeForNotes(55, 69, 1)).toEqual({ from: 48, to: 72 }); // Sol3–La4
+    expect(rangeForNotes(60, 67, 1)).toEqual({ from: 60, to: 72 });
+    expect(rangeForNotes(60, 72, 1)).toEqual({ from: 60, to: 84 });
+  });
+
+  it('si allarga se c’è spazio', () => {
+    expect(rangeForNotes(60, 67, 3)).toEqual({ from: 48, to: 84 });
   });
 });

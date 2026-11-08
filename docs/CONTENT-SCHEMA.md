@@ -59,6 +59,16 @@ Tabella delle altezze utili: `C4` Do · `D4` Re · `E4` Mi · `F4` Fa · `G4` So
 
 Gli eventi delle due mani stanno nello stesso array: l'ordine non conta, fa fede `t`.
 
+### Regole controllate in automatico (`npm run validate`, eseguito anche dalla build)
+
+- L'`id` del brano deve coincidere con il nome del file (`fra-martino.json` → `"fra-martino"`).
+- Una nota **non può attraversare la stanghetta**: va divisa in due eventi, con `"tie": true` sul primo.
+- Sullo stesso rigo gli eventi **non si sovrappongono**. Per suonare più note insieme si usa un accordo (più altezze in `p`).
+- Le durate devono essere multiple di semicroma (0.25). Le durate composte (es. 2.5) vengono disegnate in automatico come note legate.
+- **Le pause si possono omettere**: i vuoti vengono riempiti in automatico. Scriverle esplicitamente (`"p": []`) serve solo a renderle intenzionali.
+- Ogni rigo usato dalle note deve comparire in `staves`.
+- Aggiungendo `"$schema": "../../docs/schema/piece.schema.json"` in cima al file, VS Code offre autocompletamento e segnala gli errori mentre scrivi.
+
 ## Lezione (`content/lessons/<id>.json`)
 
 ```jsonc

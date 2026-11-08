@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { createHashRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { audioEngine } from '../audio/AudioEngine';
 import { AboutPage } from '../features/about/AboutPage';
@@ -7,7 +7,13 @@ import { HomePage } from '../features/home/HomePage';
 import { WelcomePage } from '../features/onboarding/WelcomePage';
 import { FreePlayPage } from '../features/practice/FreePlayPage';
 import { SettingsPage } from '../features/settings/SettingsPage';
+import { SongsPage } from '../features/songs/SongsPage';
 import { useSettings } from './settingsStore';
+
+// Lo spartito (VexFlow + font musicali) è caricato solo quando serve.
+const ScorePlayerPage = lazy(() =>
+  import('../features/songs/ScorePlayerPage').then((m) => ({ default: m.ScorePlayerPage })),
+);
 
 /**
  * HashRouter: funziona su qualunque hosting statico in sottocartella
@@ -17,6 +23,15 @@ const router = createHashRouter([
   { path: '/', element: <HomeGate /> },
   { path: '/benvenuto', element: <WelcomePage /> },
   { path: '/suona', element: <FreePlayPage /> },
+  { path: '/brani', element: <SongsPage /> },
+  {
+    path: '/brano/:id',
+    element: (
+      <Suspense fallback={<p className="page muted">Preparo lo spartito…</p>}>
+        <ScorePlayerPage />
+      </Suspense>
+    ),
+  },
   { path: '/impostazioni', element: <SettingsPage /> },
   { path: '/diagnostica', element: <DiagnosticsPage /> },
   { path: '/info', element: <AboutPage /> },

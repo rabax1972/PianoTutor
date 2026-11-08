@@ -3,12 +3,22 @@ import { Link, useNavigate } from 'react-router-dom';
 import { t } from '../i18n/it';
 import './components.css';
 
-export function TopBar({ title, back = true, actions }: { title: string; back?: boolean; actions?: ReactNode }) {
+export function TopBar({
+  title,
+  back = true,
+  backTo = '/',
+  actions,
+}: {
+  title: string;
+  back?: boolean;
+  backTo?: string;
+  actions?: ReactNode;
+}) {
   const navigate = useNavigate();
   return (
     <header className="topbar">
       {back && (
-        <button className="btn btn--icon" aria-label={t.common.back} onClick={() => navigate('/')}>
+        <button className="btn btn--icon" aria-label={t.common.back} onClick={() => navigate(backTo)}>
           ←
         </button>
       )}
