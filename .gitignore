@@ -1,0 +1,10 @@
+node_modules
+dist
+dev-dist
+*.local
+.vscode/*
+!.vscode/extensions.json
+test-results
+playwright-report
+coverage
+*.tsbuildinfo

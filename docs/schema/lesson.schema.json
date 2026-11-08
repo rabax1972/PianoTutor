@@ -1,0 +1,821 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "unitId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string"
+    },
+    "estimatedMinutes": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "concepts": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "steps": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "explain"
+              },
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9-]*$"
+              },
+              "slides": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "animation": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "keyboard-highlight",
+                            "staff-note",
+                            "rhythm-pulse",
+                            "hand-position"
+                          ]
+                        },
+                        "params": {
+                          "default": {},
+                          "type": "object",
+                          "propertyNames": {
+                            "type": "string"
+                          },
+                          "additionalProperties": {}
+                        }
+                      },
+                      "required": [
+                        "kind"
+                      ]
+                    },
+                    "highlightKeys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "showStaff": {
+                      "type": "string",
+                      "enum": [
+                        "treble",
+                        "bass",
+                        "grand"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "type",
+              "id",
+              "slides"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "exercise"
+              },
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9-]*$"
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "guided",
+                  "free"
+                ]
+              },
+              "piece": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]*$"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "schemaVersion": {
+                        "type": "number",
+                        "const": 1
+                      },
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9][a-z0-9-]*$"
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "composer": {
+                        "type": "string"
+                      },
+                      "arranger": {
+                        "type": "string"
+                      },
+                      "license": {
+                        "type": "string",
+                        "enum": [
+                          "public-domain",
+                          "original"
+                        ],
+                        "description": "obbligatorio: solo brani liberi o originali"
+                      },
+                      "tempo": {
+                        "type": "object",
+                        "properties": {
+                          "bpm": {
+                            "type": "number",
+                            "minimum": 20,
+                            "maximum": 300
+                          }
+                        },
+                        "required": [
+                          "bpm"
+                        ]
+                      },
+                      "timeSignature": {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "integer",
+                            "exclusiveMinimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          {
+                            "type": "integer",
+                            "exclusiveMinimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        ],
+                        "items": false,
+                        "minItems": 2,
+                        "maxItems": 2
+                      },
+                      "key": {
+                        "type": "object",
+                        "properties": {
+                          "fifths": {
+                            "type": "integer",
+                            "minimum": -7,
+                            "maximum": 7
+                          },
+                          "mode": {
+                            "type": "string",
+                            "enum": [
+                              "major",
+                              "minor"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "fifths",
+                          "mode"
+                        ]
+                      },
+                      "pickupBeats": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "staves": {
+                        "minItems": 1,
+                        "maxItems": 2,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "treble",
+                            "bass"
+                          ]
+                        }
+                      },
+                      "events": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "t": {
+                              "type": "number",
+                              "minimum": 0,
+                              "description": "inizio in beat dall’inizio del brano"
+                            },
+                            "d": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "description": "durata in beat (1 = semiminima)"
+                            },
+                            "p": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "description": "altezze: [] = pausa, più elementi = accordo"
+                            },
+                            "hand": {
+                              "type": "string",
+                              "enum": [
+                                "R",
+                                "L"
+                              ]
+                            },
+                            "staff": {
+                              "description": "default: R → treble, L → bass",
+                              "type": "string",
+                              "enum": [
+                                "treble",
+                                "bass"
+                              ]
+                            },
+                            "fingers": {
+                              "description": "diteggiatura, allineata a p",
+                              "type": "array",
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "number",
+                                    "const": 1
+                                  },
+                                  {
+                                    "type": "number",
+                                    "const": 2
+                                  },
+                                  {
+                                    "type": "number",
+                                    "const": 3
+                                  },
+                                  {
+                                    "type": "number",
+                                    "const": 4
+                                  },
+                                  {
+                                    "type": "number",
+                                    "const": 5
+                                  }
+                                ]
+                              }
+                            },
+                            "tie": {
+                              "description": "legatura di valore con la nota successiva",
+                              "type": "boolean"
+                            },
+                            "label": {
+                              "description": "testo/sillaba mostrata sotto la nota",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "t",
+                            "d",
+                            "p",
+                            "hand"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "id",
+                      "title",
+                      "license",
+                      "tempo",
+                      "timeSignature",
+                      "key",
+                      "staves",
+                      "events"
+                    ]
+                  }
+                ]
+              },
+              "settings": {
+                "type": "object",
+                "properties": {
+                  "flow": {
+                    "type": "string",
+                    "enum": [
+                      "wait",
+                      "realtime"
+                    ]
+                  },
+                  "listenFirst": {
+                    "type": "boolean"
+                  },
+                  "metronome": {
+                    "type": "boolean"
+                  },
+                  "countIn": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4
+                  },
+                  "tempoScale": {
+                    "type": "number",
+                    "minimum": 0.25,
+                    "maximum": 1.5
+                  },
+                  "hands": {
+                    "type": "string",
+                    "enum": [
+                      "R",
+                      "L",
+                      "both"
+                    ]
+                  },
+                  "loop": {
+                    "type": "object",
+                    "properties": {
+                      "fromMeasure": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "toMeasure": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "fromMeasure",
+                      "toMeasure"
+                    ]
+                  },
+                  "showNoteNames": {
+                    "type": "boolean"
+                  },
+                  "colorNotes": {
+                    "type": "boolean"
+                  },
+                  "scoring": {
+                    "type": "object",
+                    "properties": {
+                      "timing": {
+                        "type": "object",
+                        "properties": {
+                          "perfectMs": {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "description": "entro ±perfectMs: verde"
+                          },
+                          "goodMs": {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "description": "entro ±goodMs: giallo (anticipo/ritardo); oltre: mancata"
+                          }
+                        },
+                        "required": [
+                          "perfectMs",
+                          "goodMs"
+                        ]
+                      },
+                      "weights": {
+                        "type": "object",
+                        "properties": {
+                          "pitch": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "timing": {
+                            "type": "number",
+                            "minimum": 0
+                          }
+                        },
+                        "required": [
+                          "pitch",
+                          "timing"
+                        ]
+                      },
+                      "stars": {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ],
+                        "items": false,
+                        "minItems": 3,
+                        "maxItems": 3,
+                        "description": "soglie (0–1) per 1, 2, 3 stelle"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "flow"
+                ]
+              }
+            },
+            "required": [
+              "type",
+              "id",
+              "mode",
+              "piece",
+              "settings"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "song"
+              },
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9-]*$"
+              },
+              "piece": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z0-9][a-z0-9-]*$"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "schemaVersion": {
+                        "type": "number",
+                        "const": 1
+                      },
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9][a-z0-9-]*$"
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "composer": {
+                        "type": "string"
+                      },
+                      "arranger": {
+                        "type": "string"
+                      },
+                      "license": {
+                        "type": "string",
+                        "enum": [
+                          "public-domain",
+                          "original"
+                        ],
+                        "description": "obbligatorio: solo brani liberi o originali"
+                      },
+                      "tempo": {
+                        "type": "object",
+                        "properties": {
+                          "bpm": {
+                            "type": "number",
+                            "minimum": 20,
+                            "maximum": 300
+                          }
+                        },
+                        "required": [
+                          "bpm"
+                        ]
+                      },
+                      "timeSignature": {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "integer",
+                            "exclusiveMinimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          {
+                            "type": "integer",
+                            "exclusiveMinimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        ],
+                        "items": false,
+                        "minItems": 2,
+                        "maxItems": 2
+                      },
+                      "key": {
+                        "type": "object",
+                        "properties": {
+                          "fifths": {
+                            "type": "integer",
+                            "minimum": -7,
+                            "maximum": 7
+                          },
+                          "mode": {
+                            "type": "string",
+                            "enum": [
+                              "major",
+                              "minor"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "fifths",
+                          "mode"
+                        ]
+                      },
+                      "pickupBeats": {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      "staves": {
+                        "minItems": 1,
+                        "maxItems": 2,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "treble",
+                            "bass"
+                          ]
+                        }
+                      },
+                      "events": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "t": {
+                              "type": "number",
+                              "minimum": 0,
+                              "description": "inizio in beat dall’inizio del brano"
+                            },
+                            "d": {
+                              "type": "number",
+                              "exclusiveMinimum": 0,
+                              "description": "durata in beat (1 = semiminima)"
+                            },
+                            "p": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              },
+                              "description": "altezze: [] = pausa, più elementi = accordo"
+                            },
+                            "hand": {
+                              "type": "string",
+                              "enum": [
+                                "R",
+                                "L"
+                              ]
+                            },
+                            "staff": {
+                              "description": "default: R → treble, L → bass",
+                              "type": "string",
+                              "enum": [
+                                "treble",
+                                "bass"
+                              ]
+                            },
+                            "fingers": {
+                              "description": "diteggiatura, allineata a p",
+                              "type": "array",
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "number",
+                                    "const": 1
+                                  },
+                                  {
+                                    "type": "number",
+                                    "const": 2
+                                  },
+                                  {
+                                    "type": "number",
+                                    "const": 3
+                                  },
+                                  {
+                                    "type": "number",
+                                    "const": 4
+                                  },
+                                  {
+                                    "type": "number",
+                                    "const": 5
+                                  }
+                                ]
+                              }
+                            },
+                            "tie": {
+                              "description": "legatura di valore con la nota successiva",
+                              "type": "boolean"
+                            },
+                            "label": {
+                              "description": "testo/sillaba mostrata sotto la nota",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "t",
+                            "d",
+                            "p",
+                            "hand"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "schemaVersion",
+                      "id",
+                      "title",
+                      "license",
+                      "tempo",
+                      "timeSignature",
+                      "key",
+                      "staves",
+                      "events"
+                    ]
+                  }
+                ]
+              },
+              "settings": {
+                "type": "object",
+                "properties": {
+                  "flow": {
+                    "type": "string",
+                    "enum": [
+                      "wait",
+                      "realtime"
+                    ]
+                  },
+                  "listenFirst": {
+                    "type": "boolean"
+                  },
+                  "metronome": {
+                    "type": "boolean"
+                  },
+                  "countIn": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4
+                  },
+                  "tempoScale": {
+                    "type": "number",
+                    "minimum": 0.25,
+                    "maximum": 1.5
+                  },
+                  "hands": {
+                    "type": "string",
+                    "enum": [
+                      "R",
+                      "L",
+                      "both"
+                    ]
+                  },
+                  "loop": {
+                    "type": "object",
+                    "properties": {
+                      "fromMeasure": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      },
+                      "toMeasure": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 9007199254740991
+                      }
+                    },
+                    "required": [
+                      "fromMeasure",
+                      "toMeasure"
+                    ]
+                  },
+                  "showNoteNames": {
+                    "type": "boolean"
+                  },
+                  "colorNotes": {
+                    "type": "boolean"
+                  },
+                  "scoring": {
+                    "type": "object",
+                    "properties": {
+                      "timing": {
+                        "type": "object",
+                        "properties": {
+                          "perfectMs": {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "description": "entro ±perfectMs: verde"
+                          },
+                          "goodMs": {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "description": "entro ±goodMs: giallo (anticipo/ritardo); oltre: mancata"
+                          }
+                        },
+                        "required": [
+                          "perfectMs",
+                          "goodMs"
+                        ]
+                      },
+                      "weights": {
+                        "type": "object",
+                        "properties": {
+                          "pitch": {
+                            "type": "number",
+                            "minimum": 0
+                          },
+                          "timing": {
+                            "type": "number",
+                            "minimum": 0
+                          }
+                        },
+                        "required": [
+                          "pitch",
+                          "timing"
+                        ]
+                      },
+                      "stars": {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ],
+                        "items": false,
+                        "minItems": 3,
+                        "maxItems": 3,
+                        "description": "soglie (0–1) per 1, 2, 3 stelle"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "flow"
+                ]
+              }
+            },
+            "required": [
+              "type",
+              "id",
+              "piece",
+              "settings"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "unitId",
+    "title",
+    "summary",
+    "estimatedMinutes",
+    "steps"
+  ]
+}

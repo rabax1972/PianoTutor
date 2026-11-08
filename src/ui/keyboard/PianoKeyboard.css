@@ -1,0 +1,121 @@
+.piano-keyboard {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 140px;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  background: var(--kb-bed);
+  border-radius: 10px 10px 4px 4px;
+  overflow: hidden;
+  box-shadow: inset 0 6px 10px rgba(0, 0, 0, 0.45);
+  padding-top: 6px;
+}
+
+.pk-key {
+  position: absolute;
+  top: 6px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  transition: background-color 60ms linear, transform 40ms linear;
+}
+
+.pk-key--white {
+  bottom: 0;
+  background: linear-gradient(to bottom, #e9e6de 0%, #fbfaf6 12%, #ffffff 100%);
+  border: 1px solid #9a968c;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  z-index: 1;
+  padding-bottom: 10px;
+}
+
+.pk-key--black {
+  height: 62%;
+  background: linear-gradient(to bottom, #2b2b2f 0%, #121214 85%, #2a2a2e 100%);
+  border-radius: 0 0 5px 5px;
+  z-index: 2;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.5);
+  padding-bottom: 8px;
+}
+
+.pk-key--white.is-down {
+  background: linear-gradient(to bottom, #cfd8e6 0%, #dfe7f3 100%);
+  transform: translateY(2px);
+}
+.pk-key--black.is-down {
+  background: linear-gradient(to bottom, #3a4f6b 0%, #2a3a52 100%);
+  transform: translateY(1px);
+}
+
+.piano-keyboard--color .pk-key--white::after {
+  content: '';
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: 44px;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--note-color);
+}
+
+.pk-key.is-hint {
+  background: var(--hint) !important;
+}
+.pk-key.is-correct {
+  background: var(--ok) !important;
+}
+.pk-key.is-early {
+  background: var(--warn) !important;
+}
+.pk-key.is-wrong {
+  background: var(--bad) !important;
+}
+
+.pk-label {
+  font-size: clamp(0.75rem, 1.6vw, 1.05rem);
+  font-weight: 700;
+  color: #4a4740;
+  pointer-events: none;
+}
+
+.pk-middle-c {
+  position: absolute;
+  bottom: 38px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  pointer-events: none;
+}
+.piano-keyboard--color .pk-middle-c {
+  bottom: 58px;
+}
+
+.pk-finger {
+  position: absolute;
+  top: 30%;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  background: var(--accent);
+  color: #0b1020;
+  pointer-events: none;
+}
+.pk-key--black .pk-finger {
+  top: auto;
+  bottom: 12px;
+  width: 22px;
+  height: 22px;
+  font-size: 0.8rem;
+}

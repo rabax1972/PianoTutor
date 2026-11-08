@@ -1,0 +1,9 @@
+# Piano Tutor - impostazioni per Apache (ignorato dagli altri server)
+AddType application/manifest+json .webmanifest
+AddType audio/mpeg .mp3
+<IfModule mod_headers.c>
+  # Il service worker e la pagina devono essere sempre ricontrollati, così gli aggiornamenti arrivano subito.
+  <FilesMatch "^(sw\.js|index\.html|manifest\.webmanifest)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

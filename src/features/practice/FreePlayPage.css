@@ -1,0 +1,61 @@
+.freeplay {
+  gap: 12px;
+}
+
+.freeplay__display {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.freeplay__note {
+  font-size: clamp(4rem, 14vh, 9rem);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.freeplay__octave {
+  font-size: 0.35em;
+  color: var(--fg-muted);
+  vertical-align: sub;
+  margin-left: 4px;
+}
+
+.freeplay__history {
+  display: flex;
+  gap: 14px;
+  color: var(--fg-muted);
+  font-size: 1.3rem;
+  min-height: 1.6em;
+}
+
+.freeplay__hint {
+  font-size: 1.2rem;
+  max-width: 520px;
+}
+
+.freeplay__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.freeplay__keyboard {
+  /* landscape tablet: circa metà schermo alla tastiera */
+  height: clamp(180px, 48vh, 420px);
+  flex-shrink: 0;
+  margin: 0 calc(-16px - var(--safe-r)) calc(-16px - var(--safe-b)) calc(-16px - var(--safe-l));
+}
+
+@media (orientation: portrait) {
+  .freeplay__keyboard {
+    height: clamp(180px, 34vh, 360px);
+  }
+}
