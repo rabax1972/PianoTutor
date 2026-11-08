@@ -28,6 +28,11 @@ class InputHubImpl {
     this.sources.delete(source);
   }
 
+  /** comunica a tutte le sorgenti le note attese (verifica accordi del microfono) */
+  setExpectedNotes(midis: number[]): void {
+    this.sources.forEach((_, src) => src.setExpectedNotes?.(midis));
+  }
+
   subscribe(l: NoteListener): () => void {
     this.listeners.add(l);
     return () => this.listeners.delete(l);

@@ -1,9 +1,12 @@
+import { Link } from 'react-router-dom';
+import { useSettings } from '../../app/settingsStore';
 import { useInstallPrompt } from '../../app/useInstallPrompt';
 import { t } from '../../i18n/it';
 import { Tile } from '../../ui/components';
 
 export function HomePage() {
   const install = useInstallPrompt();
+  const settings = useSettings((s) => s.settings);
 
   return (
     <main className="page">
@@ -17,6 +20,15 @@ export function HomePage() {
       </header>
 
       <p style={{ fontSize: '1.3rem', margin: 0 }}>{t.home.greeting}</p>
+
+      {settings.inputMode === 'mic' && !settings.mic.calibratedAt && (
+        <div className="banner">
+          🎤 Per sentirti al meglio, calibra il microfono (1 minuto).
+          <Link className="btn btn--primary" to="/microfono" data-testid="home-calibrate">
+            Calibra
+          </Link>
+        </div>
+      )}
 
       {install.showIosHint && <div className="banner">📲 {t.home.installIos}</div>}
 

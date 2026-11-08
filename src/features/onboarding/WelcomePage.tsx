@@ -7,8 +7,8 @@ import type { InputKind } from '../../input/types';
 import { Tile } from '../../ui/components';
 
 const ICONS: Record<InputKind, string> = { mic: '🎤', midi: '🎹', virtual: '📱' };
-/** Modalità già implementate: le altre arrivano nelle milestone M4 (mic) e M5 (MIDI). */
-export const IMPLEMENTED_INPUTS: InputKind[] = ['virtual'];
+/** Modalità già implementate: il MIDI arriva con la milestone M5. */
+export const IMPLEMENTED_INPUTS: InputKind[] = ['virtual', 'mic'];
 
 export function WelcomePage() {
   const navigate = useNavigate();
@@ -18,7 +18,8 @@ export function WelcomePage() {
   const choose = (kind: InputKind) => {
     void ensureAudio();
     update({ inputMode: kind });
-    navigate('/', { replace: true });
+    // il microfono va calibrato (si può saltare)
+    navigate(kind === 'mic' ? '/microfono' : '/', { replace: true });
   };
 
   return (

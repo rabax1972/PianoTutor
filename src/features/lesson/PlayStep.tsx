@@ -58,6 +58,7 @@ export function PlayStep({
       naming: settings.noteNaming,
       scoring: s.scoring,
       loop: s.loop,
+      inputKind: settings.inputMode ?? 'virtual',
     },
     `${step.id}-${mode}-${attempt}`,
     (r, sess) => {

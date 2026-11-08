@@ -3,7 +3,10 @@ import { useElementWidth } from '../../app/hooks';
 import { useSettings } from '../../app/settingsStore';
 import { ensureAudio } from '../../audio/ensureAudio';
 import { pitchRange, type TimelineEvent } from '../../core/timing/timeline';
+import { useActiveInput } from '../../input/activeInput';
 import { inputHub } from '../../input/inputHub';
+import { MicMeter } from '../mic/MicMeter';
+import { MicWarning } from '../mic/MicWarning';
 import { ScoreView } from '../../notation/ScoreView';
 import { Segmented } from '../../ui/components';
 import { octavesForWidth, rangeForNotes } from '../../ui/keyboard/layout';
@@ -36,6 +39,7 @@ export function PlayView({
   extraControls?: ReactNode;
 }) {
   const { settings } = useSettings();
+  const input = useActiveInput();
   const [kbRef, kbWidth] = useElementWidth<HTMLDivElement>();
   const { piece, mode } = session.config;
   const running = ['playing', 'countin', 'waiting'].includes(snapshot.status);
@@ -87,6 +91,7 @@ export function PlayView({
 
   return (
     <div className="playview">
+      {input.mode === 'mic' && <MicWarning />}
       <section className="playview__score">
         <ScoreView piece={piece} options={scoreOptions} getBeat={session.getBeat} marks={snapshot.marks} onCurrentChange={setCurrent} />
         <div className="playview__hud" aria-live="polite">
@@ -138,6 +143,7 @@ export function PlayView({
           </button>
         )}
         {extraControls}
+        {input.mode === 'mic' && input.mic.state === 'on' && <MicMeter compact />}
         <span className="muted playview__meta">{mode === 'wait' ? 'Ti aspetto su ogni nota' : mode === 'realtime' ? 'A tempo' : 'Ascolta'}</span>
       </div>
 

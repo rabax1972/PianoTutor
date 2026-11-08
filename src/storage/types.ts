@@ -17,6 +17,14 @@ export interface LatencyOffsets {
   output: number;
 }
 
+export interface MicSettings {
+  /** rumore di fondo misurato in calibrazione (dBFS); null = non calibrato */
+  noiseFloorDb: number | null;
+  /** sensibilità: margine sopra il rumore (dB). Più basso = più sensibile */
+  gateMarginDb: number;
+  calibratedAt: number | null;
+}
+
 export interface Settings {
   /** null = non ancora scelto (mostra la schermata di scelta all'avvio) */
   inputMode: InputKind | null;
@@ -29,6 +37,7 @@ export interface Settings {
   volume: number;
   latency: LatencyOffsets;
   a4Hz: number;
+  mic: MicSettings;
   dailyGoalMin: number;
   updatedAt: number;
 }
@@ -43,6 +52,7 @@ export const DEFAULT_SETTINGS: Settings = {
   volume: 0.8,
   latency: { mic: 0, midi: 0, virtual: 0, output: 0 },
   a4Hz: 440,
+  mic: { noiseFloorDb: null, gateMarginDb: 12, calibratedAt: null },
   dailyGoalMin: 10,
   updatedAt: 0,
 };

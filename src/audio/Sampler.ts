@@ -28,6 +28,8 @@ class SamplerImpl {
   readonly total = SAMPLES.length;
   sustain = false;
   private sustained = new Set<Voice>();
+  /** ultimo attacco per nota (tempo audio): serve al microfono per ignorare l'eco dell'app */
+  readonly lastStart = new Map<number, number>();
 
   load(): Promise<void> {
     if (this.loadPromise) return this.loadPromise;
@@ -80,6 +82,7 @@ class SamplerImpl {
     src.connect(gain).connect(audioEngine.output);
     src.start(t);
     const voice: Voice = { midi, src, gain, startedAt: t };
+    this.lastStart.set(midi, t);
     src.onended = () => {
       this.voices = this.voices.filter((x) => x !== voice);
       this.sustained.delete(voice);

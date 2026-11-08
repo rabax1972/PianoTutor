@@ -43,13 +43,23 @@ Apri quell'indirizzo dal tablet (stessa rete Wi-Fi). La tastiera e l'audio funzi
 
 Dopo il primo caricamento l'app funziona anche **offline**. Per verificarlo: modalità aereo, poi riapri l'app.
 
-## 4. Diagnostica
+## 4. Microfono (pianoforte acustico)
+
+1. Benvenuto (o Impostazioni → Modalità di gioco) → **Pianoforte acustico** → consenti l'accesso al microfono.
+2. Appoggia il tablet sul leggio e segui i tre passi: silenzio, un Do tenuto, misura automatica del ritardo (volume alto, niente cuffie).
+3. Per verificare: **Tastiera libera** mostra in grande le note che suoni sul pianoforte. **Diagnostica** mostra livello, soglia, nota e scarto in cent.
+4. Se alcune note non vengono sentite, aumenta **Impostazioni → Sensibilità del microfono**. Se compaiono note "fantasma", riducila.
+5. Se le note risultano sempre in ritardo o in anticipo nella modalità "A tempo", regola **Diagnostica → Calibrazione manuale della latenza**.
+
+Nota: su iPad il microfono funziona solo in HTTPS e dopo un tocco sullo schermo. Gli accordi vengono verificati meglio in una stanza silenziosa.
+
+## 5. Diagnostica
 
 La schermata **Diagnostica** mostra lo stato dell'audio, la latenza di elaborazione e di uscita, il ritardo del tocco misurato, il supporto a MIDI e microfono e lo stato offline.
 
-## 5. Test automatici
+## 6. Test automatici
 
 ```bash
 npm test                # unit (Vitest)
-npm run test:e2e        # e2e (Playwright, viewport iPad landscape e portrait)
+npm run test:e2e        # e2e (Playwright: iPad landscape/portrait + microfono finto)
 ```

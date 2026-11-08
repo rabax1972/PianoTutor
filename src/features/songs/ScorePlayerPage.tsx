@@ -36,6 +36,7 @@ function ScorePlayer({ piece }: { piece: Piece }) {
       guided: true,
       hands: 'both',
       naming: settings.noteNaming,
+      inputKind: settings.inputMode ?? 'virtual',
     },
     `${mode}-${attempt}`,
     (r, sess) => {

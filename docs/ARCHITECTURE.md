@@ -47,7 +47,7 @@ public/samples/   campioni di pianoforte
 src/app/          App, router, store, hook
 src/audio/        AudioEngine, Sampler, mappa campioni
 src/core/         music/ (altezze, durate), content/ (schemi, loader), timing/ (timeline, transport), evaluation/ (valutatori wait/realtime, punteggio)
-src/input/        interfacce, virtual/, midi/ (M5), mic/ (M4)
+src/input/        interfacce, virtual/, mic/ (tracker, verifica accordi, MicInput), midi/ (M5)
 src/notation/     renderer VexFlow, ScoreView (scroll + evidenziazioni)
 src/storage/      interfacce + provider Dexie
 src/features/     pagine: onboarding, home, practice, settings, diagnostics, about, …
@@ -93,6 +93,33 @@ Il codice in `src/core/evaluation/` è TypeScript puro ed è coperto dai test un
   - I progressi (stelle migliori per step, lezione completata) e i tentativi vengono salvati tramite lo `StorageProvider`.
   - Stelle della lezione = media arrotondata delle stelle degli step.
 
+## Microfono (M4)
+
+```
+getUserMedia (senza echoCancellation/noiseSuppression/AGC)
+  → AudioWorklet public/worklets/mic-capture.js (blocchi da 512 campioni + tempo audio)
+  → MicInput: buffer circolare da 8192
+      ├─ PitchTracker (2048 campioni ogni 512, ~43 ms di finestra) → note singole
+      └─ verifica accordi (FFT 8192) sulle note attese → accordi
+  → NoteInputEvent (tempo audio − latenza calibrata) → inputHub → PlaySession
+```
+
+- **`PitchTracker`** (TS puro, testato con segnali sintetici):
+  - soglia di rumore calibrata + margine regolabile ("sensibilità");
+  - pitchy (MPM) con soglia di chiarezza 0,88, per ignorare voce e rumori non intonati;
+  - la nota va confermata in 2 frame consecutivi;
+  - le note ripercosse si riconoscono dal salto di energia di ≥ 6 dB rispetto a una finestra prima, con periodo refrattario di ~85 ms;
+  - isteresi d'ottava durante il decadimento; il tempo della nota viene retrodatato all'inizio della finestra in cui compare.
+- **Accordi:** non si trascrivono note multiple "alla cieca". Si verifica che le note **attese** (passate da `PlaySession` con `setExpectedNotes`) abbiano energia sulla fondamentale (o sulla 2ª armonica) chiaramente sopra il fondo locale e più forte dei semitoni vicini.
+- **Eco dell'app:** le note che l'app stessa suona (tastiera a schermo, "ascolta") vengono ignorate per 0,6 s, e col microfono la `PlaySession` non suona l'accompagnamento.
+- **Privacy:** il microfono resta acceso solo nelle schermate che lo usano (`useActiveInput`, conteggio dei riferimenti) e si spegne 2 s dopo l'uscita.
+- **Calibrazione** (`/microfono`):
+  1. rumore di fondo (90° percentile di 3 s di silenzio);
+  2. diapason dal Do suonato (mediana dei cent, limite ±50);
+  3. latenza "ad anello": l'app suona 4 Do5 e li ascolta; misura − latenza di uscita = ingresso + rilevamento.
+  Ogni passo si può saltare. In Diagnostica si può regolare la latenza a mano per ogni modalità.
+- **Test e2e:** Chromium con microfono finto (`--use-file-for-fake-audio-capture`) che riproduce `e2e/fixtures/do-re-mi.wav`, generato con `npx tsx tools/gen-mic-fixture.ts`.
+
 ## Scelte con alternative
 
 - **Spartito.** VexFlow e non OSMD o Verovio: ogni nota è un elemento SVG che si può indirizzare per colorarla. Il brano è disegnato su un rigo continuo e fatto scorrere a 60 fps senza re-render.
@@ -114,7 +141,7 @@ Il codice in `src/core/evaluation/` è TypeScript puro ed è coperto dai test un
 | M1 | Scheletro PWA, tastiera a schermo, audio | ✅ |
 | M2 | Spartito VexFlow, scroll ed evidenziazione | ✅ |
 | M3 | Motore di valutazione, prima lezione completa | ✅ |
-| M4 | Microfono, pitch detection, calibrazione | |
+| M4 | Microfono, pitch detection, calibrazione | ✅ |
 | M5 | Web MIDI | |
 | M6 | Unità 1-3, progressi, streak, statistiche | |
 | M7 | Rifiniture, accessibilità, offline, convertitori, test, Lighthouse | |

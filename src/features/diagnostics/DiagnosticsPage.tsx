@@ -8,11 +8,19 @@ import { t } from '../../i18n/it';
 import { isMicSupported, isWebMidiSupported } from '../../input/availability';
 import { TopBar } from '../../ui/components';
 import { touchDelayStats } from './metrics';
+import { useSettings } from '../../app/settingsStore';
+import { useActiveInput } from '../../input/activeInput';
+import { micInput } from '../../input/mic/MicInput';
+import { MicMeter } from '../mic/MicMeter';
+import { Link } from 'react-router-dom';
+import { Row } from '../../ui/components';
 
 const ms = (s: number) => `${(s * 1000).toFixed(1)} ms`;
 
 export function DiagnosticsPage() {
   const [, setTick] = useState(0);
+  const { settings, update } = useSettings();
+  const input = useActiveInput();
   useSamplerState();
 
   // aggiorna periodicamente i valori misurati
@@ -61,6 +69,56 @@ export function DiagnosticsPage() {
         </dl>
       </section>
 
+      {input.mode === 'mic' && (
+        <section className="page-section">
+          <h2>Microfono</h2>
+          <div className="row">
+            <MicMeter />
+          </div>
+          <dl className="kv">
+            <dt>Stato</dt>
+            <dd>{input.mic.state === 'on' ? '✅ in ascolto' : input.mic.state === 'starting' ? 'avvio…' : input.mic.message || input.mic.state}</dd>
+            <dt>Rumore di fondo</dt>
+            <dd>{settings.mic.noiseFloorDb !== null ? `${settings.mic.noiseFloorDb} dB` : 'non calibrato (valore standard)'}</dd>
+            <dt>Soglia di ascolto</dt>
+            <dd>{micInput.trackerConfig ? `${Math.round(((micInput.trackerConfig.noiseFloorDb ?? -58) + micInput.trackerConfig.gateMarginDb) * 10) / 10} dB` : '—'}</dd>
+            <dt>Diapason</dt>
+            <dd>La = {settings.a4Hz.toLocaleString('it-IT')} Hz</dd>
+            <dt>Finestra di analisi</dt>
+            <dd>{micInput.trackerConfig ? `${Math.round((micInput.trackerConfig.windowSize / micInput.trackerConfig.sampleRate) * 1000)} ms` : '—'}</dd>
+          </dl>
+          <Link className="btn" to="/microfono">
+            Calibra il microfono
+          </Link>
+        </section>
+      )}
+
+      <section className="page-section">
+        <h2>Calibrazione manuale della latenza</h2>
+        <p className="muted" style={{ margin: 0 }}>
+          Se le note risultano sempre “in ritardo” anche quando suoni a tempo, aumenta il valore della tua modalità; se risultano “in anticipo”, diminuiscilo.
+        </p>
+        {(
+          [
+            ['mic', 'Microfono', 0, 300],
+            ['midi', 'Tastiera MIDI', 0, 150],
+            ['virtual', 'Tastiera a schermo', 0, 150],
+          ] as const
+        ).map(([k, label, min, max]) => (
+          <Row key={k} label={`${label}: ${settings.latency[k]} ms`}>
+            <input
+              type="range"
+              min={min}
+              max={max}
+              step={5}
+              value={settings.latency[k]}
+              aria-label={`Latenza ${label}`}
+              onChange={(e) => update({ latency: { ...settings.latency, [k]: Number(e.target.value) } })}
+            />
+          </Row>
+        ))}
+      </section>
+
       <section className="page-section">
         <h2>Tastiera a schermo</h2>
         <dl className="kv">
@@ -70,8 +128,7 @@ export function DiagnosticsPage() {
           <dd>{touch.count ? ms(estTotal) : '—'}</dd>
         </dl>
         <p className="muted" style={{ margin: 0 }}>
-          Sotto i 30 ms la risposta è percepita come immediata; fino a 50 ms è comunque buona per imparare. La
-          calibrazione manuale di microfono e MIDI arriverà con le milestone M4 e M5.
+          Sotto i 30 ms la risposta è percepita come immediata; fino a 50 ms è comunque buona per imparare.
         </p>
       </section>
 

@@ -35,6 +35,8 @@ export interface SessionConfig {
   naming: NoteNaming;
   scoring?: Partial<ScoringConfig>;
   loop?: { fromMeasure: number; toMeasure: number };
+  /** sorgente di input: col microfono l'app non suona l'accompagnamento (lo sentirebbe come note dell'utente) */
+  inputKind?: 'virtual' | 'midi' | 'mic';
 }
 
 export interface FeedbackMessage {
@@ -162,6 +164,7 @@ export class PlaySession {
       this.scheduler.start(from);
     }
     this.unsubInput ??= inputHub.subscribe(this.onInput);
+    this.updateExpected();
     this.timer ??= setInterval(this.tick, 30);
     this.activeSince = performance.now();
     this.patch({ status: from < this.startBeat && this.config.mode !== 'wait' ? 'countin' : 'playing' });
@@ -200,6 +203,7 @@ export class PlaySession {
 
   dispose(): void {
     this.stopAll();
+    inputHub.setExpectedNotes([]);
     this.unsubInput?.();
     this.unsubInput = null;
     this.listeners.clear();
@@ -261,7 +265,7 @@ export class PlaySession {
     const { mode, hands, metronome, piece } = this.config;
     const other: 'R' | 'L' | null = hands === 'R' ? 'L' : hands === 'L' ? 'R' : null;
     return {
-      playNotes: mode === 'listen' || (mode === 'realtime' && other !== null),
+      playNotes: mode === 'listen' || (mode === 'realtime' && other !== null && this.config.inputKind !== 'mic'),
       hands: mode === 'listen' ? ('both' as const) : (other ?? 'both'),
       metronome,
       clickEvery: piece.timeSignature[1] === 8 ? 1.5 : 1,
@@ -290,6 +294,7 @@ export class PlaySession {
       const closed = this.realtime.advance(beat);
       if (closed.length) this.applyJudgements(closed, true);
       if (this.config.guided) this.refreshKeys(beat);
+      else this.updateExpected(beat);
     }
 
     if (beat >= this.endBeat + 0.3) this.finish();
@@ -413,6 +418,24 @@ export class PlaySession {
 
   private refreshKeys(beat?: number) {
     this.patch(this.keyState(beat ?? (this.wait ? undefined : this.getBeat())));
+    this.updateExpected(beat);
+  }
+
+  private lastExpected = '';
+  /** comunica alle sorgenti (microfono) le note attese ora, per la verifica degli accordi */
+  private updateExpected(beat?: number) {
+    let midis: number[] = [];
+    if (this.wait) midis = this.wait.remaining;
+    else if (this.realtime) {
+      const b = beat ?? this.getBeat();
+      const win = this.scoring.timing.goodMs / (this.transport.secondsPerBeat * 1000);
+      const o = this.timeline.onsets.find((x) => x.midis.length && Math.abs(x.t - b) <= win);
+      midis = o ? o.midis : [];
+    }
+    const key = midis.join(',');
+    if (key === this.lastExpected) return;
+    this.lastExpected = key;
+    inputHub.setExpectedNotes(midis);
   }
 
   private flashes = new Map<number, KeyMark>();

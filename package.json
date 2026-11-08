@@ -1,6 +1,6 @@
 {
   "name": "pianotutor",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Piano Tutor - impara il pianoforte da zero (PWA)",
   "scripts": {
     "dev": "vite --host",
@@ -12,7 +12,8 @@
     "icons": "pwa-assets-generator",
     "schema": "tsx tools/gen-json-schema.ts",
     "test:e2e": "playwright test",
-    "validate": "tsx tools/validate-content.ts"
+    "validate": "tsx tools/validate-content.ts",
+    "fixtures": "tsx tools/gen-mic-fixture.ts"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
   "homepage": "https://github.com/rabax1972/PianoTutor#readme",
   "dependencies": {
     "dexie": "^4.4.7",
+    "pitchy": "^4.1.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.5",

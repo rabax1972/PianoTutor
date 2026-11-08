@@ -5,7 +5,10 @@ import { ensureAudio } from '../../audio/ensureAudio';
 import { sampler } from '../../audio/Sampler';
 import { noteColor, noteLabel } from '../../core/music/pitch';
 import { t } from '../../i18n/it';
+import { useActiveInput } from '../../input/activeInput';
 import { inputHub } from '../../input/inputHub';
+import { MicMeter } from '../mic/MicMeter';
+import { MicWarning } from '../mic/MicWarning';
 import { TopBar } from '../../ui/components';
 import { octavesForWidth, visibleRange } from '../../ui/keyboard/layout';
 import { PianoKeyboard } from '../../ui/keyboard/PianoKeyboard';
@@ -13,6 +16,7 @@ import './FreePlayPage.css';
 
 export function FreePlayPage() {
   const { settings, update } = useSettings();
+  const input = useActiveInput();
   const [kbRef, kbWidth] = useElementWidth<HTMLDivElement>();
   const [shift, setShift] = useState(0);
   const [sustain, setSustain] = useState(false);
@@ -52,6 +56,7 @@ export function FreePlayPage() {
         title={t.play.title}
         actions={
           <>
+            {input.mode === 'mic' && input.mic.state === 'on' && <MicMeter compact />}
             <button
               className="btn btn--icon"
               aria-label={t.play.octaveDown}
@@ -82,6 +87,7 @@ export function FreePlayPage() {
         }
       />
 
+      {input.mode === 'mic' && <MicWarning />}
       <section className="freeplay__display" aria-live="polite">
         {sampler.state === 'error' ? (
           <div className="banner banner--warn">

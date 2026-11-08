@@ -22,6 +22,8 @@ export interface InputSource {
   start(): Promise<void>;
   stop(): void;
   subscribe(listener: NoteListener): () => void;
+  /** note che l'app si aspetta ora (usate dal microfono per verificare gli accordi) */
+  setExpectedNotes?(midis: number[]): void;
 }
 
 /** Disponibilità di una modalità di input nel browser corrente. */

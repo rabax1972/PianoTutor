@@ -1,0 +1,141 @@
+.mic-meter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.mic-meter--compact {
+  width: auto;
+  min-width: 140px;
+  gap: 8px;
+}
+
+.mic-meter__icon {
+  font-size: 1.4rem;
+}
+
+.mic-meter__track {
+  position: relative;
+  flex: 1;
+  height: 14px;
+  min-width: 80px;
+  border-radius: 999px;
+  background: var(--bg-elev-2);
+  overflow: hidden;
+}
+
+.mic-meter__bar {
+  height: 100%;
+  width: 0;
+  background: var(--fg-muted);
+  border-radius: 999px;
+  transition: width 50ms linear;
+}
+
+.mic-meter__bar.is-active {
+  background: var(--ok);
+}
+
+.mic-meter__gate {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--accent);
+}
+
+.mic-meter__note {
+  min-width: 140px;
+  font-size: 1.8rem;
+  font-weight: 900;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.mic-meter__cents {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ---------- Calibrazione ---------- */
+.calib {
+  max-width: 820px;
+}
+
+.calib__card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px;
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  border: 2px solid var(--border);
+}
+
+.calib__card h2 {
+  font-size: 1.5rem;
+}
+
+.calib__card p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.calib__big {
+  font-size: clamp(3rem, 10vh, 5.5rem);
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.calib__steps {
+  display: flex;
+  gap: 8px;
+}
+
+.calib__steps span {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg-elev-2);
+}
+
+.calib__steps span.is-done {
+  background: var(--ok);
+}
+
+.calib__steps span.is-on {
+  background: var(--accent);
+}
+
+.calib__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.calib__summary {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 18px;
+  margin: 0;
+}
+
+.calib__summary dt {
+  color: var(--fg-muted);
+}
+
+.calib__summary dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.mic-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}

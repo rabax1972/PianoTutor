@@ -28,6 +28,30 @@ export function SettingsPage() {
             Cambia
           </button>
         </Row>
+        {settings.inputMode === 'mic' && (
+          <>
+            <Row
+              label="Microfono"
+              desc={settings.mic.calibratedAt ? `Calibrato il ${new Date(settings.mic.calibratedAt).toLocaleDateString('it-IT')}` : 'Non ancora calibrato'}
+            >
+              <button className="btn" onClick={() => navigate('/microfono')}>
+                Calibra
+              </button>
+            </Row>
+            <Row label="Sensibilità del microfono" desc="Aumentala se alcune note non vengono sentite; riducila se senti note “fantasma”.">
+              <input
+                type="range"
+                min={4}
+                max={24}
+                step={1}
+                // più a destra = più sensibile = margine più basso
+                value={28 - settings.mic.gateMarginDb}
+                aria-label="Sensibilità del microfono"
+                onChange={(e) => update({ mic: { ...settings.mic, gateMarginDb: 28 - Number(e.target.value) } })}
+              />
+            </Row>
+          </>
+        )}
         <Row label={t.settings.naming}>
           <Segmented
             label={t.settings.naming}
