@@ -36,7 +36,7 @@ export default defineConfig(({ command, isPreview }) => ({
       },
       workbox: {
         // App shell + campioni audio + contenuti: tutto disponibile offline dopo il primo caricamento.
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest,mp3,json}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,webmanifest,mp3,json,woff2}'],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         navigateFallback: 'index.html',
       },

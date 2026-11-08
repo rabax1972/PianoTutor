@@ -19,7 +19,7 @@ export function TopBar({
     <header className="topbar">
       {back && (
         <button className="btn btn--icon" aria-label={t.common.back} onClick={() => navigate(backTo)}>
-          ←
+          <span aria-hidden="true">←</span>
         </button>
       )}
       <h1 className="topbar__title">{title}</h1>

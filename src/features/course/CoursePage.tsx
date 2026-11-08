@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { getCourse, getLesson } from '../../core/content/loader';
 import { isLessonUnlocked, isPassed, isUnitUnlocked, unitStats } from '../../core/progress/unlock';
 import { useProgressSummary } from '../progress/summary';
+import { useSettings } from '../../app/settingsStore';
 import { TopBar } from '../../ui/components';
 import { Stars } from '../../ui/Stars';
 import './course.css';
@@ -11,12 +12,13 @@ export function CoursePage() {
   const course = getCourse();
   const s = useProgressSummary();
   const progress = s?.progressMap ?? new Map();
+  const unlockAll = useSettings((st) => st.settings.unlockAll);
 
   return (
     <main className="page">
       <TopBar title={course.title} />
       {course.units.map((u, ui) => {
-        const open = isUnitUnlocked(course, u.id, progress);
+        const open = unlockAll || isUnitUnlocked(course, u.id, progress);
         const st = unitStats(course, u.id, progress);
         const prev = course.units[ui - 1];
         return (
@@ -46,7 +48,7 @@ export function CoursePage() {
                 const l = getLesson(id);
                 if (!l) return null;
                 const p = progress.get(id);
-                const unlocked = s !== null && isLessonUnlocked(course, id, progress);
+                const unlocked = s !== null && (unlockAll || isLessonUnlocked(course, id, progress));
                 const passed = isPassed(p);
                 const current = unlocked && !passed && s?.next === id;
                 const node = (

@@ -4,12 +4,13 @@
  * sotto una linea di esecuzione fissa. Restituisce la mappa beat → x e gli elementi SVG di
  * ogni evento, per evidenziazioni e feedback senza ridisegnare.
  */
-import {
+import VexFlow, {
   Accidental,
   Annotation,
   BarlineType,
   Beam,
   Dot,
+  Font,
   Formatter,
   Renderer,
   Stave,
@@ -18,7 +19,7 @@ import {
   StaveTie,
   Voice,
   type RenderContext,
-} from 'vexflow/bravura';
+} from 'vexflow/core';
 import type { Piece } from '../core/content/schema';
 import { decomposeDuration } from '../core/music/durations';
 import { noteColor, noteLabel, type NoteNaming } from '../core/music/pitch';
@@ -155,9 +156,24 @@ function makeNote(item: Item, staff: Staff, opts: RenderOptions): StaveNote {
 }
 
 let fontsReady: Promise<unknown> | null = null;
-/** Attende i font musicali (incorporati nel bundle: funzionano offline). */
+/**
+ * Carica i font musicali (Bravura per i simboli, Academico per i testi) da public/fonts.
+ * File woff2 separati (estratti da VexFlow con tools/extract-vexflow-fonts.ts): scaricati in
+ * parallelo, fuori dal parser JavaScript, e in precache per l'uso offline.
+ */
 export function ensureNotationFonts(): Promise<unknown> {
-  fontsReady ??= Promise.all([document.fonts.load('30px Bravura'), document.fonts.load('13px Academico')]).catch(() => undefined);
+  fontsReady ??= (async () => {
+    const base = `${import.meta.env.BASE_URL}fonts/`;
+    await Promise.all([
+      Font.load('Bravura', `${base}Bravura.woff2`, { display: 'block' }),
+      Font.load('Academico', `${base}Academico.woff2`, { display: 'swap' }),
+      Font.load('Academico', `${base}AcademicoBold.woff2`, { display: 'swap', weight: 'bold' }),
+    ]);
+    VexFlow.setFonts('Bravura', 'Academico');
+  })().catch((err) => {
+    console.warn('Font musicali non caricati', err);
+    fontsReady = null;
+  });
   return fontsReady;
 }
 

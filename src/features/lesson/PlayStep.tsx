@@ -9,6 +9,7 @@ import { ResultCard } from '../play/ResultCard';
 import { usePlaySession } from '../play/usePlaySession';
 import type { PlayMode } from '../play/PlaySession';
 import { addPracticeTime, recordAttempt } from './progress';
+import type { LoopRange } from '../play/LoopControl';
 
 type PlayableStep = Extract<Step, { type: 'exercise' | 'song' }>;
 type Phase = 'intro' | 'listen' | 'ready' | 'play' | 'result';
@@ -38,6 +39,7 @@ export function PlayStep({
   const [phase, setPhase] = useState<Phase>('intro');
   const [attempt, setAttempt] = useState(0);
   const [result, setResult] = useState<SessionResult | null>(null);
+  const [loop, setLoop] = useState<LoopRange | null>(s.loop ?? null);
   const startedAt = useRef(Date.now());
   /** avvia la prossima sessione appena creata (cambio modalità ascolta → suona) */
   const pendingStart = useRef(false);
@@ -57,10 +59,10 @@ export function PlayStep({
       hands: s.hands ?? 'both',
       naming: settings.noteNaming,
       scoring: s.scoring,
-      loop: s.loop,
+      loop: loop ?? undefined,
       inputKind: settings.inputMode ?? 'virtual',
     },
-    `${step.id}-${mode}-${attempt}`,
+    `${step.id}-${mode}-${attempt}-${loop ? `${loop.fromMeasure}-${loop.toMeasure}` : 'tutto'}`,
     (r, sess) => {
       if (listening) {
         setPhase('ready');
@@ -126,5 +128,18 @@ export function PlayStep({
   if (phase === 'result' && result)
     overlay = <ResultCard result={result} naming={settings.noteNaming} onRetry={retry} onContinue={() => onDone(result.stars)} />;
 
-  return <PlayView session={session} snapshot={snapshot} showNoteNames={showNames} overlay={overlay} />;
+  return (
+    <PlayView
+      session={session}
+      snapshot={snapshot}
+      showNoteNames={showNames}
+      overlay={overlay}
+      loop={loop}
+      onLoopChange={(l) => {
+        setResult(null);
+        setLoop(l);
+        setPhase('ready');
+      }}
+    />
+  );
 }

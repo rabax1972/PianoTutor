@@ -8,6 +8,8 @@ const MIC_FIXTURE = resolve('e2e/fixtures/do-re-mi.wav');
 export default defineConfig({
   testDir: './e2e',
   timeout: 30_000,
+  // le schermate si caricano in lazy: sotto il carico dell'intera suite servono attese un po' più lunghe
+  expect: { timeout: 10_000 },
   fullyParallel: true,
   // audio + rendering dello spartito sono pesanti: troppi browser in parallelo falsano i tempi
   workers: process.env.CI ? 2 : 4,

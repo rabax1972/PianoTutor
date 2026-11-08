@@ -167,6 +167,13 @@ export function SettingsPage() {
       </section>
 
       <section className="page-section">
+        <h2>Insegnante</h2>
+        <Row label="Sblocca tutte le lezioni" desc="Per insegnanti e genitori: apre tutto il percorso senza dover completare le lezioni in ordine.">
+          <Switch label="Sblocca tutte le lezioni" checked={settings.unlockAll} onChange={(v) => update({ unlockAll: v })} />
+        </Row>
+      </section>
+
+      <section className="page-section">
         <h2>Dati</h2>
         <Row label={t.settings.reset} desc="Progressi, statistiche e impostazioni salvati su questo dispositivo.">
           <button className="btn btn--danger" onClick={reset}>

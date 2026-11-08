@@ -8,6 +8,7 @@ import { t } from '../../i18n/it';
 import { useActiveInput, useExternalHeld } from '../../input/activeInput';
 import { MidiStatus } from '../midi/MidiStatus';
 import { inputHub } from '../../input/inputHub';
+import { useComputerKeyboard } from '../../input/virtual/computerKeyboard';
 import { MicMeter } from '../mic/MicMeter';
 import { MicWarning } from '../mic/MicWarning';
 import { TopBar } from '../../ui/components';
@@ -19,6 +20,7 @@ export function FreePlayPage() {
   const { settings, update } = useSettings();
   const input = useActiveInput();
   const externalHeld = useExternalHeld();
+  useComputerKeyboard();
   const [kbRef, kbWidth] = useElementWidth<HTMLDivElement>();
   const [shift, setShift] = useState(0);
   const [sustain, setSustain] = useState(false);
@@ -66,7 +68,7 @@ export function FreePlayPage() {
               onClick={() => setShift((s) => Math.max(minShift, s - 1))}
               disabled={shift <= minShift}
             >
-              ◀
+              <span aria-hidden="true">◀</span>
             </button>
             <button
               className="btn btn--icon"
@@ -74,7 +76,7 @@ export function FreePlayPage() {
               onClick={() => setShift((s) => Math.min(maxShift, s + 1))}
               disabled={shift >= maxShift}
             >
-              ▶
+              <span aria-hidden="true">▶</span>
             </button>
             <button
               className={`btn${settings.showNoteNames ? ' btn--on' : ''}`}

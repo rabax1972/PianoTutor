@@ -25,6 +25,8 @@ export interface ScoreViewProps {
  */
 /** posizione della linea di esecuzione, in frazione della larghezza */
 const PLAYHEAD_RATIO = 0.3;
+/** distanza tipica (px non scalati) tra l'inizio del rigo e la prima nota (indicazione di tempo + margine) */
+const ESTIMATED_START_OFFSET = 52;
 
 export function ScoreView({ piece, options, getBeat, marks, autoHighlight = true, onCurrentChange }: ScoreViewProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -60,10 +62,10 @@ export function ScoreView({ piece, options, getBeat, marks, autoHighlight = true
     void ensureNotationFonts().then(() => {
       if (cancelled || !trackRef.current || !headerRef.current) return;
       const hw = renderHeader(headerRef.current, piece, scale);
-      let r = renderScore(trackRef.current, piece, { ...options, scale });
-      // se la linea di esecuzione è più a destra dell inizio del rigo, allunga l attacco così il rigo resta continuo
-      const gap = size.w * PLAYHEAD_RATIO - (hw + r.startOffset);
-      if (gap > 1) r = renderScore(trackRef.current, piece, { ...options, scale, leadIn: gap / scale });
+      // attacco stimato prima del disegno (un solo rendering): se la linea di esecuzione è più a
+      // destra dell'inizio del rigo, si allunga la prima battuta così il rigo resta continuo
+      const gap = size.w * PLAYHEAD_RATIO - (hw + ESTIMATED_START_OFFSET * scale);
+      const r = renderScore(trackRef.current, piece, { ...options, scale, leadIn: gap > 1 ? gap / scale : 0 });
       rendered.current = r;
       setStartOffset(r.startOffset);
       setHeaderW(hw);
@@ -78,7 +80,8 @@ export function ScoreView({ piece, options, getBeat, marks, autoHighlight = true
   // linea di esecuzione: a circa un terzo della larghezza, così si vede la nota appena suonata
   // e restano visibili le prossime; mai sopra l intestazione con la chiave
   // spartito centrato verticalmente nello spazio disponibile
-  const top = Math.max(0, Math.round((size.h - (rendered.current?.height ?? size.h)) / 2));
+  const expectedH = scale ? scoreHeight(staves === 2 ? ['treble', 'bass'] : ['treble']) * scale : size.h;
+  const top = Math.max(0, Math.round((size.h - expectedH) / 2));
   const playheadX = Math.round(Math.max(headerW + startOffset, size.w * PLAYHEAD_RATIO));
 
   // applica le evidenziazioni persistenti
@@ -99,13 +102,20 @@ export function ScoreView({ piece, options, getBeat, marks, autoHighlight = true
     if (!ready) return;
     let raf = 0;
     let lastKey = '';
+    let lastBeat = NaN;
+    let lastTx = '';
     const loop = () => {
       const r = rendered.current;
       const track = trackRef.current;
-      if (r && track) {
-        const beat = getBeatRef.current();
-        const x = r.xAtBeat(beat);
-        track.style.transform = `translate3d(${(playheadX - x).toFixed(1)}px,0,0)`;
+      const beat = getBeatRef.current();
+      // da fermi (o in attesa sulla nota) non c'è nulla da ricalcolare: nessun lavoro per frame
+      if (r && track && beat !== lastBeat) {
+        lastBeat = beat;
+        const tx = `translate3d(${(playheadX - r.xAtBeat(beat)).toFixed(1)}px,0,0)`;
+        if (tx !== lastTx) {
+          lastTx = tx;
+          track.style.transform = tx;
+        }
 
         if (autoHighlight) {
           let current = soundingAt(r.timeline, beat);

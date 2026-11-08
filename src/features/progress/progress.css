@@ -278,11 +278,17 @@
   background: var(--bg-elev);
   border: 2px solid var(--border);
   text-align: center;
-  opacity: 0.6;
+  /* da ottenere: bordo tratteggiato e icona grigia; il testo resta a contrasto pieno (niente opacità) */
+  border-style: dashed;
+}
+
+.badge:not(.is-earned) .badge__icon {
+  filter: grayscale(1);
+  opacity: 0.7;
 }
 
 .badge.is-earned {
-  opacity: 1;
+  border-style: solid;
   border-color: var(--accent);
 }
 

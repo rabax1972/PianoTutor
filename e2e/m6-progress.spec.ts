@@ -106,12 +106,22 @@ test.describe('M6 – percorso, progressi e motivazione', () => {
     await expect(page.getByTestId('home-goal')).toContainText('di 15 min');
   });
 
+  test('una lezione bloccata aperta dall’indirizzo mostra come sbloccarla', async ({ page }) => {
+    await page.goto('./');
+    await page.getByTestId('input-virtual').tap();
+    await page.goto('./#/lezione/u3-l03-crome');
+    await expect(page.getByTestId('lesson-locked')).toContainText('almeno una stella');
+  });
+
   for (const id of LESSONS) {
     test(`la lezione ${id} si apre e il suo brano si disegna`, async ({ page }) => {
       const errors: string[] = [];
       page.on('pageerror', (e) => errors.push(e.message));
       await page.goto('./');
       await page.getByTestId('input-virtual').tap();
+      // modalità insegnante: tutte le lezioni aperte
+      await page.goto('./#/impostazioni');
+      await page.getByRole('switch', { name: 'Sblocca tutte le lezioni' }).tap();
       await page.goto(`./#/lezione/${id}`);
       await expect(page.getByTestId('slide-text')).toBeVisible({ timeout: 20_000 });
       // numero esatto di slide dal JSON (evita di toccare un pulsante che sta scomparendo)

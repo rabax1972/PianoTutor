@@ -57,6 +57,7 @@ test.describe('M2 – spartito ed evidenziazione', () => {
     await page.goto('./');
     await page.getByTestId('input-virtual').tap();
     await page.getByTestId('tile-songs').tap();
+    await expect(page.locator('[data-testid^="song-"]').first()).toBeVisible({ timeout: 15_000 }); // pagina caricata in lazy
     const ids = await page.locator('[data-testid^="song-"]').evaluateAll((els) => els.map((e) => e.getAttribute('data-testid')!.slice(5)));
     expect(ids.length).toBeGreaterThanOrEqual(4);
     for (const id of ids) {

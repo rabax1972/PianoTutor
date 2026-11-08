@@ -15,6 +15,8 @@ npm run dev         # sviluppo (http://localhost:5173, visibile anche in LAN)
 npm test            # test unitari
 npm run test:e2e    # test end-to-end (Playwright)
 npm run validate    # controlla i contenuti in content/
+npm run convert -- brano.mid --id mio-brano   # MIDI/MusicXML → content/pieces
+npm run audit       # build + Lighthouse su 7 pagine (mediana di 3 misure)
 npm run build       # valida i contenuti + build di produzione in dist/ (base /pianotutor/)
 ```
 

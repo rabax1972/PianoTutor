@@ -19,6 +19,10 @@ export function AboutPage() {
           .
         </p>
         <p>
+          Simboli musicali: font <em>Bravura</em> (Steinberg) e <em>Academico</em>, licenza SIL Open Font License 1.1; notazione con{' '}
+          <em>VexFlow</em> (licenza MIT).
+        </p>
+        <p>
           Brani: solo melodie di pubblico dominio (arrangiamenti originali) o composizioni originali create per
           Piano Tutor.
         </p>

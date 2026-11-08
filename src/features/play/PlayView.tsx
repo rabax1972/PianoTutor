@@ -6,6 +6,7 @@ import { pitchRange, type TimelineEvent } from '../../core/timing/timeline';
 import { useActiveInput, useExternalHeld } from '../../input/activeInput';
 import { MidiStatus } from '../midi/MidiStatus';
 import { inputHub } from '../../input/inputHub';
+import { useComputerKeyboard } from '../../input/virtual/computerKeyboard';
 import { MicMeter } from '../mic/MicMeter';
 import { MicWarning } from '../mic/MicWarning';
 import { ScoreView } from '../../notation/ScoreView';
@@ -13,6 +14,7 @@ import { Segmented } from '../../ui/components';
 import { octavesForWidth, rangeForNotes } from '../../ui/keyboard/layout';
 import { PianoKeyboard, type KeyMark } from '../../ui/keyboard/PianoKeyboard';
 import type { PlaySession, SessionSnapshot } from './PlaySession';
+import { LoopControl, type LoopRange } from './LoopControl';
 import './play.css';
 
 const STATUS_TEXT: Partial<Record<SessionSnapshot['status'], string>> = {
@@ -31,6 +33,8 @@ export function PlayView({
   showFingers = true,
   overlay,
   extraControls,
+  loop,
+  onLoopChange,
 }: {
   session: PlaySession;
   snapshot: SessionSnapshot;
@@ -38,10 +42,14 @@ export function PlayView({
   showFingers?: boolean;
   overlay?: ReactNode;
   extraControls?: ReactNode;
+  /** sezione da ripetere (se onLoopChange è presente compare il controllo) */
+  loop?: LoopRange | null;
+  onLoopChange?: (l: LoopRange | null) => void;
 }) {
   const { settings } = useSettings();
   const input = useActiveInput();
   const externalHeld = useExternalHeld();
+  useComputerKeyboard();
   const [kbRef, kbWidth] = useElementWidth<HTMLDivElement>();
   const { piece, mode } = session.config;
   const running = ['playing', 'countin', 'waiting'].includes(snapshot.status);
@@ -115,16 +123,15 @@ export function PlayView({
 
       <div className="playview__controls">
         <button className="btn btn--icon" aria-label="Dall’inizio" onClick={() => session.restart()} data-testid="restart">
-          ⏮
+          <span aria-hidden="true">⏮</span>
         </button>
         <button
           className="btn btn--primary playview__play"
           onClick={toggle}
           data-testid="play"
           disabled={snapshot.status === 'finished'}
-          aria-label={running ? 'Pausa' : 'Suona'}
         >
-          {running ? '⏸ Pausa' : snapshot.status === 'paused' ? '▶ Continua' : '▶ Inizia'}
+          <span aria-hidden>{running ? '⏸' : '▶'}</span> {running ? 'Pausa' : snapshot.status === 'paused' ? 'Continua' : 'Inizia'}
         </button>
         <Segmented
           label="Velocità"
@@ -144,6 +151,9 @@ export function PlayView({
           >
             Metronomo
           </button>
+        )}
+        {onLoopChange && (
+          <LoopControl measureCount={session.timeline.measureStarts.length} value={loop ?? null} onChange={onLoopChange} />
         )}
         {extraControls}
         {input.mode === 'mic' && input.mic.state === 'on' && <MicMeter compact />}

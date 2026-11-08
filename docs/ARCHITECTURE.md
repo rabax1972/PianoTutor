@@ -12,7 +12,7 @@ PWA per imparare il pianoforte da zero, pensata per tablet (10", orizzontale). N
 | PWA | vite-plugin-pwa (Workbox, generateSW) | precache di shell, campioni e contenuti |
 | Storage | Dexie (IndexedDB) dietro interfacce `Repository` | sostituibile con un provider con sync |
 | Contenuti | JSON validati con Zod | gli schemi Zod sono la fonte unica di verità |
-| Spartito | VexFlow 5 (M2) | rigo unico orizzontale, scroll con `translateX` |
+| Spartito | VexFlow 5 (`vexflow/core`) + font woff2 separati | rigo unico orizzontale, scroll con `translateX` |
 | Audio | sampler proprio su Web Audio | Salamander Grand Piano (CC-BY 3.0), 22 campioni |
 | Pitch | pitchy (MPM): AudioWorklet per la cattura, analisi nel thread principale | accordi: verifica spettrale delle note attese |
 | Test | Vitest (unit), Playwright (e2e, viewport tablet) | |
@@ -155,6 +155,26 @@ getUserMedia (senza echoCancellation/noiseSuppression/AGC)
   - file `.ics` con evento giornaliero ricorrente, che funziona anche su iPad.
   Le notifiche ad app chiusa richiedono un server push: è un'estensione futura.
 
+## Qualità (M7)
+
+### Prestazioni
+- **Ogni schermata è un chunk lazy**: in avvio si caricano solo home e benvenuto (~150 KB compressi). VexFlow (131 KB compressi) si carica solo con lo spartito, ed è precaricato in parallelo ai font mentre si leggono le slide (`notation/preload.ts`).
+- **Font musicali in woff2 separati** (`public/fonts`, estratti con `tools/extract-vexflow-fonts.ts`). Prima erano in base64 dentro il JS: 850 KB da analizzare, ora 460 KB di JS più 286 KB di font scaricati in parallelo.
+- **Lavoro per frame minimo:** lo spartito aggiorna il `transform` solo quando la posizione cambia. Le animazioni dei suggerimenti usano solo l'opacità (gestita dalla GPU). La larghezza della tastiera viene misurata prima del primo disegno (nessuno spostamento di layout).
+- `npm run audit` esegue build e Lighthouse su 7 pagine (mediana di 3 misure). Con `--desktop` usa il profilo desktop.
+
+### Accessibilità
+- Lo zoom con due dita non è bloccato (il viewport non usa `user-scalable=no`). Lo zoom accidentale si evita con `touch-action: manipulation` sull'app e `touch-action: none` su tastiera e spartito.
+- Tasti del pianoforte con nome accessibile dal contenuto ("Do 4"). Pulsanti con soli simboli dotati di etichetta, simboli nascosti agli screen reader. Grafici con tooltip anche via tastiera e tabella dei dati.
+- Elementi bloccati resi con bordo tratteggiato e testo attenuato senza opacità, che abbasserebbe il contrasto. Movimento ridotto rispettato. Testo regolabile, contrasto elevato, note colorate.
+- **Tastiera del computer**: A S D F G H J K suonano i tasti bianchi, W E T Y U O P i neri, Z e X cambiano ottava. Si mappa per posizione fisica (`KeyboardEvent.code`), quindi funziona con qualsiasi layout.
+- Gli e2e eseguono **axe-core** (WCAG 2.1 A/AA) su 9 schermate.
+
+### Funzioni
+- **Ripeti sezione** (`LoopControl`): si scelgono le battute da esercitare in lezioni e brani.
+- **Modalità insegnante**: sblocca tutto il percorso. Le lezioni bloccate aperte dall'indirizzo mostrano come sbloccarle.
+- **Convertitori** `npm run convert -- file.mid|file.musicxml --id …` (`tools/convert`). Coperti dai test: quantizzazione, mani (per traccia, rigo o punto di divisione), accordi, sovrapposizioni, legature alle stanghette, alterazioni secondo l'armatura, backup/forward e legature del MusicXML.
+
 ## Scelte con alternative
 
 - **Spartito.** VexFlow e non OSMD o Verovio: ogni nota è un elemento SVG che si può indirizzare per colorarla. Il brano è disegnato su un rigo continuo e fatto scorrere a 60 fps senza re-render.
@@ -179,5 +199,5 @@ getUserMedia (senza echoCancellation/noiseSuppression/AGC)
 | M4 | Microfono, pitch detection, calibrazione | ✅ |
 | M5 | Web MIDI | ✅ |
 | M6 | Unità 1-3, progressi, streak, statistiche | ✅ |
-| M7 | Rifiniture, accessibilità, offline, convertitori, test, Lighthouse | |
+| M7 | Rifiniture, accessibilità, offline, convertitori, test, Lighthouse | ✅ |
 | M8 | Unità 4-6: due mani, accordi, alterazioni e scale | |

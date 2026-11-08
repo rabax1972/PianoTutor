@@ -27,7 +27,7 @@ export function ExplainStep({ step, onDone }: { step: Extract<Step, { type: 'exp
         <button className="btn" onClick={() => setI((n) => n - 1)} disabled={i === 0}>
           ← Indietro
         </button>
-        <span className="explain__dots" aria-label={`Slide ${i + 1} di ${step.slides.length}`}>
+        <span className="explain__dots" role="img" aria-label={`Slide ${i + 1} di ${step.slides.length}`}>
           {step.slides.map((_, k) => (
             <span key={k} className={k === i ? 'is-on' : ''} />
           ))}

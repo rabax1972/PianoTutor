@@ -1,6 +1,6 @@
 {
   "name": "pianotutor",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Piano Tutor - impara il pianoforte da zero (PWA)",
   "scripts": {
     "dev": "vite --host",
@@ -13,7 +13,10 @@
     "schema": "tsx tools/gen-json-schema.ts",
     "test:e2e": "playwright test",
     "validate": "tsx tools/validate-content.ts",
-    "fixtures": "tsx tools/gen-mic-fixture.ts"
+    "fixtures": "tsx tools/gen-mic-fixture.ts",
+    "lighthouse": "tsx tools/lighthouse.ts",
+    "audit": "npm run build && npm run lighthouse",
+    "convert": "tsx tools/convert-to-piece.ts"
   },
   "repository": {
     "type": "git",
@@ -38,13 +41,17 @@
     "zustand": "^5.1.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "^1.65.0",
+    "@tonejs/midi": "^2.0.28",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vite-pwa/assets-generator": "^2.0.0",
     "@vitejs/plugin-react": "^6.2.1",
     "fake-indexeddb": "^6.2.7",
+    "fast-xml-parser": "^5.12.0",
+    "lighthouse": "^13.6.0",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vite": "^8.3.6",

@@ -10,7 +10,11 @@ import type { PlayMode } from '../play/PlaySession';
 import { PlayView } from '../play/PlayView';
 import { ResultCard } from '../play/ResultCard';
 import { usePlaySession } from '../play/usePlaySession';
+import type { LoopRange } from '../play/LoopControl';
 import { Segmented, TopBar } from '../../ui/components';
+import { preloadNotation } from '../../notation/preload';
+
+preloadNotation();
 
 export function ScorePlayerPage() {
   const { id } = useParams();
@@ -25,6 +29,7 @@ function ScorePlayer({ piece }: { piece: Piece }) {
   const [mode, setMode] = useState<PlayMode>('listen');
   const [attempt, setAttempt] = useState(0);
   const [result, setResult] = useState<SessionResult | null>(null);
+  const [loop, setLoop] = useState<LoopRange | null>(null);
   const startedAt = useRef(Date.now());
 
   const { session, snapshot } = usePlaySession(
@@ -37,8 +42,9 @@ function ScorePlayer({ piece }: { piece: Piece }) {
       hands: 'both',
       naming: settings.noteNaming,
       inputKind: settings.inputMode ?? 'virtual',
+      loop: loop ?? undefined,
     },
-    `${mode}-${attempt}`,
+    `${mode}-${attempt}-${loop ? `${loop.fromMeasure}-${loop.toMeasure}` : 'tutto'}`,
     (r, sess) => {
       void addPracticeTime(sess.practiceMs);
       if (!r) return;
@@ -92,6 +98,11 @@ function ScorePlayer({ piece }: { piece: Piece }) {
           session={session}
           snapshot={snapshot}
           showNoteNames={settings.showNoteNames}
+          loop={loop}
+          onLoopChange={(l) => {
+            setResult(null);
+            setLoop(l);
+          }}
           overlay={
             result ? (
               <ResultCard

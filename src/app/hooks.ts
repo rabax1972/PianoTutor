@@ -1,4 +1,4 @@
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { useEffect, useLayoutEffect, useState, useSyncExternalStore } from 'react';
 import { sampler } from '../audio/Sampler';
 
 export function useSamplerState() {
@@ -12,6 +12,10 @@ export function useSamplerState() {
 export function useElementWidth<T extends HTMLElement>(): [(el: T | null) => void, number] {
   const [el, setEl] = useState<T | null>(null);
   const [width, setWidth] = useState(0);
+  // misura sincrona prima del primo disegno: niente spostamenti di layout (CLS)
+  useLayoutEffect(() => {
+    if (el) setWidth(el.getBoundingClientRect().width);
+  }, [el]);
   useEffect(() => {
     if (!el) return;
     const ro = new ResizeObserver(([entry]) => setWidth(entry!.contentRect.width));

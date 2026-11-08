@@ -1,18 +1,43 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { getLesson, nextLessonId } from '../../core/content/loader';
+import { getCourse, getLesson, nextLessonId } from '../../core/content/loader';
+import { isLessonUnlocked } from '../../core/progress/unlock';
+import { useSettings } from '../../app/settingsStore';
+import { useProgressSummary } from '../progress/summary';
+import { Link } from 'react-router-dom';
 import type { Lesson } from '../../core/content/schema';
 import type { LessonProgress } from '../../storage';
 import { Stars } from '../../ui/Stars';
 import { ExplainStep } from './ExplainStep';
-import { PlayStep } from './PlayStep';
 import { completeStep } from './progress';
 import './lesson.css';
+import { preloadNotation } from '../../notation/preload';
+
+// mentre si leggono le slide, lo spartito si prepara in background
+preloadNotation();
+
+// lo spartito (VexFlow) si carica solo quando arriva il primo esercizio
+const PlayStep = lazy(() => import('./PlayStep').then((m) => ({ default: m.PlayStep })));
 
 export function LessonPage() {
   const { id } = useParams();
   const lesson = id ? getLesson(id) : undefined;
+  const summary = useProgressSummary();
+  const unlockAll = useSettings((s) => s.settings.unlockAll);
   if (!lesson) return <Navigate to="/percorso" replace />;
+  if (!summary) return null;
+  if (!unlockAll && !isLessonUnlocked(getCourse(), lesson.id, summary.progressMap))
+    return (
+      <main className="page lesson__finish" data-testid="lesson-locked">
+        <div className="intro-card">
+          <h2>🔒 {lesson.title}</h2>
+          <p>Questa lezione si sblocca completando con almeno una stella quelle precedenti.</p>
+          <Link className="btn btn--primary" to="/percorso">
+            Vai al percorso
+          </Link>
+        </div>
+      </main>
+    );
   return <LessonRunner key={lesson.id} lesson={lesson} />;
 }
 
@@ -48,7 +73,7 @@ function LessonRunner({ lesson }: { lesson: Lesson }) {
     <main className="page page--full lesson">
       <header className="topbar lesson__top">
         <button className="btn btn--icon" aria-label="Chiudi la lezione" onClick={() => navigate('/percorso')}>
-          ✕
+          <span aria-hidden="true">✕</span>
         </button>
         <div className="lesson__title">
           <h1>{lesson.title}</h1>
@@ -67,7 +92,9 @@ function LessonRunner({ lesson }: { lesson: Lesson }) {
 
       {step?.type === 'explain' && <ExplainStep key={step.id} step={step} onDone={() => done()} />}
       {(step?.type === 'exercise' || step?.type === 'song') && (
-        <PlayStep key={step.id} lessonId={lesson.id} step={step} onDone={(stars) => done(stars)} />
+        <Suspense fallback={<p className="muted" role="status">Preparo lo spartito…</p>}>
+          <PlayStep key={step.id} lessonId={lesson.id} step={step} onDone={(stars) => done(stars)} />
+        </Suspense>
       )}
 
       {finished && (

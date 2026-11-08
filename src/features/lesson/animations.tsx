@@ -12,7 +12,6 @@ import { sampler } from '../../audio/Sampler';
 import type { Piece, Slide } from '../../core/content/schema';
 import { pitchClass, pitchToMidi } from '../../core/music/pitch';
 import { inputHub } from '../../input/inputHub';
-import { ensureNotationFonts, renderHeader, renderScore } from '../../notation/scoreRenderer';
 import { octavesForWidth, visibleRange } from '../../ui/keyboard/layout';
 import { PianoKeyboard, type KeyMark } from '../../ui/keyboard/PianoKeyboard';
 
@@ -69,7 +68,9 @@ function StaffPreview({ notes, clef }: { notes: string[]; clef: 'treble' | 'bass
   );
   useEffect(() => {
     let off = false;
-    void ensureNotationFonts().then(() => {
+    // VexFlow caricato solo per le slide che mostrano lo spartito
+    void import('../../notation/scoreRenderer').then(async ({ ensureNotationFonts, renderHeader, renderScore }) => {
+      await ensureNotationFonts();
       if (off || !headRef.current || !bodyRef.current) return;
       renderHeader(headRef.current, piece, 1.6);
       renderScore(bodyRef.current, piece, {

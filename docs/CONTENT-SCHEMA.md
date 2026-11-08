@@ -221,6 +221,29 @@ Gli eventi delle due mani stanno nello stesso array: l'ordine non conta, fa fede
 
 Sono ammessi **solo** brani di pubblico dominio (arrangiati da noi) o composizioni originali. Il campo `license` è obbligatorio e la validazione rifiuta qualsiasi altro valore.
 
-## Conversione da MIDI e MusicXML (M7)
+## Conversione da MIDI e MusicXML
 
-`tools/midi-to-lesson.ts` e `tools/musicxml-to-lesson.ts` producono un brano JSON già quantizzato. Va poi completato a mano con diteggiature e testo.
+```bash
+npm run convert -- melodia.mid --id mia-melodia --title "La mia melodia" --license original
+npm run convert -- valzer.musicxml --id valzer --license public-domain
+```
+
+| Opzione | Default | Significato |
+|---|---|---|
+| `--id` | (obbligatorio) | id e nome del file in `content/pieces/` |
+| `--title`, `--composer` | dal file | metadati |
+| `--license` | `public-domain` | `public-domain` o `original` |
+| `--split` | `60` | mani: note ≥ split alla destra; `track` = traccia 1 destra, 2 sinistra (MIDI). Nel MusicXML i righi 1/2 decidono la mano |
+| `--quantize` | `0.25` | griglia (beat) |
+| `--bpm`, `--pickup` | dal file / 0 | tempo e anacrusi |
+| `--out` | `content/pieces/<id>.json` | file di uscita |
+
+Cosa fa il convertitore:
+- quantizza le durate;
+- unisce le note simultanee in accordi e accorcia le sovrapposizioni (segnalandolo);
+- spezza le note alle stanghette con `tie`;
+- sceglie diesis o bemolle secondo l'armatura.
+
+Il risultato è valido per lo schema, ma va **rifinito a mano**: diteggiatura (`fingers`), eventuale testo (`label`), mani. Poi si esegue `npm run validate`.
+
+Formati supportati: Standard MIDI File (`.mid`/`.midi`) e MusicXML `score-partwise` non compresso (`.musicxml`/`.xml`). Per i file `.mxl` compressi, prima va estratto il file XML.

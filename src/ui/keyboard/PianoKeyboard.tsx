@@ -127,7 +127,6 @@ function PianoKeyboardImpl({
             data-midi={k.midi}
             data-testid={`key-${k.midi}`}
             role="button"
-            aria-label={noteLabel(k.midi, naming, { octave: true })}
             aria-pressed={!!isDown}
             className={[
               'pk-key',
@@ -143,9 +142,23 @@ function PianoKeyboardImpl({
               } as React.CSSProperties
             }
           >
-            {finger !== undefined && <span className="pk-finger">{finger}</span>}
+            {finger !== undefined && (
+              <span className="pk-finger" aria-hidden="true">
+                {finger}
+              </span>
+            )}
             {k.midi === MIDDLE_C && <span className="pk-middle-c" title="Do centrale" />}
-            {showLabels && !k.black && <span className="pk-label">{label}</span>}
+            {/* nome accessibile dal contenuto: nota visibile + ottava solo per i lettori di schermo */}
+            {showLabels && !k.black ? (
+              <span className="pk-label">
+                {label}
+                <span className="sr-only"> {Math.floor(k.midi / 12) - 1}</span>
+              </span>
+            ) : (
+              <span className="sr-only">
+                {label} {Math.floor(k.midi / 12) - 1}
+              </span>
+            )}
           </div>
         );
       })}

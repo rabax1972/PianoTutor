@@ -53,6 +53,8 @@ export interface Settings {
   mic: MicSettings;
   midi: MidiSettings;
   reminder: ReminderSettings;
+  /** modalità insegnante: tutte le lezioni aperte */
+  unlockAll: boolean;
   dailyGoalMin: number;
   updatedAt: number;
 }
@@ -70,6 +72,7 @@ export const DEFAULT_SETTINGS: Settings = {
   mic: { noiseFloorDb: null, gateMarginDb: 12, calibratedAt: null },
   midi: { deviceId: null, playSound: false },
   reminder: { enabled: false, time: '18:00' },
+  unlockAll: false,
   dailyGoalMin: 10,
   updatedAt: 0,
 };
