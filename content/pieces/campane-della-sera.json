@@ -1,0 +1,218 @@
+{
+  "$schema": "../../docs/schema/piece.schema.json",
+  "schemaVersion": 1,
+  "id": "campane-della-sera",
+  "title": "Campane della sera",
+  "composer": "Piano Tutor",
+  "license": "original",
+  "tempo": {
+    "bpm": 80
+  },
+  "timeSignature": [
+    4,
+    4
+  ],
+  "key": {
+    "fifths": 0,
+    "mode": "major"
+  },
+  "staves": [
+    "treble"
+  ],
+  "events": [
+    {
+      "t": 0,
+      "d": 2,
+      "p": [
+        "G4"
+      ],
+      "hand": "R",
+      "fingers": [
+        5
+      ]
+    },
+    {
+      "t": 2,
+      "d": 2,
+      "p": [
+        "E4"
+      ],
+      "hand": "R",
+      "fingers": [
+        3
+      ]
+    },
+    {
+      "t": 4,
+      "d": 4,
+      "p": [
+        "C4"
+      ],
+      "hand": "R",
+      "fingers": [
+        1
+      ]
+    },
+    {
+      "t": 8,
+      "d": 1,
+      "p": [
+        "D4"
+      ],
+      "hand": "R",
+      "fingers": [
+        2
+      ]
+    },
+    {
+      "t": 9,
+      "d": 1,
+      "p": [
+        "E4"
+      ],
+      "hand": "R",
+      "fingers": [
+        3
+      ]
+    },
+    {
+      "t": 10,
+      "d": 1,
+      "p": [
+        "F4"
+      ],
+      "hand": "R",
+      "fingers": [
+        4
+      ]
+    },
+    {
+      "t": 11,
+      "d": 1,
+      "p": [],
+      "hand": "R"
+    },
+    {
+      "t": 12,
+      "d": 4,
+      "p": [
+        "E4"
+      ],
+      "hand": "R",
+      "fingers": [
+        3
+      ]
+    },
+    {
+      "t": 16,
+      "d": 2,
+      "p": [
+        "G4"
+      ],
+      "hand": "R",
+      "fingers": [
+        5
+      ]
+    },
+    {
+      "t": 18,
+      "d": 2,
+      "p": [
+        "F4"
+      ],
+      "hand": "R",
+      "fingers": [
+        4
+      ]
+    },
+    {
+      "t": 20,
+      "d": 1,
+      "p": [
+        "E4"
+      ],
+      "hand": "R",
+      "fingers": [
+        3
+      ]
+    },
+    {
+      "t": 21,
+      "d": 1,
+      "p": [],
+      "hand": "R"
+    },
+    {
+      "t": 22,
+      "d": 1,
+      "p": [
+        "D4"
+      ],
+      "hand": "R",
+      "fingers": [
+        2
+      ]
+    },
+    {
+      "t": 23,
+      "d": 1,
+      "p": [],
+      "hand": "R"
+    },
+    {
+      "t": 24,
+      "d": 1,
+      "p": [
+        "E4"
+      ],
+      "hand": "R",
+      "fingers": [
+        3
+      ]
+    },
+    {
+      "t": 25,
+      "d": 1,
+      "p": [
+        "D4"
+      ],
+      "hand": "R",
+      "fingers": [
+        2
+      ]
+    },
+    {
+      "t": 26,
+      "d": 1,
+      "p": [
+        "C4"
+      ],
+      "hand": "R",
+      "fingers": [
+        1
+      ]
+    },
+    {
+      "t": 27,
+      "d": 1,
+      "p": [
+        "D4"
+      ],
+      "hand": "R",
+      "fingers": [
+        2
+      ]
+    },
+    {
+      "t": 28,
+      "d": 4,
+      "p": [
+        "C4"
+      ],
+      "hand": "R",
+      "fingers": [
+        1
+      ]
+    }
+  ]
+}

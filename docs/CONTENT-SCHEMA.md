@@ -190,6 +190,33 @@ Gli eventi delle due mani stanno nello stesso array: l'ordine non conta, fa fede
 }
 ```
 
+## Badge (`content/badges.json`)
+
+```json
+{ "schemaVersion": 1, "badges": [
+  { "id": "streak-3", "title": "Tre giorni di fila", "description": "Hai suonato per 3 giorni consecutivi.", "icon": "🔥",
+    "criterion": { "type": "streak", "days": 3 } }
+] }
+```
+
+| `criterion.type` | Parametro | Si ottiene quando… |
+|---|---|---|
+| `attempts` | `count` | esercizi completati ≥ count |
+| `lessons` | `count` | lezioni superate (≥ 1 stella) ≥ count |
+| `unit` | `unitId` | tutte le lezioni dell'unità sono superate |
+| `streak` | `days` | record di giorni consecutivi ≥ days |
+| `perfect` | `count` | esercizi con 3 stelle ≥ count |
+| `minutes` | `total` | minuti di pratica totali ≥ total |
+| `goal-days` | `count` | giorni in cui è stato raggiunto l'obiettivo ≥ count |
+| `realtime` | `count` | esercizi "a tempo" completati ≥ count |
+| `input` | `mode` | si è suonato con `virtual`, `mic` o `midi` |
+
+## Sblocco delle lezioni
+
+- Una lezione è **superata** quando è completata con **almeno 1 stella** (media arrotondata delle stelle di esercizi e brano).
+- Nella stessa unità, la lezione successiva si sblocca superando la precedente.
+- La prima lezione di un'unità richiede tutte le lezioni dell'unità precedente, oppure quelle elencate in `unlock.requiresLessons`, con almeno `unlock.minStars` stelle (default 1).
+
 ## Copyright
 
 Sono ammessi **solo** brani di pubblico dominio (arrangiati da noi) o composizioni originali. Il campo `license` è obbligatorio e la validazione rifiuta qualsiasi altro valore.

@@ -304,3 +304,15 @@ input[type='range'] {
   background: var(--accent);
   transition: width 200ms ease;
 }
+
+.time-input {
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: var(--bg-elev-2);
+  color: var(--fg);
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: 700;
+}

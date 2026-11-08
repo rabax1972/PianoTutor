@@ -1,0 +1,305 @@
+/* ---------- Notifiche ---------- */
+.toaster {
+  position: fixed;
+  top: calc(12px + var(--safe-t));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(520px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  background: var(--bg-elev-2);
+  border: 2px solid var(--accent);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  text-align: left;
+  cursor: pointer;
+  animation: toast-in 0.35s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+.toast__icon {
+  font-size: 2rem;
+}
+
+.toast__text {
+  display: block;
+  color: var(--fg-muted);
+  font-size: 0.95rem;
+}
+
+@keyframes toast-in {
+  from {
+    transform: translateY(-20px) scale(0.95);
+    opacity: 0;
+  }
+}
+
+/* ---------- Pagina progressi ---------- */
+.stat-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 18px;
+  min-height: 110px;
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  border: 2px solid var(--border);
+}
+
+.stat-tile--goal {
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  grid-column: span 2;
+}
+
+@media (max-width: 520px) {
+  .stat-tile--goal {
+    grid-column: span 1;
+  }
+}
+
+.stat-tile__value {
+  font-size: 1.7rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-tile__label {
+  color: var(--fg-muted);
+}
+
+.charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 12px;
+}
+
+/* ---------- Grafico a barre ---------- */
+:root {
+  --chart-1: #6b8ee8; /* serie unica; validato su #1a1f35 (luminosità, croma, contrasto ≥ 3:1) */
+  --chart-grid: rgba(183, 187, 208, 0.18);
+}
+
+.chart {
+  margin: 0;
+  padding: 18px;
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  border: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chart__title {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.chart__plot {
+  position: relative;
+  height: 180px;
+  margin-top: 18px;
+}
+
+.chart__grid span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--chart-grid);
+}
+
+.chart__ref {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 2px dashed var(--fg-muted);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.chart__ref span {
+  position: absolute;
+  right: 0;
+  bottom: 4px;
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+  background: var(--bg-elev);
+  padding: 0 4px;
+}
+
+.chart__bars {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--fg-muted);
+}
+
+.chart__slot {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  cursor: pointer;
+  outline-offset: -2px;
+}
+
+.chart__bar {
+  width: min(24px, 60%);
+  background: var(--chart-1);
+  border-radius: 4px 4px 0 0;
+  transition: height 0.4s ease, filter 0.1s;
+}
+
+.chart__slot.is-active .chart__bar,
+.chart__slot:hover .chart__bar {
+  filter: brightness(1.25);
+}
+
+.chart__tooltip {
+  position: absolute;
+  top: -12px;
+  transform: translate(-50%, -100%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  pointer-events: none;
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+}
+
+.chart__tooltip strong {
+  color: var(--fg);
+  font-size: 1rem;
+}
+
+.chart__axis {
+  display: flex;
+}
+
+.chart__axis span {
+  flex: 1;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+}
+
+.chart__table summary {
+  cursor: pointer;
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+}
+
+.chart__table table {
+  margin-top: 8px;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.chart__table th,
+.chart__table td {
+  text-align: left;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 400;
+}
+
+.chart__table td {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart--empty p {
+  margin: auto 0;
+}
+
+/* ---------- Note e badge ---------- */
+.missed {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.missed__item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 16px;
+  border-radius: 14px;
+  background: var(--bg-elev);
+  border: 2px solid var(--border);
+}
+
+.missed__note {
+  font-size: 1.4rem;
+  font-weight: 900;
+}
+
+.badges {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 12px;
+}
+
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 12px;
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  border: 2px solid var(--border);
+  text-align: center;
+  opacity: 0.6;
+}
+
+.badge.is-earned {
+  opacity: 1;
+  border-color: var(--accent);
+}
+
+.badge__icon {
+  font-size: 2.4rem;
+}
+
+.badge__desc {
+  font-size: 0.85rem;
+}
+
+.badge__date {
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+.badge__progress {
+  margin-top: 4px;
+  height: 6px;
+}

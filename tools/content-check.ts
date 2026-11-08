@@ -6,6 +6,7 @@ import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { CourseSchema, LessonSchema, PieceSchema } from '../src/core/content/schema';
 import { checkPiece } from '../src/core/timing/timeline';
+import { BadgesFileSchema } from '../src/core/progress/badgeSchema';
 
 export interface ContentReport {
   files: number;
@@ -69,6 +70,24 @@ export function checkContent(root = 'content'): ContentReport {
       for (const u of r.data.units)
         for (const l of [...u.lessons, ...u.unlock.requiresLessons])
           if (!lessonIds.has(l)) errors.push(`${coursePath}: unità "${u.id}" cita la lezione inesistente "${l}"`);
+  }
+
+  const badgesPath = join(root, 'badges.json');
+  if (existsSync(badgesPath)) {
+    files++;
+    const r = BadgesFileSchema.safeParse(JSON.parse(readFileSync(badgesPath, 'utf8')));
+    if (!r.success) errors.push(...formatZod(badgesPath, r.error.issues));
+    else {
+      const course = existsSync(coursePath) ? (JSON.parse(readFileSync(coursePath, 'utf8')) as { units: { id: string }[] }) : { units: [] };
+      const units = new Set(course.units.map((u) => u.id));
+      const ids = new Set<string>();
+      for (const b of r.data.badges) {
+        if (ids.has(b.id)) errors.push(`${badgesPath}: badge duplicato "${b.id}"`);
+        ids.add(b.id);
+        if (b.criterion.type === 'unit' && !units.has(b.criterion.unitId))
+          errors.push(`${badgesPath}: il badge "${b.id}" cita l'unità inesistente "${b.criterion.unitId}"`);
+      }
+    }
   }
 
   return { files, errors };

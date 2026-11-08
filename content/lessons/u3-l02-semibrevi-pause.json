@@ -1,0 +1,327 @@
+{
+  "$schema": "../../docs/schema/lesson.schema.json",
+  "schemaVersion": 1,
+  "id": "u3-l02-semibrevi-pause",
+  "unitId": "u3",
+  "title": "Semibrevi e pause",
+  "summary": "Note lunghe e silenzi che si contano.",
+  "estimatedMinutes": 5,
+  "concepts": [
+    "whole",
+    "rests"
+  ],
+  "steps": [
+    {
+      "type": "explain",
+      "id": "spiegazione",
+      "slides": [
+        {
+          "text": "La **semibreve** (𝅝) dura **quattro battiti**: tienila premuta per tutta la battuta.",
+          "animation": {
+            "kind": "rhythm-pulse",
+            "params": {
+              "pattern": [
+                4
+              ],
+              "bpm": 72
+            }
+          }
+        },
+        {
+          "text": "La **pausa** (𝄽) è un silenzio che si **conta**: non suonare, ma continua a contare!",
+          "animation": {
+            "kind": "rhythm-pulse",
+            "params": {
+              "pattern": [
+                1,
+                -1,
+                1,
+                -1
+              ],
+              "bpm": 72
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "exercise",
+      "id": "guidato",
+      "mode": "guided",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u3-l02-guidato",
+        "title": "Lunghe e silenzi",
+        "license": "original",
+        "tempo": {
+          "bpm": 60
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 4,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 4,
+            "d": 2,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 6,
+            "d": 2,
+            "p": [],
+            "hand": "R"
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [],
+            "hand": "R"
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [],
+            "hand": "R"
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "realtime",
+        "metronome": true,
+        "scoring": {
+          "timing": {
+            "perfectMs": 110,
+            "goodMs": 250
+          },
+          "weights": {
+            "pitch": 0.6,
+            "timing": 0.4
+          }
+        },
+        "showNoteNames": true
+      }
+    },
+    {
+      "type": "exercise",
+      "id": "libero",
+      "mode": "free",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u3-l02-libero",
+        "title": "Conta le pause",
+        "license": "original",
+        "tempo": {
+          "bpm": 66
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [],
+            "hand": "R"
+          },
+          {
+            "t": 4,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 5,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 6,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 7,
+            "d": 1,
+            "p": [],
+            "hand": "R"
+          },
+          {
+            "t": 8,
+            "d": 4,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "realtime",
+        "metronome": true,
+        "scoring": {
+          "timing": {
+            "perfectMs": 110,
+            "goodMs": 250
+          },
+          "weights": {
+            "pitch": 0.6,
+            "timing": 0.4
+          }
+        },
+        "showNoteNames": false
+      }
+    },
+    {
+      "type": "song",
+      "id": "brano",
+      "piece": "campane-della-sera",
+      "settings": {
+        "flow": "realtime",
+        "listenFirst": true,
+        "metronome": true,
+        "scoring": {
+          "timing": {
+            "perfectMs": 110,
+            "goodMs": 250
+          },
+          "weights": {
+            "pitch": 0.6,
+            "timing": 0.4
+          }
+        },
+        "tempoScale": 0.85,
+        "hands": "R"
+      }
+    }
+  ]
+}

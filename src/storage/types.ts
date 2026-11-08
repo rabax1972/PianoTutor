@@ -32,6 +32,12 @@ export interface MidiSettings {
   playSound: boolean;
 }
 
+export interface ReminderSettings {
+  enabled: boolean;
+  /** HH:MM ora locale */
+  time: string;
+}
+
 export interface Settings {
   /** null = non ancora scelto (mostra la schermata di scelta all'avvio) */
   inputMode: InputKind | null;
@@ -46,6 +52,7 @@ export interface Settings {
   a4Hz: number;
   mic: MicSettings;
   midi: MidiSettings;
+  reminder: ReminderSettings;
   dailyGoalMin: number;
   updatedAt: number;
 }
@@ -62,6 +69,7 @@ export const DEFAULT_SETTINGS: Settings = {
   a4Hz: 440,
   mic: { noiseFloorDb: null, gateMarginDb: 12, calibratedAt: null },
   midi: { deviceId: null, playSound: false },
+  reminder: { enabled: false, time: '18:00' },
   dailyGoalMin: 10,
   updatedAt: 0,
 };

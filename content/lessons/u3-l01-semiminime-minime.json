@@ -1,0 +1,434 @@
+{
+  "$schema": "../../docs/schema/lesson.schema.json",
+  "schemaVersion": 1,
+  "id": "u3-l01-semiminime-minime",
+  "unitId": "u3",
+  "title": "Semiminime e minime",
+  "summary": "Note da un battito e da due: ora si suona a tempo!",
+  "estimatedMinutes": 5,
+  "concepts": [
+    "quarter",
+    "half",
+    "realtime"
+  ],
+  "steps": [
+    {
+      "type": "explain",
+      "id": "spiegazione",
+      "slides": [
+        {
+          "text": "La **semiminima** (♩) dura **un battito**. Ascolta e conta: uno, due, tre, quattro.",
+          "animation": {
+            "kind": "rhythm-pulse",
+            "params": {
+              "pattern": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "bpm": 72
+            }
+          }
+        },
+        {
+          "text": "La **minima** (𝅗𝅥) dura **due battiti**: tienila premuta mentre conti «uno, due».",
+          "animation": {
+            "kind": "rhythm-pulse",
+            "params": {
+              "pattern": [
+                2,
+                2
+              ],
+              "bpm": 72
+            }
+          }
+        },
+        {
+          "text": "Da ora il brano **non ti aspetta**: scorre a tempo. Suona quando la nota arriva sulla **linea blu**; il metronomo ti aiuta.",
+          "animation": {
+            "kind": "rhythm-pulse",
+            "params": {
+              "pattern": [
+                1,
+                1,
+                2
+              ],
+              "bpm": 72
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "exercise",
+      "id": "guidato",
+      "mode": "guided",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u3-l01-guidato",
+        "title": "Battiti",
+        "license": "original",
+        "tempo": {
+          "bpm": 60
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 4,
+            "d": 2,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 6,
+            "d": 2,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 10,
+            "d": 2,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 12,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 13,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 14,
+            "d": 2,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "realtime",
+        "metronome": true,
+        "scoring": {
+          "timing": {
+            "perfectMs": 110,
+            "goodMs": 250
+          },
+          "weights": {
+            "pitch": 0.6,
+            "timing": 0.4
+          }
+        },
+        "showNoteNames": true
+      }
+    },
+    {
+      "type": "exercise",
+      "id": "libero",
+      "mode": "free",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u3-l01-libero",
+        "title": "A tempo da solo",
+        "license": "original",
+        "tempo": {
+          "bpm": 66
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 4,
+            "d": 2,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 6,
+            "d": 2,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 10,
+            "d": 2,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 12,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 13,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 14,
+            "d": 2,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "realtime",
+        "metronome": true,
+        "scoring": {
+          "timing": {
+            "perfectMs": 110,
+            "goodMs": 250
+          },
+          "weights": {
+            "pitch": 0.6,
+            "timing": 0.4
+          }
+        },
+        "showNoteNames": false
+      }
+    },
+    {
+      "type": "song",
+      "id": "brano",
+      "piece": "marcia-dei-pinguini",
+      "settings": {
+        "flow": "realtime",
+        "listenFirst": true,
+        "metronome": true,
+        "scoring": {
+          "timing": {
+            "perfectMs": 110,
+            "goodMs": 250
+          },
+          "weights": {
+            "pitch": 0.6,
+            "timing": 0.4
+          }
+        },
+        "tempoScale": 0.85,
+        "hands": "R"
+      }
+    }
+  ]
+}

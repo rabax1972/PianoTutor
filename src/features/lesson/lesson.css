@@ -196,3 +196,9 @@
 .lesson-card .stars {
   margin-top: auto;
 }
+
+.rhythm-pulse__note.is-rest {
+  background: transparent;
+  border: 2px dashed var(--border);
+  color: var(--fg-muted);
+}

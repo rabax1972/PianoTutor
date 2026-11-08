@@ -6,10 +6,11 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { z } from 'zod';
 import { CourseSchema, LessonSchema, PieceSchema } from '../src/core/content/schema';
+import { BadgesFileSchema } from '../src/core/progress/badgeSchema';
 
 const out = 'docs/schema';
 mkdirSync(out, { recursive: true });
-for (const [name, schema] of Object.entries({ course: CourseSchema, lesson: LessonSchema, piece: PieceSchema })) {
+for (const [name, schema] of Object.entries({ course: CourseSchema, lesson: LessonSchema, piece: PieceSchema, badges: BadgesFileSchema })) {
   const json = z.toJSONSchema(schema, { io: 'input', unrepresentable: 'any' });
   writeFileSync(`${out}/${name}.schema.json`, JSON.stringify(json, null, 2) + '\n');
   console.log(`✔ ${out}/${name}.schema.json`);

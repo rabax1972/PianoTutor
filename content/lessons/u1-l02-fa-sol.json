@@ -1,0 +1,377 @@
+{
+  "$schema": "../../docs/schema/lesson.schema.json",
+  "schemaVersion": 1,
+  "id": "u1-l02-fa-sol",
+  "unitId": "u1",
+  "title": "Fa e Sol",
+  "summary": "Completa la posizione di Do: cinque dita, cinque note.",
+  "estimatedMinutes": 4,
+  "concepts": [
+    "f4-g4",
+    "c-position"
+  ],
+  "steps": [
+    {
+      "type": "explain",
+      "id": "spiegazione",
+      "slides": [
+        {
+          "text": "Ora usiamo tutte e cinque le dita: **anulare (4)** sul Fa e **mignolo (5)** sul Sol. Questa è la **posizione di Do**.",
+          "animation": {
+            "kind": "hand-position",
+            "params": {
+              "fingers": {
+                "C4": 1,
+                "D4": 2,
+                "E4": 3,
+                "F4": 4,
+                "G4": 5
+              }
+            }
+          }
+        },
+        {
+          "text": "Sullo spartito le note salgono come una scaletta: **riga, spazio, riga, spazio**… Il **Fa** è nel primo spazio, il **Sol** sulla seconda riga.",
+          "showStaff": "treble",
+          "animation": {
+            "kind": "staff-note",
+            "params": {
+              "notes": [
+                "C4",
+                "D4",
+                "E4",
+                "F4",
+                "G4"
+              ]
+            }
+          }
+        },
+        {
+          "text": "Prova a suonare **Fa** e **Sol**: sono subito a destra del Mi.",
+          "highlightKeys": [
+            "F4",
+            "G4"
+          ],
+          "animation": {
+            "kind": "keyboard-highlight",
+            "params": {}
+          }
+        }
+      ]
+    },
+    {
+      "type": "exercise",
+      "id": "guidato",
+      "mode": "guided",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u1-l02-guidato",
+        "title": "Cinque dita",
+        "license": "original",
+        "tempo": {
+          "bpm": 70
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 4,
+            "d": 2,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 6,
+            "d": 2,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "wait",
+        "showNoteNames": true
+      }
+    },
+    {
+      "type": "exercise",
+      "id": "libero",
+      "mode": "free",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u1-l02-libero",
+        "title": "Su e giù",
+        "license": "original",
+        "tempo": {
+          "bpm": 70
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 4,
+            "d": 2,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 6,
+            "d": 2,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "wait",
+        "showNoteNames": false
+      }
+    },
+    {
+      "type": "song",
+      "id": "brano",
+      "piece": "ode-alla-gioia",
+      "settings": {
+        "flow": "wait",
+        "listenFirst": true,
+        "hands": "R"
+      }
+    }
+  ]
+}

@@ -49,6 +49,7 @@ export function createDexieProvider(dbName = 'piano-tutor'): StorageProvider {
           latency: { ...DEFAULT_SETTINGS.latency, ...(stored.latency ?? {}) },
           mic: { ...DEFAULT_SETTINGS.mic, ...(stored.mic ?? {}) },
           midi: { ...DEFAULT_SETTINGS.midi, ...(stored.midi ?? {}) },
+          reminder: { ...DEFAULT_SETTINGS.reminder, ...(stored.reminder ?? {}) },
         };
       },
       async save(settings: Settings): Promise<void> {

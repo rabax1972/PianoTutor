@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "badges": [
+    {
+      "id": "prima-nota",
+      "title": "Prima nota",
+      "description": "Hai completato il tuo primo esercizio.",
+      "icon": "🎵",
+      "criterion": {
+        "type": "attempts",
+        "count": 1
+      }
+    },
+    {
+      "id": "prima-lezione",
+      "title": "Prima lezione",
+      "description": "Hai superato la tua prima lezione.",
+      "icon": "🎓",
+      "criterion": {
+        "type": "lessons",
+        "count": 1
+      }
+    },
+    {
+      "id": "perfetto",
+      "title": "Perfetto!",
+      "description": "Tre stelle in un esercizio.",
+      "icon": "⭐",
+      "criterion": {
+        "type": "perfect",
+        "count": 1
+      }
+    },
+    {
+      "id": "obiettivo",
+      "title": "Obiettivo raggiunto",
+      "description": "Hai raggiunto l’obiettivo di pratica di un giorno.",
+      "icon": "🎯",
+      "criterion": {
+        "type": "goal-days",
+        "count": 1
+      }
+    },
+    {
+      "id": "dieci-minuti",
+      "title": "Dieci minuti",
+      "description": "10 minuti di pratica in totale.",
+      "icon": "⏱️",
+      "criterion": {
+        "type": "minutes",
+        "total": 10
+      }
+    },
+    {
+      "id": "a-tempo",
+      "title": "A tempo!",
+      "description": "Il tuo primo esercizio a tempo.",
+      "icon": "🥁",
+      "criterion": {
+        "type": "realtime",
+        "count": 1
+      }
+    },
+    {
+      "id": "unita-1",
+      "title": "Esploratore della tastiera",
+      "description": "Hai completato l’unità «Conosci la tastiera».",
+      "icon": "🗺️",
+      "criterion": {
+        "type": "unit",
+        "unitId": "u1"
+      }
+    },
+    {
+      "id": "unita-2",
+      "title": "Due mani",
+      "description": "Hai completato l’unità «Due chiavi, due mani».",
+      "icon": "🙌",
+      "criterion": {
+        "type": "unit",
+        "unitId": "u2"
+      }
+    },
+    {
+      "id": "unita-3",
+      "title": "Senso del ritmo",
+      "description": "Hai completato l’unità «Il ritmo».",
+      "icon": "🎼",
+      "criterion": {
+        "type": "unit",
+        "unitId": "u3"
+      }
+    },
+    {
+      "id": "streak-3",
+      "title": "Tre giorni di fila",
+      "description": "Hai suonato per 3 giorni consecutivi.",
+      "icon": "🔥",
+      "criterion": {
+        "type": "streak",
+        "days": 3
+      }
+    },
+    {
+      "id": "streak-7",
+      "title": "Una settimana di fila",
+      "description": "Hai suonato per 7 giorni consecutivi.",
+      "icon": "🏆",
+      "criterion": {
+        "type": "streak",
+        "days": 7
+      }
+    },
+    {
+      "id": "stella",
+      "title": "Stella del pianoforte",
+      "description": "Tre stelle in 10 esercizi.",
+      "icon": "🌟",
+      "criterion": {
+        "type": "perfect",
+        "count": 10
+      }
+    },
+    {
+      "id": "un-ora",
+      "title": "Un’ora di musica",
+      "description": "60 minuti di pratica in totale.",
+      "icon": "⌛",
+      "criterion": {
+        "type": "minutes",
+        "total": 60
+      }
+    },
+    {
+      "id": "pianoforte-vero",
+      "title": "Pianoforte vero",
+      "description": "Hai suonato un pianoforte acustico con il microfono.",
+      "icon": "🎤",
+      "criterion": {
+        "type": "input",
+        "mode": "mic"
+      }
+    },
+    {
+      "id": "tastiera-midi",
+      "title": "Collegato!",
+      "description": "Hai suonato con una tastiera MIDI.",
+      "icon": "🔌",
+      "criterion": {
+        "type": "input",
+        "mode": "midi"
+      }
+    }
+  ]
+}

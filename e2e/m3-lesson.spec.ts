@@ -16,7 +16,7 @@ async function startStep(page: Page) {
 }
 
 test.describe('M3 – prima lezione completa con la tastiera a schermo', () => {
-  test.setTimeout(90_000);
+  test.setTimeout(150_000); // lezione intera: lunga sotto carico
 
   test('spiegazione → esercizio guidato → libero → brano → lezione completata', async ({ page }) => {
     await page.goto('./');

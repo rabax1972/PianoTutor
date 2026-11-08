@@ -1,0 +1,382 @@
+{
+  "$schema": "../../docs/schema/lesson.schema.json",
+  "schemaVersion": 1,
+  "id": "u1-l03-leggere",
+  "unitId": "u1",
+  "title": "Leggere le note",
+  "summary": "Riconosci le note sullo spartito senza i nomi.",
+  "estimatedMinutes": 5,
+  "concepts": [
+    "reading-c4-g4"
+  ],
+  "steps": [
+    {
+      "type": "explain",
+      "id": "spiegazione",
+      "slides": [
+        {
+          "text": "È il momento di leggere le note **senza i nomi**. Ricorda: Do ha il trattino, Re è appena sotto la prima riga, Mi è sulla prima riga…",
+          "showStaff": "treble",
+          "animation": {
+            "kind": "staff-note",
+            "params": {
+              "notes": [
+                "C4",
+                "D4",
+                "E4",
+                "F4",
+                "G4"
+              ]
+            }
+          }
+        },
+        {
+          "text": "Più la nota è **in alto** sul pentagramma, più il suono è **acuto** e il tasto è **a destra**.",
+          "animation": {
+            "kind": "keyboard-highlight",
+            "params": {
+              "group": "all-white"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "exercise",
+      "id": "guidato",
+      "mode": "guided",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u1-l03-guidato",
+        "title": "Salti in posizione di Do",
+        "license": "original",
+        "tempo": {
+          "bpm": 70
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 4,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 5,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 6,
+            "d": 2,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "wait",
+        "showNoteNames": false,
+        "hints": true
+      }
+    },
+    {
+      "type": "exercise",
+      "id": "libero",
+      "mode": "free",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u1-l03-libero",
+        "title": "Leggi da solo",
+        "license": "original",
+        "tempo": {
+          "bpm": 70
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "treble"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 4,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 5,
+            "d": 1,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 6,
+            "d": 2,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "G4"
+            ],
+            "hand": "R",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "F4"
+            ],
+            "hand": "R",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "E4"
+            ],
+            "hand": "R",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "D4"
+            ],
+            "hand": "R",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C4"
+            ],
+            "hand": "R",
+            "fingers": [
+              1
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "wait",
+        "showNoteNames": false
+      }
+    },
+    {
+      "type": "song",
+      "id": "brano",
+      "piece": "jingle-bells",
+      "settings": {
+        "flow": "wait",
+        "listenFirst": true,
+        "hands": "R"
+      }
+    }
+  ]
+}

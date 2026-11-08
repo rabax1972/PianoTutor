@@ -120,18 +120,19 @@ function RhythmPulse({ pattern, bpm }: { pattern: number[]; bpm: number }) {
     let t = 0;
     const t0 = audioEngine.now() + 0.1;
     pattern.forEach((d, i) => {
-      scheduleClick(t0 + t, i === 0, 0.7);
+      // valori negativi = pause: si contano ma non suonano
+      if (d > 0) scheduleClick(t0 + t, i === 0, 0.7);
       timers.current.push(setTimeout(() => setActive(i), (t + 0.1) * 1000));
-      t += d * spb;
+      t += Math.abs(d) * spb;
     });
     timers.current.push(setTimeout(() => setActive(-1), (t + 0.1) * 1000));
   };
-  const glyph = (d: number) => (d >= 4 ? '𝅝' : d >= 2 ? '𝅗𝅥' : d >= 1 ? '♩' : '♪');
+  const glyph = (d: number) => (d < 0 ? '𝄽' : d >= 4 ? '𝅝' : d >= 2 ? '𝅗𝅥' : d >= 1 ? '♩' : '♪');
   return (
     <div className="rhythm-pulse">
       <div className="rhythm-pulse__row">
         {pattern.map((d, i) => (
-          <span key={i} className={`rhythm-pulse__note${i === active ? ' is-active' : ''}`} style={{ flexGrow: d }}>
+          <span key={i} className={`rhythm-pulse__note${i === active ? ' is-active' : ''}${d < 0 ? ' is-rest' : ''}`} style={{ flexGrow: Math.abs(d) }}>
             {glyph(d)}
           </span>
         ))}

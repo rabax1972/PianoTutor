@@ -1,0 +1,138 @@
+.unit {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  border: 2px solid var(--border);
+}
+
+.unit.is-locked {
+  opacity: 0.65;
+}
+
+.unit__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.unit__icon {
+  font-size: 2.2rem;
+}
+
+.unit__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.unit__info h2 {
+  font-size: 1.25rem;
+}
+
+.unit__stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-variant-numeric: tabular-nums;
+}
+
+.unit__stats strong {
+  font-size: 1.3rem;
+}
+
+/* sentiero a zig-zag */
+.path {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.path__item {
+  display: flex;
+  width: min(560px, 100%);
+}
+
+@media (min-width: 760px) {
+  .path__item.is-right {
+    align-self: flex-end;
+  }
+}
+
+.path__link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 88px;
+  padding: 12px 18px 12px 12px;
+  border-radius: 999px;
+  background: var(--bg-elev-2);
+  border: 2px solid var(--border);
+  color: inherit;
+  text-decoration: none;
+}
+
+.path__link:active {
+  transform: scale(0.985);
+}
+
+.path__node {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: 900;
+  background: var(--bg);
+  border: 3px solid var(--border);
+}
+
+.path__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.path__text strong {
+  font-size: 1.15rem;
+}
+
+.path__item.is-passed .path__node {
+  background: var(--ok);
+  border-color: var(--ok);
+  color: #06281a;
+}
+
+.path__item.is-current .path__link {
+  border-color: var(--accent);
+}
+
+.path__item.is-current .path__node {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+  animation: node-pulse 1.8s ease-in-out infinite;
+}
+
+.path__item.is-locked .path__link {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+@keyframes node-pulse {
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 201, 77, 0.18);
+  }
+}

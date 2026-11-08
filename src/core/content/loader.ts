@@ -3,6 +3,8 @@
  * La validazione completa (Zod + controlli semantici) avviene a build: tools/validate-content.ts.
  */
 import courseJson from '../../../content/course.json';
+import badgesJson from '../../../content/badges.json';
+import type { Badge } from '../progress/badges';
 import type { Course, Lesson, Piece, Step } from './schema';
 
 const pieceModules = import.meta.glob<Piece>('/content/pieces/*.json', { eager: true, import: 'default' });
@@ -12,6 +14,12 @@ const pieces: Piece[] = Object.values(pieceModules).sort((a, b) => a.title.local
 const piecesById = new Map(pieces.map((p) => [p.id, p]));
 const lessonsById = new Map(Object.values(lessonModules).map((l) => [l.id, l]));
 const course = courseJson as unknown as Course;
+
+const badges = (badgesJson as unknown as { badges: Badge[] }).badges;
+
+export function getBadges(): Badge[] {
+  return badges;
+}
 
 export function listPieces(): Piece[] {
   return pieces;

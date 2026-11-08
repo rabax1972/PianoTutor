@@ -6,6 +6,7 @@ import type { SessionResult } from '../../core/evaluation/types';
 import { midiToPitch } from '../../core/music/pitch';
 import type { InputKind } from '../../input/types';
 import { storage, type Attempt, type LessonProgress } from '../../storage';
+import { notifyProgress } from '../progress/summary';
 
 export function todayKey(d = new Date()): string {
   const p = (n: number) => String(n).padStart(2, '0');
@@ -58,10 +59,14 @@ export async function recordAttempt(result: SessionResult, meta: AttemptMeta): P
     updatedAt: Date.now(),
   };
   await storage.progress.addAttempt(attempt);
+  notifyProgress();
 }
 
 export async function addPracticeTime(ms: number): Promise<void> {
-  if (ms > 500) await storage.stats.addPractice(todayKey(), Math.round(ms));
+  if (ms > 500) {
+    await storage.stats.addPractice(todayKey(), Math.round(ms));
+    notifyProgress();
+  }
 }
 
 /** Aggiorna il progresso della lezione dopo uno step (suonabile o spiegazione). */
@@ -90,5 +95,6 @@ export async function completeStep(lesson: Lesson, stepId: string, stars?: numbe
     updatedAt: Date.now(),
   };
   await storage.progress.putLesson(next);
+  notifyProgress();
   return next;
 }

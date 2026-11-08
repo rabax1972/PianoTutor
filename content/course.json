@@ -7,10 +7,40 @@
     {
       "id": "u1",
       "title": "Conosci la tastiera",
-      "description": "Do centrale, tasti bianchi e neri, posizione della mano destra",
+      "description": "Do centrale, posizione di Do, leggere le prime note con la mano destra",
       "icon": "🎹",
       "lessons": [
-        "u1-l01-do-re-mi"
+        "u1-l01-do-re-mi",
+        "u1-l02-fa-sol",
+        "u1-l03-leggere"
+      ],
+      "unlock": {
+        "requiresLessons": []
+      }
+    },
+    {
+      "id": "u2",
+      "title": "Due chiavi, due mani",
+      "description": "La mano sinistra, la chiave di basso, le mani che si alternano",
+      "icon": "🙌",
+      "lessons": [
+        "u2-l01-chiave-di-basso",
+        "u2-l02-salti-sinistra",
+        "u2-l03-due-mani"
+      ],
+      "unlock": {
+        "requiresLessons": []
+      }
+    },
+    {
+      "id": "u3",
+      "title": "Il ritmo",
+      "description": "Semiminime, minime, semibrevi, pause e crome: si suona a tempo",
+      "icon": "🥁",
+      "lessons": [
+        "u3-l01-semiminime-minime",
+        "u3-l02-semibrevi-pause",
+        "u3-l03-crome"
       ],
       "unlock": {
         "requiresLessons": []

@@ -133,6 +133,28 @@ getUserMedia (senza echoCancellation/noiseSuppression/AGC)
 - Se il browser non ha la Web MIDI (Safari su iPad e iPhone), l'opzione è disattivata con una spiegazione e un'alternativa.
 - **Test e2e:** `navigator.requestMIDIAccess` viene sostituito da un dispositivo finto pilotabile (`window.__midi`). Coperti: suonare, scollegare e ricollegare, browser non supportato.
 
+## Percorso, progressi e motivazione (M6)
+
+- **Contenuti:** 3 unità × 3 lezioni (`content/lessons`), 10 brani, `course.json`, `badges.json`.
+  - Unità 1-2 in **wait mode**. L'unità 3 (ritmo) passa al **tempo reale**, con metronomo, velocità ridotta e finestre di timing più tolleranti (±110/250 ms), impostate per step in `settings.scoring`.
+- **`core/progress`** (TS puro, testato):
+  - `streak`: un giorno conta con almeno 1 minuto di pratica; oggi non ancora suonato non rompe la serie.
+  - `unlock`: per proseguire servono la lezione completata e almeno 1 stella; un'unità richiede la precedente, oppure `unlock.requiresLessons` con `minStars`.
+  - `stats`: note più sbagliate, precisione recente, totali.
+  - `badges`: criteri dichiarativi `attempts`, `lessons`, `unit`, `streak`, `perfect`, `minutes`, `goal-days`, `realtime`, `input`.
+- **`features/progress/summary`**: carica i dati dallo `StorageProvider` e calcola il riepilogo (`useProgressSummary`).
+  - Dopo ogni salvataggio, `notifyProgress()` aggiorna le viste, assegna i badge nuovi (con notifica a comparsa) e festeggia l'obiettivo del giorno.
+- **Schermate:**
+  - mappa del percorso a sentiero, con la lezione corrente evidenziata e il motivo dei blocchi;
+  - home con obiettivo, streak e "Continua";
+  - **I tuoi progressi**: riquadri numerici, minuti degli ultimi 7 giorni con la linea dell'obiettivo, precisione delle ultime sessioni, note da ripassare, badge con avanzamento.
+- **Grafici:** una sola serie, quindi niente legenda. Colore `--chart-1` (#6b8ee8), validato sulla superficie scura. Barre ≤ 24 px arrotondate in alto, tooltip al tocco, hover e focus, tabella "Mostra i dati".
+- **Promemoria senza backend:**
+  - avviso nell'app dopo l'ora scelta;
+  - notifica di sistema mentre l'app è aperta;
+  - file `.ics` con evento giornaliero ricorrente, che funziona anche su iPad.
+  Le notifiche ad app chiusa richiedono un server push: è un'estensione futura.
+
 ## Scelte con alternative
 
 - **Spartito.** VexFlow e non OSMD o Verovio: ogni nota è un elemento SVG che si può indirizzare per colorarla. Il brano è disegnato su un rigo continuo e fatto scorrere a 60 fps senza re-render.
@@ -156,6 +178,6 @@ getUserMedia (senza echoCancellation/noiseSuppression/AGC)
 | M3 | Motore di valutazione, prima lezione completa | ✅ |
 | M4 | Microfono, pitch detection, calibrazione | ✅ |
 | M5 | Web MIDI | ✅ |
-| M6 | Unità 1-3, progressi, streak, statistiche | |
+| M6 | Unità 1-3, progressi, streak, statistiche | ✅ |
 | M7 | Rifiniture, accessibilità, offline, convertitori, test, Lighthouse | |
 | M8 | Unità 4-6: due mani, accordi, alterazioni e scale | |

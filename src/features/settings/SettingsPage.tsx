@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { useSettings } from '../../app/settingsStore';
 import { t } from '../../i18n/it';
 import { storage, DEFAULT_SETTINGS } from '../../storage';
+import { downloadIcs, notificationsSupported, requestNotificationPermission } from '../progress/reminders';
+import { pushToast } from '../progress/toasts';
 import { Row, Segmented, Switch, TopBar } from '../../ui/components';
 
 const INPUT_LABEL = { virtual: '📱 Schermo', midi: '🎹 MIDI', mic: '🎤 Microfono' } as const;
@@ -96,6 +98,52 @@ export function SettingsPage() {
             onChange={(e) => update({ volume: Number(e.target.value) })}
           />
         </Row>
+      </section>
+
+      <section className="page-section">
+        <h2>Obiettivo e promemoria</h2>
+        <Row label="Obiettivo giornaliero" desc="Minuti di pratica al giorno: bastano pochi minuti, ma tutti i giorni.">
+          <Segmented
+            label="Obiettivo giornaliero"
+            value={settings.dailyGoalMin}
+            onChange={(v) => update({ dailyGoalMin: v })}
+            options={[5, 10, 15, 20, 30].map((v) => ({ value: v, label: `${v} min` }))}
+          />
+        </Row>
+        <Row label="Promemoria quotidiano" desc="Un avviso all’ora scelta se oggi non hai ancora suonato.">
+          <Switch
+            label="Promemoria quotidiano"
+            checked={settings.reminder.enabled}
+            onChange={async (v) => {
+              update({ reminder: { ...settings.reminder, enabled: v } });
+              if (v && notificationsSupported()) {
+                const p = await requestNotificationPermission();
+                if (p === 'denied') pushToast({ icon: '🔕', title: 'Notifiche bloccate', text: 'Vedrai l’avviso nell’app. Per le notifiche, consentile nelle impostazioni del browser.' });
+              }
+            }}
+          />
+        </Row>
+        {settings.reminder.enabled && (
+          <>
+            <Row label="Ora del promemoria">
+              <input
+                type="time"
+                className="time-input"
+                value={settings.reminder.time}
+                aria-label="Ora del promemoria"
+                onChange={(e) => e.target.value && update({ reminder: { ...settings.reminder, time: e.target.value } })}
+              />
+            </Row>
+            <Row
+              label="Aggiungi al calendario"
+              desc="Il modo più affidabile, anche su iPad: un evento ripetuto ogni giorno nel calendario del dispositivo. Le notifiche dell’app arrivano solo mentre l’app è aperta."
+            >
+              <button className="btn" onClick={() => downloadIcs(settings.reminder.time, settings.dailyGoalMin)} data-testid="download-ics">
+                📅 Scarica evento
+              </button>
+            </Row>
+          </>
+        )}
       </section>
 
       <section className="page-section">

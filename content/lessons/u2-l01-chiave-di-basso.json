@@ -1,0 +1,378 @@
+{
+  "$schema": "../../docs/schema/lesson.schema.json",
+  "schemaVersion": 1,
+  "id": "u2-l01-chiave-di-basso",
+  "unitId": "u2",
+  "title": "La chiave di basso",
+  "summary": "La mano sinistra entra in scena.",
+  "estimatedMinutes": 5,
+  "concepts": [
+    "bass-clef",
+    "left-hand-c-position"
+  ],
+  "steps": [
+    {
+      "type": "explain",
+      "id": "spiegazione",
+      "slides": [
+        {
+          "text": "La mano sinistra legge la **chiave di basso** (𝄢). Le sue note sono più **gravi**, a sinistra del Do centrale.",
+          "showStaff": "bass",
+          "animation": {
+            "kind": "staff-note",
+            "params": {
+              "notes": [
+                "C3",
+                "D3",
+                "E3",
+                "F3",
+                "G3"
+              ]
+            }
+          }
+        },
+        {
+          "text": "Questo Do è **un’ottava sotto** il Do centrale: stesso nome, suono più grave. Trovalo e suonalo!",
+          "highlightKeys": [
+            "C3"
+          ],
+          "animation": {
+            "kind": "keyboard-highlight",
+            "params": {}
+          }
+        },
+        {
+          "text": "Mano sinistra: **mignolo (5)** sul Do, **pollice (1)** sul Sol. Attenzione: nella sinistra le dita si contano **al contrario**!",
+          "animation": {
+            "kind": "hand-position",
+            "params": {
+              "fingers": {
+                "C3": 5,
+                "D3": 4,
+                "E3": 3,
+                "F3": 2,
+                "G3": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "exercise",
+      "id": "guidato",
+      "mode": "guided",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u2-l01-guidato",
+        "title": "Sinistra in posizione",
+        "license": "original",
+        "tempo": {
+          "bpm": 70
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "bass"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "D3"
+            ],
+            "hand": "L",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "E3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "F3"
+            ],
+            "hand": "L",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 4,
+            "d": 2,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 6,
+            "d": 2,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "F3"
+            ],
+            "hand": "L",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "E3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "D3"
+            ],
+            "hand": "L",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "wait",
+        "showNoteNames": true,
+        "hands": "L"
+      }
+    },
+    {
+      "type": "exercise",
+      "id": "libero",
+      "mode": "free",
+      "piece": {
+        "schemaVersion": 1,
+        "id": "u2-l01-libero",
+        "title": "Sinistra da sola",
+        "license": "original",
+        "tempo": {
+          "bpm": 70
+        },
+        "timeSignature": [
+          4,
+          4
+        ],
+        "key": {
+          "fifths": 0,
+          "mode": "major"
+        },
+        "staves": [
+          "bass"
+        ],
+        "events": [
+          {
+            "t": 0,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 1,
+            "d": 1,
+            "p": [
+              "F3"
+            ],
+            "hand": "L",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 2,
+            "d": 1,
+            "p": [
+              "E3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 3,
+            "d": 1,
+            "p": [
+              "D3"
+            ],
+            "hand": "L",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 4,
+            "d": 2,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          },
+          {
+            "t": 6,
+            "d": 2,
+            "p": [
+              "E3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 8,
+            "d": 1,
+            "p": [
+              "D3"
+            ],
+            "hand": "L",
+            "fingers": [
+              4
+            ]
+          },
+          {
+            "t": 9,
+            "d": 1,
+            "p": [
+              "E3"
+            ],
+            "hand": "L",
+            "fingers": [
+              3
+            ]
+          },
+          {
+            "t": 10,
+            "d": 1,
+            "p": [
+              "F3"
+            ],
+            "hand": "L",
+            "fingers": [
+              2
+            ]
+          },
+          {
+            "t": 11,
+            "d": 1,
+            "p": [
+              "G3"
+            ],
+            "hand": "L",
+            "fingers": [
+              1
+            ]
+          },
+          {
+            "t": 12,
+            "d": 4,
+            "p": [
+              "C3"
+            ],
+            "hand": "L",
+            "fingers": [
+              5
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "flow": "wait",
+        "showNoteNames": false,
+        "hands": "L"
+      }
+    },
+    {
+      "type": "song",
+      "id": "brano",
+      "piece": "ode-alla-gioia-sinistra",
+      "settings": {
+        "flow": "wait",
+        "listenFirst": true,
+        "hands": "L"
+      }
+    }
+  ]
+}

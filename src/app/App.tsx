@@ -12,6 +12,10 @@ import { CoursePage } from '../features/course/CoursePage';
 import { CalibrationPage } from '../features/mic/CalibrationPage';
 import { MidiSetupPage } from '../features/midi/MidiSetupPage';
 import { useSettings } from './settingsStore';
+import { Toaster } from '../features/progress/toasts';
+import { ProgressPage } from '../features/progress/ProgressPage';
+import { scheduleReminder } from '../features/progress/reminders';
+import { loadSummary } from '../features/progress/summary';
 
 // Lo spartito (VexFlow + font musicali) è caricato solo quando serve.
 const ScorePlayerPage = lazy(() =>
@@ -40,6 +44,7 @@ const router = createHashRouter([
       </Suspense>
     ),
   },
+  { path: '/progressi', element: <ProgressPage /> },
   { path: '/brani', element: <SongsPage /> },
   {
     path: '/brano/:id',
@@ -81,6 +86,26 @@ export function App() {
     });
   }, [settings.volume]);
 
+  // promemoria: notifica all'ora scelta finché l'app è aperta (se oggi non si è suonato)
+  useEffect(() => {
+    if (!loaded) return;
+    let practiced = false;
+    const refresh = () =>
+      loadSummary(settings.dailyGoalMin)
+        .then((s) => (practiced = s.streak.practicedToday))
+        .catch(() => undefined);
+    void refresh();
+    scheduleReminder(settings.reminder.enabled, settings.reminder.time, () => {
+      void refresh();
+      return practiced;
+    });
+  }, [loaded, settings.reminder.enabled, settings.reminder.time, settings.dailyGoalMin]);
+
   if (!loaded) return null;
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <Toaster />
+    </>
+  );
 }

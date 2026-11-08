@@ -81,12 +81,16 @@ function LessonRunner({ lesson }: { lesson: Lesson }) {
                 .map((s) => `${STEP_LABEL[s.type]}: ${'★'.repeat(lastStars[s.id] ?? 0) || '—'}`)
                 .join(' · ')}
             </p>
-            <p className="muted">Ogni giorno un pochino: è così che si impara il pianoforte.</p>
+            {(progress?.bestStars ?? 0) < 1 ? (
+              <p>Per sbloccare la prossima lezione serve almeno una stella: riprova un esercizio, anche più lentamente!</p>
+            ) : (
+              <p className="muted">Ogni giorno un pochino: è così che si impara il pianoforte.</p>
+            )}
             <div className="result__actions">
               <button className="btn" onClick={() => navigate('/percorso')}>
                 Torna al percorso
               </button>
-              {next && (
+              {next && (progress?.bestStars ?? 0) >= 1 && (
                 <button className="btn btn--primary" onClick={() => navigate(`/lezione/${next}`)}>
                   Prossima lezione →
                 </button>
