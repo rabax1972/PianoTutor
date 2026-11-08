@@ -389,6 +389,10 @@
                   "colorNotes": {
                     "type": "boolean"
                   },
+                  "hints": {
+                    "description": "illumina sulla tastiera le note da suonare (default: sì negli esercizi guidati e nei brani, no negli esercizi liberi)",
+                    "type": "boolean"
+                  },
                   "scoring": {
                     "type": "object",
                     "properties": {
@@ -731,6 +735,10 @@
                     "type": "boolean"
                   },
                   "colorNotes": {
+                    "type": "boolean"
+                  },
+                  "hints": {
+                    "description": "illumina sulla tastiera le note da suonare (default: sì negli esercizi guidati e nei brani, no negli esercizi liberi)",
                     "type": "boolean"
                   },
                   "scoring": {

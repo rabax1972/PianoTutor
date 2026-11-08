@@ -46,7 +46,7 @@ content/          corso, lezioni, brani (JSON)
 public/samples/   campioni di pianoforte
 src/app/          App, router, store, hook
 src/audio/        AudioEngine, Sampler, mappa campioni
-src/core/         music/ (altezze, durate), content/ (schemi, loader), timing/ (timeline, transport), evaluation/ (M3)
+src/core/         music/ (altezze, durate), content/ (schemi, loader), timing/ (timeline, transport), evaluation/ (valutatori wait/realtime, punteggio)
 src/input/        interfacce, virtual/, midi/ (M5), mic/ (M4)
 src/notation/     renderer VexFlow, ScoreView (scroll + evidenziazioni)
 src/storage/      interfacce + provider Dexie
@@ -73,6 +73,26 @@ docs/             questa documentazione + docs/schema/*.json
 - La posizione visiva sottrae la latenza di uscita audio, così si vede la nota nel momento in cui la si sente.
 - `PlaybackScheduler` programma note e metronomo con 120 ms di anticipo sull'orologio audio (tick ogni 25 ms).
 
+## Valutazione (M3)
+
+Il codice in `src/core/evaluation/` è TypeScript puro ed è coperto dai test unitari.
+
+- **`WaitEvaluator`** (wait mode): il brano si ferma su ogni onset finché non vengono suonate tutte le sue note. Gli accordi si possono comporre anche una nota alla volta.
+  - Una nota sbagliata conta come errore; quella giusta suonata dopo un errore vale `corrected` (giallo).
+  - Precisione = note giuste / (note giuste + errori). Il timing non viene valutato.
+- **`RealtimeEvaluator`** (a tempo): ogni nota suonata viene abbinata alla nota attesa con la stessa altezza più vicina entro ±`goodMs`.
+  - Entro ±`perfectMs` è `perfect`; fuori da quel margine ma entro la finestra è `early` o `late`.
+  - Le note fuori finestra contano come `wrong`. Quando la finestra di un onset si chiude (`advance`), quelle non suonate diventano `missed`.
+  - Le finestre sono in **ms reali**, convertite con `msPerBeat`, quindi restano uguali anche rallentando il tempo.
+  - Precisione = abbinate / (attese + 0,5 × sbagliate). Ritmo = media di `timingScore`: 1 entro `perfectMs`, poi giù fino a 0,5 a `goodMs`.
+- **Punteggio** = media pesata di precisione e ritmo (`weights`). Le stelle si assegnano con le soglie `stars`. Tutto si può configurare per singolo step con `settings.scoring`.
+- **`PlaySession`** collega trasporto, `PlaybackScheduler` (conteggio, metronomo, accompagnamento della mano non suonata) e input dall'`inputHub`.
+  - Gestisce la pausa del wait mode e calcola i segni sullo spartito e sulla tastiera (suggerimenti, dita, lampeggi verde/giallo/rosso) e i messaggi incoraggianti.
+  - Espone uno snapshot per React.
+- **Lezione** (`features/lesson`): `ExplainStep` (slide con animazioni interattive) → `PlayStep` (introduzione, eventuale "ascolta prima", esecuzione, risultato) → schermata finale.
+  - I progressi (stelle migliori per step, lezione completata) e i tentativi vengono salvati tramite lo `StorageProvider`.
+  - Stelle della lezione = media arrotondata delle stelle degli step.
+
 ## Scelte con alternative
 
 - **Spartito.** VexFlow e non OSMD o Verovio: ogni nota è un elemento SVG che si può indirizzare per colorarla. Il brano è disegnato su un rigo continuo e fatto scorrere a 60 fps senza re-render.
@@ -93,7 +113,7 @@ docs/             questa documentazione + docs/schema/*.json
 |---|---|---|
 | M1 | Scheletro PWA, tastiera a schermo, audio | ✅ |
 | M2 | Spartito VexFlow, scroll ed evidenziazione | ✅ |
-| M3 | Motore di valutazione, prima lezione completa | |
+| M3 | Motore di valutazione, prima lezione completa | ✅ |
 | M4 | Microfono, pitch detection, calibrazione | |
 | M5 | Web MIDI | |
 | M6 | Unità 1-3, progressi, streak, statistiche | |

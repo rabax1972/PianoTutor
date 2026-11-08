@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Piece } from '../content/schema';
-import { buildTimeline, checkPiece, measureIndexAt, pitchRange, soundingAt } from './timeline';
+import { buildTimeline, checkPiece, measureIndexAt, measureRange, pitchRange, sliceTimeline, soundingAt } from './timeline';
 import { Transport } from './transport';
 
 const base: Omit<Piece, 'events'> = {
@@ -134,5 +134,19 @@ describe('Transport', () => {
     tr.play(-4, 0);
     c.advance(1);
     expect(tr.beatAt()).toBeCloseTo(-3);
+  });
+});
+
+describe('sezioni', () => {
+  const tl = buildTimeline(piece);
+  it('calcola l’intervallo di battute', () => {
+    expect(measureRange(tl, 2, 2)).toEqual({ from: 4, to: 8 });
+    expect(measureRange(tl, 1, 9)).toEqual({ from: 0, to: 8 });
+  });
+  it('restringe eventi e onset alla sezione', () => {
+    const s = sliceTimeline(tl, 4, 8);
+    expect(s.onsets.map((o) => o.t)).toEqual([4, 6]);
+    expect(s.events.every((e) => e.t >= 4)).toBe(true);
+    expect(s.totalBeats).toBe(8);
   });
 });

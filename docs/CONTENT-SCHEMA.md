@@ -118,9 +118,18 @@ Gli eventi delle due mani stanno nello stesso array: l'ordine non conta, fa fede
 |---|---|
 | `text` | testo breve (markdown: `**grassetto**`) |
 | `animation.kind` | `keyboard-highlight`, `staff-note`, `rhythm-pulse`, `hand-position` |
-| `animation.params` | parametri specifici dell'animazione |
+| `animation.params` | parametri specifici dell'animazione (vedi sotto) |
 | `highlightKeys` | tasti da evidenziare sulla tastiera |
 | `showStaff` | `treble`, `bass`, `grand` |
+
+### Animazioni e parametri
+
+| `kind` | `params` | Effetto |
+|---|---|---|
+| `keyboard-highlight` | `group`: `black-twos`, `black-threes`, `all-c`, `all-white` (facoltativo) | tastiera interattiva con tasti lampeggianti (`group` + `highlightKeys`) |
+| `hand-position` | `fingers`: `{ "C4": 1, "D4": 2, … }` | tastiera con il numero del dito su ogni tasto |
+| `staff-note` | `notes`: `["C4","D4"]` (+ `showStaff` per la chiave) | piccolo spartito con i nomi e il pulsante "Ascolta" |
+| `rhythm-pulse` | `pattern`: durate in beat (es. `[1,1,2]`), `bpm` | figure ritmiche che si illuminano a tempo con il click |
 
 ### PlaySettings
 
@@ -135,6 +144,7 @@ Gli eventi delle due mani stanno nello stesso array: l'ordine non conta, fa fede
 | `loop` | — | `{ fromMeasure, toMeasure }`: ripete una sezione |
 | `showNoteNames` | da impostazioni | nomi sulle note e sui tasti |
 | `colorNotes` | da impostazioni | note colorate |
+| `hints` | sì (no negli esercizi `free`) | illumina sulla tastiera le note da suonare, con il numero del dito |
 | `scoring` | default | sostituisce in parte `ScoringConfig` |
 
 ### ScoringConfig (valori predefiniti)
@@ -148,7 +158,8 @@ Gli eventi delle due mani stanno nello stesso array: l'ordine non conta, fa fede
 ```
 
 - Entro ±`perfectMs`: **verde**. Entro ±`goodMs`: **giallo** (in anticipo o in ritardo). Oltre, o con un'altezza sbagliata: **rosso**.
-- In `wait` mode il timing non viene valutato e conta solo l'altezza.
+- In `wait` mode il timing non viene valutato e conta solo l'altezza. Una nota giusta suonata dopo un errore è gialla.
+- Stelle della lezione = media arrotondata delle stelle di esercizi e brano. Lo sblocco della lezione successiva richiede di completarla (in M6 servirà almeno una stella).
 - Punteggio = `pitch × weights.pitch + timing × weights.timing`, normalizzato. Le stelle si assegnano con le soglie `stars`.
 
 ## Corso (`content/course.json`)

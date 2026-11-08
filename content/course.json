@@ -1,0 +1,20 @@
+{
+  "$schema": "../docs/schema/course.schema.json",
+  "schemaVersion": 1,
+  "id": "corso-base",
+  "title": "Pianoforte da zero",
+  "units": [
+    {
+      "id": "u1",
+      "title": "Conosci la tastiera",
+      "description": "Do centrale, tasti bianchi e neri, posizione della mano destra",
+      "icon": "🎹",
+      "lessons": [
+        "u1-l01-do-re-mi"
+      ],
+      "unlock": {
+        "requiresLessons": []
+      }
+    }
+  ]
+}

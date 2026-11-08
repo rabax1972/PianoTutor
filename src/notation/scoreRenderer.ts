@@ -36,6 +36,8 @@ export interface RenderOptions {
   showLyrics: boolean;
   /** spazio vuoto (px non scalati) prima della prima nota, per allineare l inizio alla linea di esecuzione */
   leadIn?: number;
+  /** anteprime didattiche: niente indicazione di tempo né pause di riempimento */
+  bare?: boolean;
 }
 
 
@@ -182,14 +184,15 @@ export function renderScore(container: HTMLElement, piece: Piece, opts: RenderOp
     const vstaves = staves.map((s) => {
       const st = new Stave(x, yOf(s), 100);
       // chiave e armatura sono nell intestazione fissa (renderHeader): qui solo il tempo
-      if (isFirst) st.setBegBarType(BarlineType.NONE).addTimeSignature(`${piece.timeSignature[0]}/${piece.timeSignature[1]}`);
+      if (isFirst) st.setBegBarType(BarlineType.NONE);
+      if (isFirst && !opts.bare) st.addTimeSignature(`${piece.timeSignature[0]}/${piece.timeSignature[1]}`);
       if (isLast) st.setEndBarType(BarlineType.END);
       return st;
     });
     const noteStart = Math.max(...vstaves.map((s) => s.getNoteStartX())) + (isFirst ? (opts.leadIn ?? 0) : 0);
 
     const voices = staves.map((s, si) => {
-      const items = measureItems(tl, s, start, end);
+      const items = measureItems(tl, s, start, end).filter((it) => !opts.bare || it.event);
       const notes = items.map((item) => {
         const n = makeNote(item, s, opts);
         n.setStave(vstaves[si]!);

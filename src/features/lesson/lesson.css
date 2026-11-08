@@ -1,0 +1,198 @@
+.lesson {
+  gap: 12px;
+}
+
+.lesson__title {
+  flex: 1;
+  min-width: 0;
+}
+
+.lesson__title h1 {
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.lesson__steps {
+  display: flex;
+  gap: 6px;
+}
+
+.lesson__steps span {
+  width: 28px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg-elev-2);
+}
+
+.lesson__steps span.is-done {
+  background: var(--ok);
+}
+
+.lesson__steps span.is-on {
+  background: var(--accent);
+}
+
+.lesson__finish {
+  flex: 1;
+  display: grid;
+  place-items: center;
+}
+
+/* ---------- Spiegazione ---------- */
+.explain {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.explain__card {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  border: 2px solid var(--border);
+  animation: slide-in 0.3s ease-out both;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+.explain__text {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.6vw, 1.6rem);
+  line-height: 1.4;
+  max-width: 900px;
+}
+
+.explain__text strong {
+  color: var(--accent);
+}
+
+.explain__anim {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.explain__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.explain__dots {
+  display: flex;
+  gap: 8px;
+}
+
+.explain__dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg-elev-2);
+}
+
+.explain__dots span.is-on {
+  background: var(--accent);
+}
+
+.slide-keyboard {
+  width: 100%;
+  height: clamp(160px, 34vh, 320px);
+}
+
+.pulse-hints .pk-key.is-hint {
+  animation: hint-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes hint-pulse {
+  50% {
+    filter: brightness(1.25);
+    box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.6);
+  }
+}
+
+.staff-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.staff-preview__paper {
+  display: flex;
+  background: #fbf8f0;
+  border-radius: var(--radius);
+  padding: 4px 16px 4px 4px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.rhythm-pulse {
+  width: min(700px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.rhythm-pulse__row {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+}
+
+.rhythm-pulse__note {
+  display: grid;
+  place-items: center;
+  height: 96px;
+  font-size: 3rem;
+  border-radius: 14px;
+  background: var(--bg-elev-2);
+  transition: transform 0.08s, background 0.08s;
+}
+
+.rhythm-pulse__note.is-active {
+  background: var(--accent);
+  color: var(--accent-fg);
+  transform: scale(1.06);
+}
+
+/* ---------- Percorso ---------- */
+.unit {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.unit__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.unit__icon {
+  font-size: 2rem;
+}
+
+.unit__head h2 {
+  font-size: 1.3rem;
+  color: var(--fg);
+}
+
+.lesson-card .stars {
+  margin-top: auto;
+}

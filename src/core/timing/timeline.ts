@@ -167,3 +167,24 @@ export function checkPiece(piece: Piece): string[] {
   }
   return errors;
 }
+
+/** Intervallo in beat delle battute [from, to] (numerate da 1). */
+export function measureRange(tl: Timeline, fromMeasure: number, toMeasure: number): { from: number; to: number } {
+  const a = Math.max(0, Math.min(tl.measureStarts.length - 1, fromMeasure - 1));
+  const b = Math.max(a, Math.min(tl.measureStarts.length - 1, toMeasure - 1));
+  return { from: tl.measureStarts[a]!, to: measureEnd(tl, b) };
+}
+
+/**
+ * Restringe la timeline a una sezione (per "ripeti sezione"): le posizioni restano assolute,
+ * così lo spartito non va ridisegnato.
+ */
+export function sliceTimeline(tl: Timeline, from: number, to: number): Timeline {
+  const inRange = (t: number) => t >= from - EPS && t < to - EPS;
+  return {
+    ...tl,
+    events: tl.events.filter((e) => inRange(e.t)),
+    onsets: tl.onsets.filter((o) => inRange(o.t)),
+    totalBeats: to,
+  };
+}

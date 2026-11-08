@@ -47,7 +47,7 @@ export const DEFAULT_SETTINGS: Settings = {
   updatedAt: 0,
 };
 
-export type Grade = 'perfect' | 'early' | 'late' | 'wrong' | 'missed';
+export type Grade = 'perfect' | 'early' | 'late' | 'corrected' | 'wrong' | 'missed';
 
 export interface NoteResult {
   expected: string[];
@@ -75,6 +75,10 @@ export interface LessonProgress {
   lessonId: string;
   bestStars: 0 | 1 | 2 | 3;
   completedSteps: string[];
+  /** migliori stelle per step suonabile */
+  stepStars: Record<string, number>;
+  /** true quando tutti gli step sono stati completati almeno una volta */
+  completed: boolean;
   attempts: number;
   updatedAt: number;
 }

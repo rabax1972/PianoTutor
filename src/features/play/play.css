@@ -1,0 +1,170 @@
+.playview {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.playview__score {
+  position: relative;
+  flex: 1;
+  min-height: 150px;
+  display: flex;
+}
+
+.playview__hud {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.hud-chip,
+.hud-msg {
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 1.05rem;
+  background: rgba(15, 18, 32, 0.85);
+  color: #fff;
+}
+
+.hud-msg {
+  animation: hud-in 0.25s ease-out both;
+}
+.hud-msg--ok {
+  background: #15935b;
+}
+.hud-msg--warn {
+  background: #b67d00;
+}
+.hud-msg--bad {
+  background: #c43a3a;
+}
+
+@keyframes hud-in {
+  from {
+    transform: translateY(-8px) scale(0.95);
+    opacity: 0;
+  }
+}
+
+.playview__progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  border-radius: 0 0 var(--radius) var(--radius);
+  z-index: 3;
+}
+
+.playview__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(15, 18, 32, 0.72);
+  border-radius: var(--radius);
+  backdrop-filter: blur(2px);
+}
+
+.playview__controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.playview__play {
+  min-width: 170px;
+  font-size: 1.15rem;
+}
+
+.playview__meta {
+  margin-left: auto;
+}
+
+.playview__keyboard {
+  height: clamp(150px, 34vh, 320px);
+  flex-shrink: 0;
+  margin: 0 calc(-16px - var(--safe-r)) calc(-16px - var(--safe-b)) calc(-16px - var(--safe-l));
+}
+
+@media (orientation: portrait) {
+  .playview__keyboard {
+    height: clamp(200px, 30vh, 380px);
+  }
+}
+
+/* ---------- Schede introduzione / risultato ---------- */
+.result,
+.intro-card {
+  width: min(560px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  padding: 26px 24px;
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  border: 2px solid var(--border);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.intro-card h2 {
+  font-size: 1.6rem;
+}
+
+.intro-card p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.result__msg {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.result__stats {
+  display: flex;
+  gap: 28px;
+  margin: 0;
+}
+
+.result__stats dt {
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+}
+
+.result__stats dd {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.result__errors {
+  margin: 0;
+}
+
+.result__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.player {
+  gap: 10px;
+}

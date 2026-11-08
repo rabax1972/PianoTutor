@@ -8,12 +8,16 @@ import { WelcomePage } from '../features/onboarding/WelcomePage';
 import { FreePlayPage } from '../features/practice/FreePlayPage';
 import { SettingsPage } from '../features/settings/SettingsPage';
 import { SongsPage } from '../features/songs/SongsPage';
+import { CoursePage } from '../features/course/CoursePage';
 import { useSettings } from './settingsStore';
 
 // Lo spartito (VexFlow + font musicali) è caricato solo quando serve.
 const ScorePlayerPage = lazy(() =>
   import('../features/songs/ScorePlayerPage').then((m) => ({ default: m.ScorePlayerPage })),
 );
+const LessonPage = lazy(() => import('../features/lesson/LessonPage').then((m) => ({ default: m.LessonPage })));
+
+const loading = <p className="page muted">Preparo lo spartito…</p>;
 
 /**
  * HashRouter: funziona su qualunque hosting statico in sottocartella
@@ -23,11 +27,20 @@ const router = createHashRouter([
   { path: '/', element: <HomeGate /> },
   { path: '/benvenuto', element: <WelcomePage /> },
   { path: '/suona', element: <FreePlayPage /> },
+  { path: '/percorso', element: <CoursePage /> },
+  {
+    path: '/lezione/:id',
+    element: (
+      <Suspense fallback={loading}>
+        <LessonPage />
+      </Suspense>
+    ),
+  },
   { path: '/brani', element: <SongsPage /> },
   {
     path: '/brano/:id',
     element: (
-      <Suspense fallback={<p className="page muted">Preparo lo spartito…</p>}>
+      <Suspense fallback={loading}>
         <ScorePlayerPage />
       </Suspense>
     ),

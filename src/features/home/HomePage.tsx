@@ -21,8 +21,8 @@ export function HomePage() {
       {install.showIosHint && <div className="banner">📲 {t.home.installIos}</div>}
 
       <div className="tiles">
-        <Tile icon="🗺️" title={t.home.course} desc={t.home.courseDesc} disabled tag={t.common.comingSoon} hero />
-        <Tile icon="🎼" title={t.home.songs} desc={t.home.songsDesc} to="/brani" testId="tile-songs" hero />
+        <Tile icon="🗺️" title={t.home.course} desc={t.home.courseDesc} to="/percorso" testId="tile-course" hero />
+        <Tile icon="🎼" title={t.home.songs} desc={t.home.songsDesc} to="/brani" testId="tile-songs" />
         <Tile icon="🎹" title={t.home.freePlay} desc={t.home.freePlayDesc} to="/suona" testId="tile-free-play" />
         <Tile icon="⚙️" title={t.home.settings} desc="Note, testo, contrasto, volume" to="/impostazioni" />
         <Tile icon="🩺" title={t.home.diagnostics} desc="Latenza audio e del tocco" to="/diagnostica" />

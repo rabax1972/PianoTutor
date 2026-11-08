@@ -1,0 +1,36 @@
+.stars {
+  display: inline-flex;
+  gap: 0.15em;
+  line-height: 1;
+}
+.stars--sm {
+  font-size: 1.1rem;
+}
+.stars--md {
+  font-size: 1.8rem;
+}
+.stars--lg {
+  font-size: clamp(3rem, 9vh, 5rem);
+}
+.star {
+  color: var(--bg-elev-2);
+  -webkit-text-stroke: 1px var(--border);
+}
+.star--on {
+  color: var(--accent);
+  -webkit-text-stroke: 0;
+  text-shadow: 0 0 18px rgba(255, 201, 77, 0.45);
+}
+.stars--animate .star--on {
+  animation: star-pop 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) both;
+}
+@keyframes star-pop {
+  from {
+    transform: scale(0) rotate(-30deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}

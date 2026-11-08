@@ -76,6 +76,7 @@ export const PlaySettingsSchema = z.object({
   loop: z.object({ fromMeasure: z.number().int().min(1), toMeasure: z.number().int().min(1) }).optional(),
   showNoteNames: z.boolean().optional(),
   colorNotes: z.boolean().optional(),
+  hints: z.boolean().optional().describe('illumina sulla tastiera le note da suonare (default: sì negli esercizi guidati e nei brani, no negli esercizi liberi)'),
   scoring: ScoringConfigSchema.partial().optional(),
 });
 
